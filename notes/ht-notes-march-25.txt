@@ -1,0 +1,16 @@
+robotic path planning
+robotic exploration (learn a room)
+robitics control
+ask marc
+(forced feedback)
+intro
+
+1) intro
+2) maybe squares
+3) circles & strange bounds
+4) triangles
+
+
+
+triangle: fatness
+
