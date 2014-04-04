@@ -14,10 +14,9 @@ Language: en
 This part will have the following setup:
 
 * Context
-* Definition
-* Previous research: see papers & abstracts
-* What do we do different
+* Definitions & Notations
 * Outline
+* Summary of our results
 * My contribution
 
 ### Definitions
@@ -33,6 +32,13 @@ We use a similar notation as (Blum, A., 198x). Let $R(S)$ be the total distance 
 [[ \rho = \max_S \frac{R(S)}{d(S)}, \,\,\, \gamma = \max_S \frac{R(S)}{n}. ]]
 
 
+
+## Previous research: see papers & abstracts
+
+* What do we do different
+* Compare with our results
+
+
 ## Equal Size Squares
 
 This section goes through the earlier work by Henk and Marijke on equal size squares. It basically gives the proof as presented in <code>paper.henk.pdf</code>.
@@ -45,7 +51,7 @@ This section will only be included if we do not manage to generalize our results
 
 ## Similar Same-Orientation Triangles
 
-Asume all obstacles in $S$ to be similar triangles of the same orientation. We use a coordinate system with $t$ in the origin. Call the sides of triangle $k$ $a_k, b_k, c_k$ such that all sides $a_i$ have the same direction $\alpha$, all sides $b_i$ have direction $\beta$ and all sides $c_i$ have direction $\gamma$. For each side-direction $x\in \left\{\alpha,\beta,\gamma \right\}$, we define a half plane $H_x$ that is delimited by a line in the direction $x$ through $t$. It indicates the region in which the robot could hit a triangle at a side in direction $x$. The half planes are well defined because the robot always moves towards $t$.
+Asume all obstacles in $S$ to be similar triangles of the same orientation. We use a coordinate system with $t$ in the origin. The sides of triangle $k$ are called $a_k, b_k, c_k$ such that all sides $a_i$ have the same direction $\alpha$, all sides $b_i$ have direction $\beta$ and all sides $c_i$ have direction $\gamma$. For each side-direction $x\in \left\{\alpha,\beta,\gamma \right\}$, we define a half plane $H_x$ that is delimited by a line in the direction $x$ through $t$. It indicates the region in which the robot could hit a triangle at a side in direction $x$. The half planes are well defined because the robot always moves towards $t$.
 
 Next, define ‘axes’. For a direction $x\in \left\{\alpha,\beta,\gamma \right\}$, define $A_x$ as a ray from the origin into $H_x$ that has a direction perpendicular to $x$. By definition, if a the robot hits an obstacle at the $x$-side, it will always be in $H_x$ and decide to move towards $A_x$.
 
@@ -55,4 +61,5 @@ Proof that for these triangles, the robot will eventually always get there in fi
 * Define a metric $M$ with shape of triangle with orthocenter $t$.
 * **Lemma** At some point after you crossed an axis at distance $p$ in the $M$ metric, you will cross another axis at a distance $\leq p$ in the $M$ metric, or get to the target.
 * **Lemma** After crossing an axis, the projection on axis on both sides decrease monotonely until the robot crosses an axis or reaches $t$. 
-* **Lemma** If 
+* **Lemma** If, after crossing an axis at $M$-distance $p$, another axis is crossed at $M$-distance $\geq p$, it will go back to the axis.
+* And then something smart for "and the next round is a big difference". Maybe use space-limitations, but which?
