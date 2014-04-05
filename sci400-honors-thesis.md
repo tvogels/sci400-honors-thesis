@@ -21,7 +21,11 @@ This part will have the following setup:
 
 ### Definitions
 
-We investigate a blind robot that navigates in a scene $S$ from the starting point $s$ to a target $t$, which are a distance $n$ apart. $S$ contains a finite number of convex inpenetrable obstacles. The robot is assumed to be a mobile point automaton that is only aware of its absolute position and the position of $t$. It is blind, and only receives sensory feedback when it hits an obstacle. It can then follow the edge of the obstacle without knowing about its shape.
+We investigate a blind robot that navigates in a scene $S$ from the starting point $s$ to a target $t$ which are a distance $n$ apart. 
+$S$ contains a finite number of convex inpenetrable obstacles. 
+The robot is assumed to be a mobile point automaton that is only aware of its absolute position and the position of $t$. 
+It is blind, and only receives sensory feedback when it hits an obstacle. 
+It can then follow the edge of the obstacle without knowing about its shape.
 
 The robot will always try to move in a straight line to $t$. When the robot hits an obstacle, it will follow the shape of the object in the direction that initially minimizes the distance to the target until the path to $t$ is clear again. It will repeat its behavior. We assume without loss of generality that if the robot hits the obstacle perpendicularly, the robot moves counterclockwise. This robotic behavior can be categorized as memoryless and dynamic, since it does not plan its path in advance, but decides on its direction every time it touches an obstacle, solely based on its current position, the position of the target and the gradient of the object it hits.
 
@@ -49,11 +53,49 @@ This section goes through the earlier work by Henk and Marijke on equal size squ
 This section will only be included if we do not manage to generalize our results to arbitrary convex objects. If we include it, it shows the numerical bounds for the worst-case heuristic paths over the optimal path or distance.
 
 
-## Similar Same-Orientation Triangles
+## Similar Same-Orientation *Sharp* Triangles
 
 Asume all obstacles in $S$ to be similar triangles of the same orientation. We use a coordinate system with $t$ in the origin. The sides of triangle $k$ are called $a_k, b_k, c_k$ such that all sides $a_i$ have the same direction $\alpha$, all sides $b_i$ have direction $\beta$ and all sides $c_i$ have direction $\gamma$. For each side-direction $x\in \left\{\alpha,\beta,\gamma \right\}$, we define a half plane $H_x$ that is delimited by a line in the direction $x$ through $t$. It indicates the region in which the robot could hit a triangle at a side in direction $x$. The half planes are well defined because the robot always moves towards $t$.
 
 Next, define ‘axes’. For a direction $x\in \left\{\alpha,\beta,\gamma \right\}$, define $A_x$ as a ray from the origin into $H_x$ that has a direction perpendicular to $x$. By definition, if a the robot hits an obstacle at the $x$-side, it will always be in $H_x$ and decide to move towards $A_x$.
+
+
+
+### Theorem 1.1
+
+If the robot crosses an axis $A_x$ at a Eudlidian distance $\lambda$ from $t$, it will never cross the same axis at a distance $\geq \lambda$ later in time.
+
+
+#### Proof
+
+In order to prove theorem 1.1, we start by introducing some concepts that play a role in the argument. First, let's define a custom measurement $M$ for a point's distance to $t$. Let $\Gamma_1$ be a triangle that is similar to and rotated by $180^\circ$ compared to the triangles in $S$. Let $\Gamma_1$ have its orthocenter in $t$ and circumference $1$. Note that the vertices of $\Gamma_1$ are on $A_\alpha,A_\beta$ and $A_\gamma$. The distance $M(p)$ of a point $p$ to $t$ is defined as the factor $f \geq 0$ with which $\Gamma_1$ should be scaled with respect to $t$ such that $p\in\Gamma_1$. 
+
+The heuristic path $HP(s,t)$ crosses the three axes 0 or more times. Let $\textbf{c} = \{c_1,c_2,\ldots\}$ be a vector containing those crossing points and let $A(x_i)$ be the corresponding axes.
+
+Furthermore, for a point $p \in H_x$, define $D_x(p)$ as the distance between $t$ and the projection of $p$ on $A_x$.
+
+### Lemma 1.1.1
+
+During the heuristic path, for some direction $x\in\{\alpha,\beta,\gamma\}$, $D_x(p)$ can only increase when the path is following the edge of an obstacle and has started following that edge at a point not in $H_x$.
+
+#### Proof
+
+Suppose the heuristic path starts following an edge in $H_x$ for some $x$. After following the edge, $D_x(p)$ will decrease, since the path always 
+
+
+### Lemma 1.1.2
+
+If $M(c_i)=\lambda$ for some $i$, then either $M(c_{i+1})<\lambda$ or $M(c_{i+2})<\lambda$.
+
+#### Proof
+
+
+
+At some point after you crossed an axis at distance $\lambda$ in the $M$ metric, you will cross another axis at a distance $\leq \lambda$ in the $M$ metric, or get to the target.
+
+
+
+## Blabla
 
 Proof that for these triangles, the robot will eventually always get there in finite time.
 
