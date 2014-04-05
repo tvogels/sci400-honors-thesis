@@ -76,11 +76,11 @@ Furthermore, for a point $p \in H_x$, define $D_x(p)$ as the distance between $t
 
 ### Lemma 1.1.1
 
-During the heuristic path, for some direction $x\in\{\alpha,\beta,\gamma\}$, $D_x(p)$ can only increase when the path is following the edge of an obstacle and has started following that edge at a point not in $H_x$.
+During the heuristic path, for some direction $x\in\{\alpha,\beta,\gamma\}$, $D_x$ can only increase when the path is following the edge of an obstacle and has started following that edge at a point not in $H_x$.
 
 #### Proof
 
-Suppose the heuristic path starts following an edge in $H_x$ for some $x$. After following the edge, $D_x(p)$ will decrease, since the path always 
+Suppose the heuristic path starts following an edge in the half plane $H_x$  and suppose that $D_x$ increases while following the edge. If the edge is in the $x$-direction, $D_x$ will stay constant. If the edge is not, $D_x$ decreases, since the robot always aims towards $t$. This contradicts the assumptions and proves lemma 1.1.1.
 
 
 ### Lemma 1.1.2
