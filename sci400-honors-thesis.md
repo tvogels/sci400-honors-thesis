@@ -89,13 +89,13 @@ If $M(c_i)=\lambda$ for some $i$, then either $M(c_{i+1})<\lambda$ or $M(c_{i+2}
 
 #### Proof
 
+Consider the edge followed after $c_i$. We distinguish two scenarios: (1) after following the edge, the robot is only in one half plane $H_a=H_{A(c_i)}$, and (2) the robot is both in $H_a$ and another half plane $H_b$. 
+
+1. If the robot ends up only in the half plane $H_a$, it can only hit edges in the $a$-direction, and will move towards the axis $A_a$. Since, according to lemma 1.1.1, $D_a$ will decrease, the path will cross $A_a$ again, closer to $t$ than before. $M(c_{i+1})<\lambda$.
+2. If the robot ends up in two half planes $H_a$ and $H_b$, it will folow the same obstacle's $b$-side. 
 
 
-At some point after you crossed an axis at distance $\lambda$ in the $M$ metric, you will cross another axis at a distance $\leq \lambda$ in the $M$ metric, or get to the target.
-
-
-
-## Blabla
+## Proof Outline
 
 Proof that for these triangles, the robot will eventually always get there in finite time.
 
