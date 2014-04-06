@@ -121,6 +121,14 @@ Consider the edge of obstacle $O_i$. followed after $c_i$. We distinguish two sc
     1. If the robot is still in $H_a \cap H_b$, it did not cross $A_b$ (using lemma 1.1.2). Note that, if $D_b$ would be $\geq \lambda$, the obstacle $O_i$, $O_i$ would intersect with both $A_a$ and $A_b$. This is in contradiction with the observation that the robot did not cross $A_b$. We conclude that at this moment, $D_a < \lambda$ and $D_b < \lambda$. Since those measures monotomely decrease while the robot is in $H_a$ and $H_b$ and the robot now moves towards $A_a$ and $A_b$, it will intersect one of them at $M(c_{i+1})<\lambda$.
     2. If the robot is now only in $H_b$, it will inevitably move towards $A_b$. Following the same argument as directly above, if the robot did not cross the axis, $D_b<\lambda$ and $M(c_{i+1})<\lambda$. Now we consider the case that the robot did cross $A_b$. Due to lemma 1.1.3, the robot is not only in half-plane $H_b$ and will move towards $A_b$. Although its current $D_b$ could be $\geq \lambda$, it will strictly move towards $A_b$. Since by lemma 1.1.4, the part of the axis with $D_b \geq \lambda$ is covered by $O_i$, the robot will now intersect the axis at a distance $M(c_{i+2})<\lambda$.
 
+#### Proof for theorem 1.1
+
+If for some $i$, $A(c_i)=A(c_{i+1})=A_x$, then $M(c_{i+1})<M(c+{i+1})$. This follows from the fact that $D_x$ decreases while the robot is in $H_x$, and that the robot must cross another axis when it leaves $H_x$.
+
+Furthermore, from lemma 1.1.5, we have that if the robot crosses two different axes after each other, it will eventually cross that axis at a smaller $M$-distance. Suppose the robot comes back to the axis $A_x$ at $c_k$ after crossing a series of other axes. Suppose the robot hits the object $O_k$ that  will make it cross $A_x$ after $c_{k-1}$, at a point $p$. Assume now that (contrary to the theorem) $M_{c_k}\geq \lambda$. Repeatedly using lemma 1.1.4 we know that $M(p)<\lambda$, therefore, from lemma 1.1.4, the obstacle $O_k$ will cover the axis $A_x$ all the way between $c_k$ and the point on $A_x$ at $M$-distance $\lambda$. This is not possibe, since the object $O_i$ crosses the axis in this region too and objects are not allowed to intersect. 
+
+We conclude that if the robot crosses an axis $A_x$ at a Eudlidian distance $\lambda$ from $t$, it will never cross the same axis at a distance $\geq \lambda$ later in time.
+
 
 ## Proof Outline (old version)
 
