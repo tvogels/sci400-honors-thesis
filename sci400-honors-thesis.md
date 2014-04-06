@@ -59,6 +59,8 @@ Asume all obstacles in $S$ to be similar triangles of the same orientation. We u
 
 Next, define ‘axes’. For a direction $x\in \left\{\alpha,\beta,\gamma \right\}$, define $A_x$ as a ray from the origin into $H_x$ that has a direction perpendicular to $x$. By definition, if a the robot hits an obstacle at the $x$-side, it will always be in $H_x$ and decide to move towards $A_x$.
 
+![Illustration](illustration.svg "Illustration of the concepts described above")
+
 
 
 ### Theorem 1.1
