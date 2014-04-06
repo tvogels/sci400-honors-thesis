@@ -72,11 +72,11 @@ In order to prove theorem 1.1, we start by introducing some concepts that play a
 
 The heuristic path $HP(s,t)$ crosses the three axes 0 or more times. Let $\textbf{c} = \{c_1,c_2,\ldots\}$ be a vector containing those crossing points and let $A(x_i)$ be the corresponding axes.
 
-Furthermore, for a point $p \in H_x$, define $D_x(p)$ as the distance between $t$ and the projection of $p$ on $A_x$.
+Furthermore, for a point $p \in H_x$, define $D_x(p)$ as the $M$-distance between $t$ and the projection of $p$ on $A_x$.
 
 ### Lemma 1.1.1
 
-During the heuristic path, for some direction $x\in\{\alpha,\beta,\gamma\}$, $D_x$ can only increase when the path is following the edge of an obstacle and has started following that edge at a point not in $H_x$.
+For any direction $x\in\{\alpha,\beta,\gamma\}$ during the heuristic path, $D_x$ can only increase when the path is following the edge of an obstacle and has started following that edge at a point not in $H_x$.
 
 #### Proof
 
@@ -92,7 +92,7 @@ If $M(c_i)=\lambda$ for some $i$, then either $M(c_{i+1})<\lambda$ or $M(c_{i+2}
 Consider the edge followed after $c_i$. We distinguish two scenarios: (1) after following the edge, the robot is only in one half plane $H_a=H_{A(c_i)}$, and (2) the robot is both in $H_a$ and another half plane $H_b$. 
 
 1. If the robot ends up only in the half plane $H_a$, it can only hit edges in the $a$-direction, and will move towards the axis $A_a$. Since, according to lemma 1.1.1, $D_a$ will decrease, the path will cross $A_a$ again, closer to $t$ than before. $M(c_{i+1})<\lambda$.
-2. If the robot ends up in two half planes $H_a$ and $H_b$, it will folow the same obstacle's $b$-side. 
+2. If the robot ends up in two half planes $H_a$ and $H_b$, it will folow the same obstacle's $b$-side. After following this second side, it can either end up in (a) $H_a \cap H_b$ or in (b) $H_b$ only. In the case of (a), according to lemma 1.1.1, both $D_a$ and $D_b$ 
 
 
 ## Proof Outline
