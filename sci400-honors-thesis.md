@@ -86,18 +86,43 @@ Suppose the heuristic path starts following an edge in the half plane $H_x$  and
 
 
 ### Lemma 1.1.2
+For any $x \not = y$, the intersection $A_x\cap H_y = \{t\}$.
 
-If $M(c_i)=\lambda$ for some $i$, then either $M(c_{i+1})<\lambda$ or $M(c_{i+2})<\lambda$.
+#### Proof
+This follows directly from the fact that our obstacles are sharp triangles. For a direction $x\in\{\alpha,\beta,\gamma\}$, the axis $A_x$ is perpendicular to the direction $x$, whereas the angles between $x$ and the other two directions is smaller than $90\deg$.
+
+### Lemma 1.1.3
+
+An obstacle can only be in 2 out of the 3 half planes.
 
 #### Proof
 
-Consider the edge followed after $c_i$. We distinguish two scenarios: (1) after following the edge, the robot is only in one half plane $H_a=H_{A(c_i)}$, and (2) the robot is both in $H_a$ and another half plane $H_b$. 
+This follows from geometric observations. If the object would be in all three half-planes, it would enclose $t$, which is not allowed.
+
+### Lemma 1.1.4
+
+Let $\Gamma$ be a triangle with sides $a,b,c$ that intersects with the two axes $A_a$ and $A_b$. The intersections of side $c$ with these axes have the same $M$-distance.
+
+#### Proof
+
+This follows from the observation that at $c$, the $M$-measure is by definition constant.
+
+
+### Lemma 1.1.5
+
+If $M(c_i)=\lambda$ for some $i$, then $M(c_{i+1})<\lambda$ or $M(c_{i+2})<\lambda$.
+
+#### Proof
+
+Consider the edge of obstacle $O_i$. followed after $c_i$. We distinguish two scenarios: (1) after following the edge, the robot is only in one half plane $H_a=H_{A(c_i)}$, and (2) the robot is both in $H_a$ and another half plane $H_b$. 
 
 1. If the robot ends up only in the half plane $H_a$, it can only hit edges in the $a$-direction, and will move towards the axis $A_a$. Since, according to lemma 1.1.1, $D_a$ will decrease, the path will cross $A_a$ again, closer to $t$ than before. $M(c_{i+1})<\lambda$.
-2. If the robot ends up in two half planes $H_a$ and $H_b$, it will folow the same obstacle's $b$-side. After following this second side, it can either end up in (a) $H_a \cap H_b$ or in (b) $H_b$ only. In the case of (a), according to lemma 1.1.1, both $D_a$ and $D_b$ 
+2. If the robot ends up in two half planes $H_a$ and $H_b$, it will folow the same obstacle's $b$-side. After following this second side, it can either end up in (1) $H_a \cap H_b$ or (2) in $H_b$ only:
+    1. If the robot is still in $H_a \cap H_b$, it did not cross $A_b$ (using lemma 1.1.2). Note that, if $D_b$ would be $\geq \lambda$, the obstacle $O_i$, $O_i$ would intersect with both $A_a$ and $A_b$. This is in contradiction with the observation that the robot did not cross $A_b$. We conclude that at this moment, $D_a < \lambda$ and $D_b < \lambda$. Since those measures monotomely decrease while the robot is in $H_a$ and $H_b$ and the robot now moves towards $A_a$ and $A_b$, it will intersect one of them at $M(c_{i+1})<\lambda$.
+    2. If the robot is now only in $H_b$, it will inevitably move towards $A_b$. Following the same argument as directly above, if the robot did not cross the axis, $D_b<\lambda$ and $M(c_{i+1})<\lambda$. Now we consider the case that the robot did cross $A_b$. Due to lemma 1.1.3, the robot is not only in half-plane $H_b$ and will move towards $A_b$. Although its current $D_b$ could be $\geq \lambda$, it will strictly move towards $A_b$. Since by lemma 1.1.4, the part of the axis with $D_b \geq \lambda$ is covered by $O_i$, the robot will now intersect the axis at a distance $M(c_{i+2})<\lambda$.
 
 
-## Proof Outline
+## Proof Outline (old version)
 
 Proof that for these triangles, the robot will eventually always get there in finite time.
 
