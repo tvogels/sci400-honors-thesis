@@ -35,6 +35,8 @@ We use a similar notation as (Blum, A., 198x). Let $R(S)$ be the total distance 
 
 [[ \rho = \max_S \frac{R(S)}{d(S)}, \,\,\, \gamma = \max_S \frac{R(S)}{n}. ]]
 
+<span class="color:red;">What is n?</span>
+
 
 
 ## Previous research: see papers & abstracts
@@ -61,9 +63,12 @@ Next, define ‘axes’. For a direction $x\in \left\{\alpha,\beta,\gamma \right
 
 ![Illustration](illustration.svg "Illustration of the concepts described above")
 
+<span class="color:red;">Maybe also add the rotated triangle ... and how does it look in black & white?</span>
 
 
 ### Theorem 1.1
+
+<span class="color:red;">Get rid of the heading. </span>
 
 If the robot crosses an axis $A_x$ at a Eudlidian distance $\lambda$ from $t$, it will never cross the same axis at a distance $\geq \lambda$ later in time.
 
