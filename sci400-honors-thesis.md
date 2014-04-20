@@ -31,11 +31,9 @@ The robot will always try to move in a straight line to $t$. When the robot hits
 
 Obstacles may touch each other and the robot is a point, so the robot can "squeeze" through touching obstacles, avoiding the creation of concave objects out of convex ones.
 
-We use a similar notation as (Blum, A., 198x). Let $R(S)$ be the total distance walked by the robot going from $s$ to $t$ in its heuristic path. $d(S)$ denotes the length of the shortest possible path. We are interested in $R(S)$ and will compare it to $d(s)$ and $n$ using two ratios:
+We use a similar notation as (Blum, A., 198x). Let $R(S)$ be the total distance walked by the robot going from $s$ to $t$ in its heuristic path. $o(S)$ denotes the length of the shortest possible path and $d(S)$ the distance between $s$ and $t$. We are interested in $R(S)$ and will compare it to $d(S)$ and $o(S)$ using two ratios:
 
-[[ \rho = \max_S \frac{R(S)}{d(S)}, \,\,\, \gamma = \max_S \frac{R(S)}{n}. ]]
-
-<span class="color:red;">What is n?</span>
+[[ \rho = \max_S \frac{R(S)}{o(S)}, \,\,\, \gamma = \max_S \frac{R(S)}{d(S)}. ]]
 
 
 
@@ -57,54 +55,63 @@ This section will only be included if we do not manage to generalize our results
 
 ## Similar Same-Orientation *Sharp* Triangles
 
-Asume all obstacles in $S$ to be similar triangles of the same orientation. We use a coordinate system with $t$ in the origin. The sides of triangle $k$ are called $a_k, b_k, c_k$ such that all sides $a_i$ have the same direction $\alpha$, all sides $b_i$ have direction $\beta$ and all sides $c_i$ have direction $\gamma$. For each side-direction $x\in \left\{\alpha,\beta,\gamma \right\}$, we define a half plane $H_x$ that is delimited by a line in the direction $x$ through $t$. It indicates the region in which the robot could hit a triangle at a side in direction $x$. The half planes are well defined because the robot always moves towards $t$.
+Asume all obstacles in $S$ to be similar triangles of the same orientation. We use a coordinate system with $t$ in the origin. The sides of triangle $k$ are called $a_k, b_k, c_k$ such that all sides $a_i$ have the same direction $\alpha$, all sides $b_i$ have direction $\beta$ and all sides $c_i$ have direction $\gamma$. For each side-direction $x\in \left\{\alpha,\beta,\gamma \right\}$, we define a half-plane $H_x$ that is delimited by a line in the direction $x$ through $t$. It indicates the region in which the robot could hit a triangle at a side in direction $x$. The half-planes are well defined because the robot always moves towards $t$.
 
 Next, define ‘axes’. For a direction $x\in \left\{\alpha,\beta,\gamma \right\}$, define $A_x$ as a ray from the origin into $H_x$ that has a direction perpendicular to $x$. By definition, if a the robot hits an obstacle at the $x$-side, it will always be in $H_x$ and decide to move towards $A_x$.
 
-![Illustration](illustration.svg "Illustration of the concepts described above")
+<figure id="fig:illustration">
+    <img src="illustration.svg" alt="">
+    <figcaption>Illustration of defined concepts. The half-planes $H_\alpha,H_\beta,H_\gamma$ and axes $A_\alpha,A_\beta,A_\gamma$ are shown for a scene with triangles of orientations $a,b,c$.</figcaption>
+</figure>
 
-<span class="color:red;">Maybe also add the rotated triangle ... and how does it look in black & white?</span>
+<figure id="fig:m-distance">
+    <img src="m-distance.svg" alt="">
+    <figcaption>$M$-distance. The gray triangle indicates a set of points of equal $M$-distance.</figcaption>
+</figure>
 
 
-### Theorem 1.1
+We aim to prove that if the robot crosses an axis $A_x$ at a Eudlidian distance $\lambda$ from $t$, it will never cross the same axis at a distance $\geq \lambda$ later in time.
+In order to prove this, we start by introducing some concepts that play a role in the argument. 
 
-<span class="color:red;">Get rid of the heading. </span>
+### Definition 1.1
 
-If the robot crosses an axis $A_x$ at a Eudlidian distance $\lambda$ from $t$, it will never cross the same axis at a distance $\geq \lambda$ later in time.
+Define a custom measurement $M$ for a point's distance to $t$. Let $\Gamma_1$ be a triangle that is similar to the obstacles but rotated by $180^\circ$ compared to the obstacles. Let $\Gamma_1$ have its orthocenter in $t$ and a circumference of $1$. Note that the vertices of $\Gamma_1$ are by definition on the axes $A_\alpha,A_\beta$ and $A_\gamma$. The distance $M(p)$ of a point $p$ to $t$ is defined as the factor $f \geq 0$ with which $\Gamma_1$ should be scaled with respect to $t$ such that $p\in\Gamma_1$. 
 
-
-#### Proof
-
-In order to prove theorem 1.1, we start by introducing some concepts that play a role in the argument. First, let's define a custom measurement $M$ for a point's distance to $t$. Let $\Gamma_1$ be a triangle that is similar to the obstacles but rotated by $180^\circ$ compared to the obstacles. Let $\Gamma_1$ have its orthocenter in $t$ and a circumference of $1$. Note that the vertices of $\Gamma_1$ are by definition on the axes $A_\alpha,A_\beta$ and $A_\gamma$. The distance $M(p)$ of a point $p$ to $t$ is defined as the factor $f \geq 0$ with which $\Gamma_1$ should be scaled with respect to $t$ such that $p\in\Gamma_1$. 
+### Definition 1.2
 
 The heuristic path $HP(s,t)$ crosses the three axes 0 or more times. Let $\textbf{c} = \{c_1,c_2,\ldots\}$ be a vector containing those crossing points and let $A(c_i)$ be the corresponding axes and $H(c_i)$ the corresponding half-plane.
 
-Furthermore, for a point $p \in H_x$, define $D_x(p)$ as the $M$-distance between $t$ and the projection of $p$ on $A_x$. In the course of the proof, we will speak loosely about ‘the $D_x$’ of the robot in time. 
+### Definition 1.3
 
-### Lemma 1.1.1
+For a point $p \in H_x$, define $D_x(p)$ as the $M$-distance between $t$ and the orthogonal projection of $p$ on $A_x$. $D_x(p)$ is not defined for points $p$ that are not in $H_x$. In the course of the proof, we will speak loosely about ‘the $D_x$’ of the robot in time. 
 
-For any direction $x\in\{\alpha,\beta,\gamma\}$, looking at the $D_x$ over time in the heuristic path of the robot, $D_x$ can only increase while the robot follows the edge of an obstacle and it has started following that edge at a point not in $H_x$.
+### Definition 1.4
+
+### Lemma 1.1
+
+For any direction $x\in\{\alpha,\beta,\gamma\}$, looking at the $D_x$ over time in the heuristic path of the robot, $D_x$ can only increase while the robot follows the side of an obstacle and it has started following that side at a point not in $H_x$.
 
 #### Proof
 
-Suppose the robot starts following an edge in the half plane $H_x$  and suppose that $D_x$ increases while following the edge. If the edge is in the $x$-direction, $D_x$ will stay constant. If the edge is not, $D_x$ decreases, since the robot always aims towards $t$. This contradicts the assumptions and proves lemma 1.1.1.
+Suppose the robot starts following the side of a triangle. At the moment it first touches the triangle, it is in the half-plane $H_x$. Suppose that $D_x$ increases while following the side. If the side is in the $x$-direction, $D_x$ will stay constant. If the side is not, $D_x$ decreases, since the robot always aims towards $t$. This contradicts the assumptions and proves lemma 1.1.
 
 
-### Lemma 1.1.2
+### Lemma 1.2
+
 For any $x \not = y$, the intersection $A_x\cap H_y = \{t\}$.
 
 #### Proof
 This follows directly from the fact that the obstacles are sharp triangles. For a direction $x\in\{\alpha,\beta,\gamma\}$, the axis $A_x$ is perpendicular to the direction $x$, whereas the angles between $x$ and the other two directions are smaller than $90^\circ$.
 
-### Lemma 1.1.3
+### Lemma 1.3
 
-An obstacle can only lie in 2 out of the 3 half planes.
+An obstacle can only lie in 2 out of the 3 half-planes.
 
 #### Proof
 
 This follows from geometric observations. If the object would be in all three half-planes, it would enclose $t$, which is not allowed.
 
-### Lemma 1.1.4
+### Lemma 1.4
 
 Let $\Gamma$ be a triangle with sides $a,b,c$ that intersects with the two axes $A_a$ and $A_b$. The intersections of side $c$ with these axes have the same $M$-distance.
 
@@ -113,35 +120,27 @@ Let $\Gamma$ be a triangle with sides $a,b,c$ that intersects with the two axes 
 This follows from the observation that along the side with direction $c$, the $M$-measure is constant by definition.
 
 
-### Lemma 1.1.5
+### Lemma 1.5
 
 If $M(c_i)=\lambda$ for some $i$, then $M(c_{i+1})<\lambda$ or $M(c_{i+2})<\lambda$.
 
 #### Proof
 
-Consider the edge of the obstacle $O_i$ that followed after $c_i$. We distinguish two scenarios: (1) after following the edge, the robot is only in one half plane $H_a=H(c_i)$, and (2) the robot is both in $H_a$ and another half plane $H_b$. 
+Consider the side of the obstacle $O_i$ that followed after $c_i$. We distinguish two scenarios: (1) at the moment the robot stops following the side, the robot is only in one half-plane. Without loss of generality, let this be $H_a=H(c_i)$. In the second scenario (2) the robot is both in $H_a$ and another half-plane when it stops following the side. Without loss of generality, let this second half-plane be $H_b$. 
 
-1. If the robot ends up only in the half plane $H_a$, it can only hit edges in the $a$-direction, and will move towards the axis $A_a$. Since, according to lemma 1.1.1, $D_a$ will decrease, the path will cross $A_a$ again, closer to $t$ than before. $M(c_{i+1})<\lambda$.
-2. If the robot ends up in two half planes $H_a$ and $H_b$, it will folow the same obstacle's $b$-side before leaving the edge of the $O_i$. After following this second side, it can either end up in (1) $H_a \cap H_b$ or (2) in $H_b$ only:
-    1. If the robot is still in $H_a \cap H_b$, it did not cross $A_b$ (using lemma 1.1.2). Note that, if $D_b$ would be $\geq \lambda$, the obstacle $O_i$, $O_i$ would intersect with both $A_a$ and $A_b$. This is in contradiction with the observation that the robot did not cross $A_b$. We conclude that at this moment, $D_a < \lambda$ and $D_b < \lambda$. Since those measures monotomely decrease while the robot is in $H_a$ and $H_b$ and the robot now moves towards $A_a$ and $A_b$, it will intersect one of them at $M(c_{i+1})<\lambda$.
-    2. If the robot is now only in $H_b$, it will inevitably move towards $A_b$. Following the same argument as directly above, if the robot did not cross the axis $A_b$, $D_b<\lambda$ and $M(c_{i+1})<\lambda$. Now we consider the case that the robot did cross $A_b$. Due to lemma 1.1.3, the robot is now only in half-plane $H_b$ and will move towards $A_b$. Although its current $D_b$ could be $\geq \lambda$, it will strictly move towards $A_b$. Since by lemma 1.1.4, the part of the axis with $D_b \geq \lambda$ is covered by $O_i$, the robot will now intersect the axis at a distance $M(c_{i+2})<\lambda$.
+1. If the robot ends up only in the half-plane $H_a$, it can only hit edges in the $a$-direction, and will move towards the axis $A_a$. Since, according to lemma 1.1, $D_a$ will decrease, the path will cross $A_a$ again, closer to $t$ than before. $M(c_{i+1})<\lambda$.
+2. If the robot ends up in two half-planes $H_a$ and $H_b$, it will folow the same obstacle's $b$-side before leaving the edge of the $O_i$. After following this second side, it can either end up in (1) $H_a \cap H_b$ or (2) in $H_b$ only:
+    1. If the robot is still in $H_a \cap H_b$, it did not cross $A_b$ (using lemma 1.2). Note that, if $D_b$ would be $\geq \lambda$, the obstacle $O_i$, $O_i$ would intersect with both $A_a$ and $A_b$. This is in contradiction with the observation that the robot did not cross $A_b$. We conclude that at this moment, $D_a < \lambda$ and $D_b < \lambda$. Since those measures monotomely decrease while the robot is in $H_a$ and $H_b$ and the robot now moves towards $A_a$ and $A_b$, it will intersect one of them at $M(c_{i+1})<\lambda$.
+    2. If the robot is now only in $H_b$, it will inevitably move towards $A_b$. Following the same argument as directly above, if the robot did not cross the axis $A_b$, $D_b<\lambda$ and $M(c_{i+1})<\lambda$. Now we consider the case that the robot did cross $A_b$. Due to lemma 1.3, the robot is now only in half-plane $H_b$ and will move towards $A_b$. Although its current $D_b$ could be $\geq \lambda$, it will strictly move towards $A_b$. Since by lemma 1.4, the part of the axis with $D_b \geq \lambda$ is covered by $O_i$, the robot will now intersect the axis at a distance $M(c_{i+2})<\lambda$.
 
-#### Proof for theorem 1.1
+### Theorem 1.1
 
-If for some $i$, $A(c_i)=A(c_{i+1})=A_x$, then $M(c_{i+1})<M(c_i)$. This follows from the fact that $D_x$ decreases while the robot is in $H_x$, and that the robot must cross another axis if it would leave $H_x$.
+If the robot crosses an axis $A_x$ at a Eudlidian distance $\lambda$ from $t$, it will never cross the same axis at a distance $\geq \lambda$ later in time.
 
-Furthermore, from lemma 1.1.5, we have that if the robot crosses two different axes after each other, it will eventually cross that axis at a smaller $M$-distance. Suppose the robot comes back to the axis $A_x$ at the $k$’th crossing $c_k$ after crossing a series of other axes. Let $O_k$ be the object along which the robot crosses at $c_k$ and let $p$ be the point at which the robot starts following $O_k$. Assume now that (contrary to the theorem) $M(c_k)\geq \lambda$. Repeatedly using lemma 1.1.4 we know that $M(p)<\lambda$, therefore, from lemma 1.1.4, the obstacle $O_k$ will cover the axis $A_x$ all the way between $c_k$ and the point on $A_x$ at $M$-distance $\lambda$. This is not possibe, since the object $O_i$ crosses the axis in this region too and objects are not allowed to intersect. 
+#### Proof
+
+If for some $i$, $A(c_i)=A(c_{i+1})=A_x$, then $M(c_i) > M(c_{i+1})$. This follows from the fact that $D_x$ decreases while the robot is in $H_x$, and that the robot must cross another axis if it would leave $H_x$.
+
+Furthermore, from lemma 1.5, we have that if the robot crosses two different axes after each other, it will eventually cross that axis at a smaller $M$-distance. Suppose the robot comes back to the axis $A_x$ at the $k$’th crossing $c_k$ after crossing a series of other axes. Let $O_k$ be the object along which the robot crosses at $c_k$ and let $p$ be the point at which the robot starts following $O_k$. Assume now that (contrary to the theorem) $M(c_k)\geq \lambda$. Repeatedly using lemma 1.4 we know that $M(p)<\lambda$, therefore, from lemma 1.4, the obstacle $O_k$ will cover the axis $A_x$ all the way between $c_k$ and the point on $A_x$ at $M$-distance $\lambda$. This is not possibe, since the object $O_i$ crosses the axis in this region too and objects are not allowed to intersect. 
 
 We conclude that if the robot crosses an axis $A_x$ at a Eudlidian distance $\lambda$ from $t$, it will never cross the same axis at a distance $\geq \lambda$ later in time.
-
-
-## Proof Outline (old version)
-
-Proof that for these triangles, the robot will eventually always get there in finite time.
-
-* **Theorem** If the robot crosses an axis $A_x$ at a Eudlidian distance $p$ from $t$, it will never cross the same axis at a distance $\geq p$ later in time.
-* Define a metric $M$ with shape of triangle with orthocenter $t$.
-* **Lemma** At some point after you crossed an axis at distance $p$ in the $M$ metric, you will cross another axis at a distance $\leq p$ in the $M$ metric, or get to the target.
-* **Lemma** After crossing an axis, the projection on axis on both sides decrease monotonely until the robot crosses an axis or reaches $t$. 
-* **Lemma** If, after crossing an axis at $M$-distance $p$, another axis is crossed at $M$-distance $\geq p$, it will go back to the axis.
-* And then something smart for "and the next round is a big difference". Maybe use space-limitations, but which?
