@@ -5,42 +5,46 @@ Date:     March 16, 2014
 Keywords: computer science, proof, computational geometry
 Language: en
 
-# Autonomous Robot Motion
+# Dynamic Path Planning for a Memoryless Robot without Sight
 <div class="subtitle">Thijs Vogels</div>
 
 
 ## Introduction
 
-This part will have the following setup:
+Robot path planning is an active area within the field of mobile robotics. The problem of navigating a robot from a starting point $s$ to a target $t$ has proven to be extremely relevant to many applications in real life and it is definitely not trivial. 
 
-* Context
-* Definitions & Notations
-* Outline
-* Summary of our results
-* My contribution
+Current research in the field is mostly focused on the development of intelligent learning robots that navigate through a scene as efficiently as possible by using a variety of sensory information and dynamically collecting data about the environment <span class="note">[sources]</span>. In many cases the navigation algorithms found on board of modern robots are heuristic: although their average performance in terms of navigation time or path length tends to be high, there is no guarantee for the robot to reach its target within a bounded path-length.
 
-### Definitions
+These modern works are in contrast with the work of early pioneers in the field. Starting with contributions by Lumelsky <span class="note">[]</span> and Papadimitriou and Yannakakis <span class="note">[]</span>, research in the late 1980’s started investigating navigational possibilities for all kinds of robots. Although some of the work indeed studies robots that either learn their environment <span class="note">[]</span>, have complete knowledge about any obstacles in the navigation space <span class="note">[]</span> or receive information about the environment through visual sensors <span class="note">[]</span>, there are also studies that focus on more primitive robots. In <span class="note">[]</span>, several navigation algorithms for a robot with only three registers of memory that receives sensory feedback only when it actually hits an obstacle are evaluated. Both algorithms are concluded to guarantee reaching the target and the paper presents bounds on the ratio between the path taken and the optimal path under full knowledge of the scene.
 
-We investigate a blind robot that navigates in a scene $S$ from the starting point $s$ to a target $t$ which are a distance $n$ apart. 
-$S$ contains a finite number of convex inpenetrable obstacles. 
-The robot is assumed to be a mobile point automaton that is only aware of its absolute position and the position of $t$. 
-It is blind, and only receives sensory feedback when it hits an obstacle. 
-It can then follow the edge of the obstacle without knowing about its shape.
+This paper can be seen as a continuation of early research in robot motion planning. We study the simplest possible robot that could ever be able to find its way to a target: it is blind and memoryless. The robot’s objective is to travel from a starting point $s$ to a target $t$ in a two-dimensional scene $S$ consisting of a finite number of convex impenetrable obstacles. We assume the robot to be a point automaton, such that it can 'squeeze' through touching obstacles.
+The robot only receives sensory feedback when it hits an obstacle. 
+It can then follow the edge of the obstacle without knowing about the obstacle's shape.
 
-The robot will always try to move in a straight line to $t$. When the robot hits an obstacle, it will follow the shape of the object in the direction that initially minimizes the distance to the target until the path to $t$ is clear again. It will repeat its behavior. We assume without loss of generality that if the robot hits the obstacle perpendicularly, the robot moves counterclockwise. This robotic behavior can be categorized as memoryless and dynamic, since it does not plan its path in advance, but decides on its direction every time it touches an obstacle, solely based on its current position, the position of the target and the gradient of the object it hits.
+We study our own algorithm, *BasicAlg*, by which the robot will always try to move in a straight line to $t$. When the robot hits an obstacle, it will follow the shape of the object in the direction that initially minimizes the distance to the target until the path to $t$ is clear again. It will repeat its behavior. We assume without loss of generality that if the robot hits an obstacle perpendicularly, the robot moves counterclockwise along the object's edge. This robotic behavior can be categorized as memoryless and dynamic, since it does not plan its path in advance, but decides on its direction every time it touches an obstacle, solely based on its current position, the position of the target and the gradient of the object it hits.
 
-Obstacles may touch each other and the robot is a point, so the robot can "squeeze" through touching obstacles, avoiding the creation of concave objects out of convex ones.
+The paper starts with a literature review of earlier work on this topic and two similar algorithms by Lumelsky and <span class="note">John []</span> in particular. In the following sections, we will evaluate the behavior of our algorithm for cases when the obstacles in the scene are all axis-aligned squares, circles and, similar same-orientation triangles respectively. For squares we provide a tight upper bound on the ratio $\rho = R(S)/d(S)$ over all possible scenes, where $R(S)$ is the length of the path taken by the robot and $d(s)$ the distance between $s$ and $t$. We find numerical bounds for that ratio for a scene with circles, but these bounds are not tight. For triangles, the ratio is not bounded, but we prove that the robot will always reach the target if it follows our algorithm.
 
-We use a similar notation as (Blum, A., 198x). Let $R(S)$ be the total distance walked by the robot going from $s$ to $t$ in its heuristic path. $o(S)$ denotes the length of the shortest possible path and $d(S)$ the distance between $s$ and $t$. We are interested in $R(S)$ and will compare it to $d(S)$ and $o(S)$ using two ratios:
-
-[[ \rho = \max_S \frac{R(S)}{o(S)}, \,\,\, \gamma = \max_S \frac{R(S)}{d(S)}. ]]
+As a student, my role in this project was to (1) conduct a literature survey into previous work on robotic path planning and (2) to extend on the earlier work of Prof. Dr. Henk Meijer and Marijke Hengel by looking into the algorithm for scenes with circles and triangles. I found the proof for guaranteed reachability of $t$ when the obstacles are similar same-orientation triangles under Henk Meijer's supervision.
 
 
 
-## Previous research: see papers & abstracts
 
-* What do we do different
-* Compare with our results
+## Related Previous Theoretical Work
+
+The first classification that can be applied to the broad field of motion planning is that of *offline* and *online* algorithms. *Offline* algorithms have complete information about the scene. The challenge is to find the optimal path for the robot through a number of known obstacles. These algorithms can be used for robots that are supplied with a map of their surroundings. The paths can be planned in advance, without the robot moving at all. The issues that are dealt with in this branch of motion planning are often related to computational complexity and with approximations for the shape of the scene and the robot. Because most of the algorithms make use of connectivity graphs, all shapes must be approximated by polygons in order for the planning algorithms to run in limited time and space. *Online* algorithms on the other hand are implemented in the robots behavior. The algorithms are therefore also termed 'dynamic'. The algorithms run continuously throughout the motion of the robot and use the robots current position and sensory information as input. Of course, offline algorithms can give more guarantees than online algorithms, but often, complete information is unavailable. In such situations, one must resort to a online algorithm. Another advantage of online algorithms is that they are mostly not computationally intensive: they often rely on simple choices to be made continuously. This paper's direction of choice is into dynamic (online) algorithms. Also, the algorithm that is proposed in this paper is classified as online.
+
+A second subdivision that can be made is in the requirements for the robot's sensors. A substantial part of research is done into robots that have a vision sensor, and therefore have complete information on the part of the scene they look at. These algorithms tend to combine offline methods for local optimality with a dynamic approach for the global algorithm <a href="#ando" class="ref"></a> <a href="#kareti" class="ref"></a>. Early work on navigation with visual information was carried out by Sutherland <a href="#sutherland" class="ref"></a> and Lumelsky & Skewis <a href="#lumelsky-skewis" class="ref"></a>, and research into navigation with visual information is still an active topic. The alternative to the use of vision sensors are touch sensors. This type of robots only receives feedback the moment it touches an obstacles. Our algorithm falls in the second category, which is therefore more relevant to this paper.
+
+Thirdly, we apply a classification introduced by Kareti e.a. <a href="#kareti" class="ref"></a>. They divide robot navigation research into three classes:
+
+* The goal of research that is classified as *Class A* is to guarantee a certain navigation objective. This objective could be drawing a map of the surroundings, navigating to a goal (point or wall) or anything else that requires navigation. It is not important that parameters such as the distance traveled are minimized, as long as the goal is reached.
+* A *Class B* method needs to optimized some parameter(s). These could be for example the distance traveled, as in <a href="#baeza-yates" class="ref"></a>, or the ratio between the path taken by the algorithm and the optimal path, like in <a href="#papadimitriou" class="ref"></a> or this paper.
+
+
+## Notation and Conventions
+
+
 
 
 ## Equal Size Squares
@@ -53,7 +57,7 @@ This section goes through the earlier work by Henk and Marijke on equal size squ
 This section will only be included if we do not manage to generalize our results to arbitrary convex objects. If we include it, it shows the numerical bounds for the worst-case heuristic paths over the optimal path or distance.
 
 
-## Similar Same-Orientation *Sharp* Triangles
+## Similar Same-Orientation Sharp Triangles
 
 Asume all obstacles in $S$ to be similar triangles of the same orientation. We use a coordinate system with $t$ in the origin. The sides of triangle $k$ are called $a_k, b_k, c_k$ such that all sides $a_i$ have the same direction $\alpha$, all sides $b_i$ have direction $\beta$ and all sides $c_i$ have direction $\gamma$. For each side-direction $x\in \left\{\alpha,\beta,\gamma \right\}$, we define a half-plane $H_x$ that is delimited by a line in the direction $x$ through $t$. It indicates the region in which the robot could hit a triangle at a side in direction $x$. The half-planes are well defined because the robot always moves towards $t$.
 
@@ -144,3 +148,57 @@ If for some $i$, $A(c_i)=A(c_{i+1})=A_x$, then $M(c_i) > M(c_{i+1})$. This follo
 Furthermore, from lemma 1.5, we have that if the robot crosses two different axes after each other, it will eventually cross that axis at a smaller $M$-distance. Suppose the robot comes back to the axis $A_x$ at the $k$’th crossing $c_k$ after crossing a series of other axes. Let $O_k$ be the object along which the robot crosses at $c_k$ and let $p$ be the point at which the robot starts following $O_k$. Assume now that (contrary to the theorem) $M(c_k)\geq \lambda$. Repeatedly using lemma 1.4 we know that $M(p)<\lambda$, therefore, from lemma 1.4, the obstacle $O_k$ will cover the axis $A_x$ all the way between $c_k$ and the point on $A_x$ at $M$-distance $\lambda$. This is not possibe, since the object $O_i$ crosses the axis in this region too and objects are not allowed to intersect. 
 
 We conclude that if the robot crosses an axis $A_x$ at a Eudlidian distance $\lambda$ from $t$, it will never cross the same axis at a distance $\geq \lambda$ later in time.
+
+
+## Conclusion
+
+Other shapes?
+
+"These formulations, although abstract and simplified compared to real-life scenarios, provide the basis for practical systems by highlighting the underlying critical issues." <a href="#kareti" class="ref"></a>
+
+
+## References
+
+<ul class="references">
+    
+    <li id="papadimitriou">Papadimitriou, Christos H., and Mihalis Yannakakis. “Shortest paths without a map.” <em>Theoretical Computer Science</em> 84, no. 1 (1991): 127-150.</li>
+
+    <li id="lumelsky">Lumelsky, Vladimir J., and Alexander A. Stepanov. “Dynamic path planning for a mobile automaton with limited information on the environment.” <em>Automatic Control, IEEE Transactions</em> on 31, no. 11 (1986): 1058-1063.</li>
+
+    <li id="kareti">Kareti, Srikumar, Weimin Shi, and S. Sitharama Iyengar. <em>Robot navigation in unknown terrains: Introductory survey of non-heuristic algorithms</em>. Oak Ridge, TN: Oak Ridge National Laboratory, 1993.</li>
+
+    <li id="blum">Blum, Avrim, Prabhakar Raghavan, and Baruch Schieber. “Navigating in unfamiliar geometric terrain.” In Proceedings of the <em>twenty-third annual ACM symposium on Theory of computing</em>, pp. 494-504. ACM, 1991.</li>
+
+    <li id="lumelsky2">Lumelsky, Vladimir J., and Alexander A. Stepanov. “Path-planning strategies for a point mobile automaton moving amidst unknown obstacles of arbitrary shape.” <em>Algorithmica</em> 2, no. 1-4 (1987): 403-430.</li>
+
+    <li id="lumelsky3">Lumelsky, Vladimir J. “Algorithmic and complexity issues of robot motion in an uncertain environment.” <em>Journal of Complexity</em> 3, no. 2 (1987): 146-182.</li>
+
+    <li id="motlagh">Motlagh, Omid, Danial Nakhaeinia, Sai Hong Tang, Babak Karasfi, and Weria Khaksar. “Automatic navigation of mobile robots in unknown environments.” <em>Neural Computing and Applications</em>: 1-13.</li>
+
+    <li id="ando">Ando, Hideki, Yoshinobu Oasa, Ichiro Suzuki, and Masafumi Yamashita. “Distributed memoryless point convergence algorithm for mobile robots with limited visibility.” <em>Robotics and Automation, IEEE Transactions</em> on 15, no. 5 (1999): 818-828.</li>
+
+    <li id="baeza-yates">Baeza-Yates, R.A., Culberson, J.C. and Rawlins, G.J. Searching in the plane. <em>Information and Computation</em>, 1991.</li>
+
+    <li id="lewis">Lewis, Jeremy S., and J. O'Kane. “Guaranteed navigation with an unreliable blind robot.” In <em>Robotics and Automation (ICRA)</em>, 2010 IEEE International Conference on, pp. 5519-5524. IEEE, 2010.</li>
+
+    <li id="zhu">Zhu, David, and J-C. Latombe. “New heuristic algorithms for efficient hierarchical path planning.” <em>Robotics and Automation, IEEE Transactions</em> on 7, no. 1 (1991): 9-20.</li>
+
+    <li id="hwang">Hwang, Yong K., and Narendra Ahuja. “A potential field approach to path planning.” <em>Robotics and Automation, IEEE Transactions</em> on 8, no. 1 (1992): 23-32.</li>
+
+    <li id="oriolo">Oriolo, Giuseppe, Giovanni Ulivi, and Marilena Vendittelli. “Real-time map building and navigation for autonomous robots in unknown environments.” <em>Systems, Man, and Cybernetics, Part B: Cybernetics, IEEE Transactions</em> on 28, no. 3 (1998): 316-333.</li>
+
+    <li id="chatterjee">Chatterjee, Ranajit, and Fumitoshi Matsuno. “Use of single side reflex for autonomous navigation of mobile robots in unknown environments.” <em>Robotics and Autonomous Systems</em> 35, no. 2 (2001): 77-96.</li>
+
+    <li id="afyouni">Afyouni, Imad, Cyril Ray, and Christophe Claramunt. “Spatial models for context-aware indoor navigation systems: A survey.” <em>Journal of Spatial Information Science</em> 4 (2014): 85-123.</li>
+
+    <li id="wong">Wong, Sylvia C., and Bruce A. MacDonald. “A topological coverage algorithm for mobile robots.” In <em>Intelligent Robots and Systems</em>, 2003. (IROS 2003). Proceedings. 2003 IEEE/RSJ International Conference on, vol. 2, pp. 1685-1690. IEEE, 2003.</li>
+
+    <li id="lumelsky4">Lumelsky, Vladimir J. “Dynamic path planning for a planar articulated robot arm moving amidst unknown obstacles.” <em>Automatica</em> 23, no. 5 (1987): 551-570.</li>
+
+    <li id="blake">Blake, A., M. Brady, R. Cipolla, Z. Xie, and A. Zisserman. “Visual navigation around curved obstacles.” In <em>Robotics and Automation</em>, 1991. Proceedings., 1991 IEEE International Conference on, pp. 2490-2495. IEEE, 1991.</li>
+
+    <li id="sutherland">Sutherland, I. A method for solving arbitrary wall mazes by computer. <em>IEEE transactions on Computers</em>, C-18(12): 1092 1097 1969. </li>
+
+    <li id="lumelsky-skewis">Lumelsky, V., Skewis, T. Incorporating range sensing in the robot navigation function. <em>IEEE Transactions on Systems, Man and Cybernetics</em>, 20(5): 1058, 1069, 1990.</li>
+
+</ul>
