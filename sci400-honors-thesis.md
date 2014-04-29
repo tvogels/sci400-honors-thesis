@@ -9,7 +9,8 @@ Language: en
 <div class="subtitle">Thijs Vogels</div>
 
 
-## Introduction
+## Introduction 
+<div class="status full-draft"></div>
 
 Robot path planning is an active area within the field of mobile robotics. The problem of navigating a robot from a starting point $s$ to a target $t$ has proven to be extremely relevant to many applications in real life and it is definitely not trivial. 
 
@@ -31,6 +32,7 @@ As a student, my role in this project was to (1) conduct a literature survey int
 
 
 ## Related Previous Theoretical Work
+<div class="status work-in-progress"></div>
 
 The first classification that can be applied to the broad field of motion planning is that of *offline* and *online* algorithms. *Offline* algorithms have complete information about the scene. The challenge is to find the optimal path for the robot through a number of known obstacles. These algorithms can be used for robots that are supplied with a map of their surroundings. The paths can be planned in advance, without the robot moving at all. The issues that are dealt with in this branch of motion planning are often related to computational complexity and with approximations for the shape of the scene and the robot. Because most of the algorithms make use of connectivity graphs, all shapes must be approximated by polygons in order for the planning algorithms to run in limited time and space. *Online* algorithms on the other hand are implemented in the robots behavior. The algorithms are therefore also termed 'dynamic'. The algorithms run continuously throughout the motion of the robot and use the robots current position and sensory information as input. Of course, offline algorithms can give more guarantees than online algorithms, but often, complete information is unavailable. In such situations, one must resort to a online algorithm. Another advantage of online algorithms is that they are mostly not computationally intensive: they often rely on simple choices to be made continuously. This paper's direction of choice is into dynamic (online) algorithms. Also, the algorithm that is proposed in this paper is classified as online.
 
@@ -39,25 +41,30 @@ A second subdivision that can be made is in the requirements for the robot's sen
 Thirdly, we apply a classification introduced by Kareti e.a. <a href="#kareti" class="ref"></a>. They divide robot navigation research into three classes:
 
 * The goal of research that is classified as *Class A* is to guarantee a certain navigation objective. This objective could be drawing a map of the surroundings, navigating to a goal (point or wall) or anything else that requires navigation. It is not important that parameters such as the distance traveled are minimized, as long as the goal is reached.
-* A *Class B* method needs to optimized some parameter(s). These could be for example the distance traveled, as in <a href="#baeza-yates" class="ref"></a>, or the ratio between the path taken by the algorithm and the optimal path, like in <a href="#papadimitriou" class="ref"></a> or this paper.
+* A *Class B* method needs to optimized some parameter(s). These could be for example the distance traveled, as in <a href="#baeza-yates" class="ref"></a>, or the ratio between the length of the path taken by the algorithm and the optimal path, like in <a href="#papadimitriou" class="ref"></a> or this paper.
+* *Class C* is concerned more with 
+
 
 
 ## Notation and Conventions
-
+<div class="status to-be-done"></div>
 
 
 
 ## Equal Size Squares
+<div class="status to-be-done"></div>
 
 This section goes through the earlier work by Henk and Marijke on equal size squares. It basically gives the proof as presented in <code>paper.henk.pdf</code>.
 
 
 ## Circles
+<div class="status to-be-done"></div>
 
 This section will only be included if we do not manage to generalize our results to arbitrary convex objects. If we include it, it shows the numerical bounds for the worst-case heuristic paths over the optimal path or distance.
 
 
 ## Similar Same-Orientation Sharp Triangles
+<div class="status first-draft"></div>
 
 Asume all obstacles in $S$ to be similar triangles of the same orientation. We use a coordinate system with $t$ in the origin. The sides of triangle $k$ are called $a_k, b_k, c_k$ such that all sides $a_i$ have the same direction $\alpha$, all sides $b_i$ have direction $\beta$ and all sides $c_i$ have direction $\gamma$. For each side-direction $x\in \left\{\alpha,\beta,\gamma \right\}$, we define a half-plane $H_x$ that is delimited by a line in the direction $x$ through $t$. It indicates the region in which the robot could hit a triangle at a side in direction $x$. The half-planes are well defined because the robot always moves towards $t$.
 
@@ -151,6 +158,7 @@ We conclude that if the robot crosses an axis $A_x$ at a Eudlidian distance $\la
 
 
 ## Conclusion
+<div class="status to-be-done"></div>
 
 Other shapes?
 
@@ -158,6 +166,7 @@ Other shapes?
 
 
 ## References
+<div class="status work-in-progress"></div>
 
 <ul class="references">
     
@@ -202,3 +211,7 @@ Other shapes?
     <li id="lumelsky-skewis">Lumelsky, V., Skewis, T. Incorporating range sensing in the robot navigation function. <em>IEEE Transactions on Systems, Man and Cybernetics</em>, 20(5): 1058, 1069, 1990.</li>
 
 </ul>
+
+## Acknowledgments
+<div class="status to-be-done"></div>
+
