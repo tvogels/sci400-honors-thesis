@@ -126,7 +126,155 @@ such that $\rho  > 3-\epsilon$.
 </p>
 </div>
 
+We say that a path is $x$-monotone if the $x$-coordinates of a point
+that travels along the path do not decrease or do not increase. 
+We define $y$-monotone similarly.
 
+<div class="lemma" id="le:monotone">
+    Consider obstacles that are axis-aligned rectangles. Let $P$ be a point on the path $R(S,T)$  with $P_x < T_x$ and $P_y < T_y$. Assume  that $R(S,T)$ immediately after $P$ travels in direction $(a,b)$ with $a\geq 0$ and $b\geq 0$. If $R$ is the first point on $R(S,T)$ after $P$ with $R_x = T_x$ or $R_y = T_y$ then the path $R(S,T)$ from $P$ to $R$ is $x$- and $y$-monotone.
+</div>
+
+<div class="proof">
+<p>
+    After the point $P$, the path $R(S,T)$ will first travel along the line segment $PT$. If $R(S,T)$ hits a left vertical boundary of an obstacle, it will continue to travel in direction $(0,1)$. If $R(S,T)$ hits a bottom horizal boundary of an obstacle, it will continue to travel in direction $(1,0)$. In either case, it will continue to travel in direction $(0,1)$ or $(1,0)$ until it either hits the $x$- or the $y$-axis, or reaches another point $Q$ from which it travels along the line segment $QT$ and then we can repeat the argument. So $x$- and $y$-coordinates do not decrease.
+</p>
+</div>
+
+<div class="lemma" id="le:closetoxaxis">
+    Consider obstacles that are equal size unit squares. Suppose $S$ and $T$ lie on the $x$-axis. Then $-1<P_y < 1$ for any point on $R(S,T)$.
+</div>
+
+<div class="proof">
+<p>
+    Without loss of generality assume that $S$ and $T$ lie on the $x-$axis with $S_x < T_x$. Consider  $P_y$ to be a function whose parameter is a point $P$ that travels on $R(S,T)$ from $S$ to $T$ and whose value is the $y$-coordinate of $P$.Observe that the absolute value of $P_y$ can only increase if $P$ lies on the left vertical boundary of an obstacle (and not on a corner of the obstacle). The point $P$ travels upward if the first point of $R(S,T)$ on this boundary edge has a $y$-coordinate  $\leq 0$, and downwards if it postive. In both cases it follws that $-1 < P_y < 1$ for all points $P$. 
+</p>
+</div>
+
+The above lemma implies that if $S_x = T_x$ and $S_y < T_y$ there is no point $P$ on $R(S,T)$ with $P_x > T_x$: let $Q$ be the first point of $R(S,T)$ with $Q_x = T_x$. Since $-1 < Q_y < 1$ there can be no obstacle between $Q$ and $T$, so after $Q$, the path $R(S,T)$ stays on the line $x = T_x$.
+
+<div class="lemma" id="le:STalignedupper">
+    If $S$ and $T$ lie on the same horizontal or vertical line, and the obstacles are axis aligned unit squares, we have  $R(S,T) < 3d(S,T)$.
+</div>
+
+<div class="proof">
+<p>
+Let $n$ be the number of obstacles. We prove the lemma by induction on $n$. If $n=1$ the lemma holds by <a href="#le:onesquareupper" class="lemref"></a>. So assume that the lemma holds if there are $n$ obstacles where $n \geq 1$. Now assume that there are $n+1$ obstacles. The path $R(S,T)$ first travels to the right on the $x$-axis until it hits the first obstacle at a point $U$. The path then travels upwards along the obstacle. So the path continues until it hits the right top corner $V$ of the obstacle. From $V$ the path travels in a direction $(a,b)$ with $a > 0$ and $b\leq 0$. By <a href="#le:monotone" class="lemref"></a> we derive that the path after $SV$ has monotone $x$- and $y$- coordinates until it reaches the $x$-axis at $W$ or the $y$-axis at point $Z$. In the latter case we derive from <a href="#le:STalignedupper" class="lemref"></a> that $-1 < Z_y > 1$ so $R(S,T)$ from $Z$ to $T$ follows the $y$-axis, so the statement of the lemma holds. If the path reaches $W$, we know that from the inductive assumption that 
+</p>
+
+[[ |R(W,T)| < 3|d(W,T)|. ]]
+
+<p>Moreover we have</p>
+
+[[ |R(S,W) \leq |SU| + |UV| + d_{L_1} (V,W)  \leq 3d(U,W) ]]
+
+<p>so</p>
+
+[[ |R(S,T)| ~=~ |R(S,W)| + |R(W,T)| ~<~ 3 d(S,W) +  3 d(W,T) ~=~ 3d(S,T). ]]
+
+<p>So the lemma holds.</p>
+</div>
+
+<div class="lemma" id="le:STalignedlower">
+If  $S$ and $T$ lie on the same horizontal or vertical line, and the obstacles are equal size axis aligned squares, then there is a configuration for which 
+
+[[ \frac{|R(S,T)|}{o(S,T)} ~>~ 3 - \epsilon ]]
+
+for any $\epsilon > 0$.
+</div>
+
+<figure id="fig:equalsquares">
+    <img src="drawings/ubsquares.svg" alt="">
+    <figcaption>Unit square obstacles</figcaption>
+</figure>
+
+<div class="proof">
+<p>Let $n$ be odd and $0 < \delta < 1$. Let $S = (0,0)$ and $T = ((n+1)/2+(n-3)\delta,0)$. Place obstacle 1 with its left-bottom corner at $(0,\-\delta$. Place square $2$ to the right of square $1$, and shift it up by $2\delta$. Place square $3$ below square $2$, and shift it right by $\delta$. Place square $4$ to the right of square $3$, and shift it down by $2\delta$. Place square $5$ above square $4$, and shift it right by $\delta$. We keep adding squares in groups of two, by repeating the last 4 placements. Notice that the heuristic path zigzags through the odd numbered squares. The placement of the obstacles is illustrated in the placement of the squares numbers 4 though 27 <a href="#fig:equalsquares" class="figref"></a>. We have</p>
+
+
+[[ |R(S,T)| ~>~ \frac{3(n+1)}{2} ]]
+
+[[ d(S,T) < \frac{n+1}{2} (1+ \delta) ]]
+
+<p>We have</p>
+
+[[ \lim_{\delta \rightarrow 0} \frac{3(n+1)} {(n+1) (1+ \delta)} = 3. ]]
+
+<p>From <a href="#le:STalignedlower" class="lemref"></a> we know that $|R(S,T)|/|o(S,T)| < 3$. So the lemma holds.</p>
+</div>
+
+<div class="lemma" id="le:STaligned">
+    If $S$ and $T$ lie on the same horizontal or vertical line, and the obstacles are equal size axis aligned squares, we have $3-\epsilon < \rho < 3$  for any $\epsilon > 0$.
+</div>
+
+<div class="proof">
+<p>
+    This follows from <a href="#le:STalignedlower" class="lemref"></a> and <a href="#le:STalignedupper" class="lemref"></a>.
+</p>
+</div>
+
+<div class="lemma" id="le:equalsquaresupper">
+    If the obstacles are equal size axis aligned squares, we have $|R(S,T)| < \sqrt(10) d(S,T)$.
+</div>
+
+<div class="proof">
+<p>
+    Without loss of generality assume that $S_x < 0$, $S_y < 0$ and $T = (0,0)$. From <a href="#le:monotone" class="lemref"></a> we derive that $(R(S,T)$ is initially $x$- and $y$-monotone until it intersects that $x$- or $y$-axis for the first time, at point $P$ say. Without loss of generality assume that $P$ lies on the $x$-axis. Let $Q = (S_x,0)$. We have
+</p>
+
+[[ |R(S,T)| &~\leq~ d_{L_1}(S,P) + |R(P,T)| \\ &~<~ d(S,Q) + d(Q,p) + 3d(P,T)
+\leq d(S,Q) + 3d(Q,T). ]]
+
+<p>
+    Consider the function $f(a,b) = (a+3b)/\sqrt(a^2 + b^2)$. By computing the gradient of $f$ and setting it to (0,0), we can find that the maximum value of $f$ occurs at $a=1$ and $b=3$. So we have $f(a,b) \leq  \sqrt {10}$. Let $a = d(S,Q)$ and $b =  d(Q,T)$. So we have
+</p>
+
+[[ \frac{|R(S,T)|}{d(S,T)} ~<~ \frac{a+3b}{\sqrt{a^2 + b^2}} ~\leq~ \sqrt{10}. ]]
+
+<p>This proves the lemma.</p>
+</div>
+
+<div class="lemma" id="le:equalsquareslower">
+If  the obstacles are equal size axis aligned squares, then therer is a configuration for which 
+
+[[ \frac{|R(S,T)|}{o(S,T)} ~>~ \sqrt {10} - \epsilon ]]
+
+for any $\epsilon > 0$.
+</div>
+
+<div class="proof">
+<p>
+    Let $k$ be a large even integer and let $\delta \leq 1/k$. For an illustration of the construction in this proof, see <a href="#fig:equalsquares" class="figref"></a>, where $k=4$. In the figure we used  $\delta = 1/8$. Place  $S$  at (0,0) and $T$ at $(3k(1+\delta)+ (k-1)\delta,k)$. Place $7k-1$ rectangles as follows. Place  square 1 with its left-bottom corner at $(0,-\delta)$. For $1 < i\leq k+1$, place square $i$ on top of square $i-1$, shifted $\delta$ to the right. Place square $k+2$ to the right of square $k+1$, and shift it up by $2\delta$. Place square $k+3$ below square $k+2$, and shift it right by $\delta$. Place square $k+4$ to the right of square $k+3$, and shift it down by $2\delta$. Place square $k+5$ above square $k+4$, and shift it right by $\delta$. As shown in the figure, we keep adding squares in groups of two, by repeating the last 4 placements. Notice that the heuristic path zigzags through the odd numbered squares that have numbers $> k$.
+</p>
+<p>
+    We have $|R(S,T)| \approx k + 3\cdot 3k = 10k$ and $|o(S,T)| \approx \sqrt {k^2 + (3k)^2} $ so
+</p>
+
+[[ |R(S,T)|  \approx \sqrt {10} \cdot |o(S,T)|. ]]
+
+<p>
+    We can  show that we can show $k$ such that the fraction is arbitrarily close to $\sqrt {10}$. We have
+</p>
+
+[[ |R(S,T)| ~>~ k  + 3k (3 - 2\delta) = 10k - 6k\delta \geq  10k - 6. ]]
+
+[[ |o(S,T)| ~<~ 2 + \sqrt ( (3k (1+\delta))^2 + k^2) ~=~ 2 + k\sqrt{10   + 18 \delta  + 9 \delta^2}. ]]
+
+<p>Since $\delta \leq 1/k$ we have </p>
+
+[[ \lim_{k \rightarrow \infty} \frac{10k - 6} {2 + k\sqrt{ 10   + 18 \delta  + 9 \delta^2}} = \sqrt{10}. ]]
+
+<p>So the lemma holds.</p>
+</div>
+
+<div class="theorem" id="le:equalsquares">
+    If  the obstacles are equal size axis aligned squares, we have $\sqrt{10}-\epsilon < \rho < \sqrt{10}$  for any $\epsilon > 0$.
+</div>
+
+<div class="proof">
+<p>
+    This follows from <a href="#le:equalsquaresupper" class="lemref"></a> and <a href="#le:equalsquareslower" class="lemref"></a>.
+</p>
+</div>
 
 ## Circles
 <div class="status to-be-done"></div>
@@ -137,7 +285,7 @@ This section will only be included if we do not manage to generalize our results
 ## Similar Same-Orientation Sharp Triangles
 <div class="status first-draft"></div>
 
-Asume all obstacles in $S$ to be similar triangles of the same orientation. We use a coordinate system with $t$ in the origin. The sides of triangle $k$ are called $a_k, b_k, c_k$ such that all sides $a_i$ have the same direction $\alpha$, all sides $b_i$ have direction $\beta$ and all sides $c_i$ have direction $\gamma$. For each side-direction $x\in \left\{\alpha,\beta,\gamma \right\}$, we define a half-plane $H_x$ that is delimited by a line in the direction $x$ through $t$. It indicates the region in which the robot could hit a triangle at a side in direction $x$. The half-planes are well defined because the robot always moves towards $t$.
+Asume all obstacles in $S$ to be similar triangles of the same orientation. We use a coordinate system with $t$ in the origin. The sides of triangle $k$ are called $a_k, b_k, c_k$ such that all sides $a_i$ have the same direction $\rho$, all sides $b_i$ have direction $\beta$ and all sides $c_i$ have direction $\gamma$. For each side-direction $x\in \left\{\alpha,\beta,\gamma \right\}$, we define a half-plane $H_x$ that is delimited by a line in the direction $x$ through $t$. It indicates the region in which the robot could hit a triangle at a side in direction $x$. The half-planes are well defined because the robot always moves towards $t$.
 
 Next, define ‘axes’. For a direction $x\in \left\{\alpha,\beta,\gamma \right\}$, define $A_x$ as a ray from the origin into $H_x$ that has a direction perpendicular to $x$. By definition, if a the robot hits an obstacle at the $x$-side, it will always be in $H_x$ and decide to move towards $A_x$.
 
@@ -161,7 +309,7 @@ Define a custom measurement $M$ for a point's distance to $t$. Let $\Gamma_1$ be
 
 ### Definition 1.2
 
-The heuristic path $HP(s,t)$ crosses the three axes 0 or more times. Let $\textbf{c} = \{c_1,c_2,\ldots\}$ be a vector containing those crossing points and let $A(c_i)$ be the corresponding axes and $H(c_i)$ the corresponding half-plane.
+The heuristic path $R(s,t)$ crosses the three axes 0 or more times. Let $\textbf{c} = \{c_1,c_2,\ldots\}$ be a vector containing those crossing points and let $A(c_i)$ be the corresponding axes and $H(c_i)$ the corresponding half-plane.
 
 ### Definition 1.3
 
@@ -240,47 +388,26 @@ Other shapes?
 <div class="status work-in-progress"></div>
 
 <ul class="references">
-    
-    <li id="papadimitriou">Papadimitriou, Christos H., and Mihalis Yannakakis. “Shortest paths without a map.” <em>Theoretical Computer Science</em> 84, no. 1 (1991): 127-150.</li>
-
-    <li id="lumelsky">Lumelsky, Vladimir J., and Alexander A. Stepanov. “Dynamic path planning for a mobile automaton with limited information on the environment.” <em>Automatic Control, IEEE Transactions</em> on 31, no. 11 (1986): 1058-1063.</li>
-
-    <li id="kareti">Kareti, Srikumar, Weimin Shi, and S. Sitharama Iyengar. <em>Robot navigation in unknown terrains: Introductory survey of non-heuristic algorithms</em>. Oak Ridge, TN: Oak Ridge National Laboratory, 1993.</li>
-
-    <li id="blum">Blum, Avrim, Prabhakar Raghavan, and Baruch Schieber. “Navigating in unfamiliar geometric terrain.” In Proceedings of the <em>twenty-third annual ACM symposium on Theory of computing</em>, pp. 494-504. ACM, 1991.</li>
-
-    <li id="lumelsky2">Lumelsky, Vladimir J., and Alexander A. Stepanov. “Path-planning strategies for a point mobile automaton moving amidst unknown obstacles of arbitrary shape.” <em>Algorithmica</em> 2, no. 1-4 (1987): 403-430.</li>
-
-    <li id="lumelsky3">Lumelsky, Vladimir J. “Algorithmic and complexity issues of robot motion in an uncertain environment.” <em>Journal of Complexity</em> 3, no. 2 (1987): 146-182.</li>
-
-    <li id="motlagh">Motlagh, Omid, Danial Nakhaeinia, Sai Hong Tang, Babak Karasfi, and Weria Khaksar. “Automatic navigation of mobile robots in unknown environments.” <em>Neural Computing and Applications</em>: 1-13.</li>
-
-    <li id="ando">Ando, Hideki, Yoshinobu Oasa, Ichiro Suzuki, and Masafumi Yamashita. “Distributed memoryless point convergence algorithm for mobile robots with limited visibility.” <em>Robotics and Automation, IEEE Transactions</em> on 15, no. 5 (1999): 818-828.</li>
-
-    <li id="baeza-yates">Baeza-Yates, R.A., Culberson, J.C. and Rawlins, G.J. Searching in the plane. <em>Information and Computation</em>, 1991.</li>
-
-    <li id="lewis">Lewis, Jeremy S., and J. O'Kane. “Guaranteed navigation with an unreliable blind robot.” In <em>Robotics and Automation (ICRA)</em>, 2010 IEEE International Conference on, pp. 5519-5524. IEEE, 2010.</li>
-
-    <li id="zhu">Zhu, David, and J-C. Latombe. “New heuristic algorithms for efficient hierarchical path planning.” <em>Robotics and Automation, IEEE Transactions</em> on 7, no. 1 (1991): 9-20.</li>
-
-    <li id="hwang">Hwang, Yong K., and Narendra Ahuja. “A potential field approach to path planning.” <em>Robotics and Automation, IEEE Transactions</em> on 8, no. 1 (1992): 23-32.</li>
-
-    <li id="oriolo">Oriolo, Giuseppe, Giovanni Ulivi, and Marilena Vendittelli. “Real-time map building and navigation for autonomous robots in unknown environments.” <em>Systems, Man, and Cybernetics, Part B: Cybernetics, IEEE Transactions</em> on 28, no. 3 (1998): 316-333.</li>
-
-    <li id="chatterjee">Chatterjee, Ranajit, and Fumitoshi Matsuno. “Use of single side reflex for autonomous navigation of mobile robots in unknown environments.” <em>Robotics and Autonomous Systems</em> 35, no. 2 (2001): 77-96.</li>
-
-    <li id="afyouni">Afyouni, Imad, Cyril Ray, and Christophe Claramunt. “Spatial models for context-aware indoor navigation systems: A survey.” <em>Journal of Spatial Information Science</em> 4 (2014): 85-123.</li>
-
-    <li id="wong">Wong, Sylvia C., and Bruce A. MacDonald. “A topological coverage algorithm for mobile robots.” In <em>Intelligent Robots and Systems</em>, 2003. (IROS 2003). Proceedings. 2003 IEEE/RSJ International Conference on, vol. 2, pp. 1685-1690. IEEE, 2003.</li>
-
-    <li id="lumelsky4">Lumelsky, Vladimir J. “Dynamic path planning for a planar articulated robot arm moving amidst unknown obstacles.” <em>Automatica</em> 23, no. 5 (1987): 551-570.</li>
-
-    <li id="blake">Blake, A., M. Brady, R. Cipolla, Z. Xie, and A. Zisserman. “Visual navigation around curved obstacles.” In <em>Robotics and Automation</em>, 1991. Proceedings., 1991 IEEE International Conference on, pp. 2490-2495. IEEE, 1991.</li>
-
-    <li id="sutherland">Sutherland, I. A method for solving arbitrary wall mazes by computer. <em>IEEE transactions on Computers</em>, C-18(12): 1092 1097 1969. </li>
-
-    <li id="lumelsky-skewis">Lumelsky, V., Skewis, T. Incorporating range sensing in the robot navigation function. <em>IEEE Transactions on Systems, Man and Cybernetics</em>, 20(5): 1058, 1069, 1990.</li>
-
+<li id="papadimitriou">Papadimitriou, Christos H., and Mihalis Yannakakis. “Shortest paths without a map.” <em>Theoretical Computer Science</em> 84, no. 1 (1991): 127-150.</li>
+<li id="lumelsky">Lumelsky, Vladimir J., and Alexander A. Stepanov. “Dynamic path planning for a mobile automaton with limited information on the environment.” <em>Automatic Control, IEEE Transactions</em> on 31, no. 11 (1986): 1058-1063.</li>
+<li id="kareti">Kareti, Srikumar, Weimin Shi, and S. Sitharama Iyengar. <em>Robot navigation in unknown terrains: Introductory survey of non-heuristic algorithms</em>. Oak Ridge, TN: Oak Ridge National Laboratory, 1993.</li>
+<li id="blum">Blum, Avrim, Prabhakar Raghavan, and Baruch Schieber. “Navigating in unfamiliar geometric terrain.” In Proceedings of the <em>twenty-third annual ACM symposium on Theory of computing</em>, pp. 494-504. ACM, 1991.</li>
+<li id="lumelsky2">Lumelsky, Vladimir J., and Alexander A. Stepanov. “Path-planning strategies for a point mobile automaton moving amidst unknown obstacles of arbitrary shape.” <em>Algorithmica</em> 2, no. 1-4 (1987): 403-430.</li>
+<li id="lumelsky3">Lumelsky, Vladimir J. “Algorithmic and complexity issues of robot motion in an uncertain environment.” <em>Journal of Complexity</em> 3, no. 2 (1987): 146-182.</li>
+<li id="motlagh">Motlagh, Omid, Danial Nakhaeinia, Sai Hong Tang, Babak Karasfi, and Weria Khaksar. “Automatic navigation of mobile robots in unknown environments.” <em>Neural Computing and Applications</em>: 1-13.</li>
+<li id="ando">Ando, Hideki, Yoshinobu Oasa, Ichiro Suzuki, and Masafumi Yamashita. “Distributed memoryless point convergence algorithm for mobile robots with limited visibility.” <em>Robotics and Automation, IEEE Transactions</em> on 15, no. 5 (1999): 818-828.</li>
+<li id="baeza-yates">Baeza-Yates, R.A., Culberson, J.C. and Rawlins, G.J. Searching in the plane. <em>Information and Computation</em>, 1991.</li>
+<li id="lewis">Lewis, Jeremy S., and J. O'Kane. “Guaranteed navigation with an unreliable blind robot.” In <em>Robotics and Automation (ICRA)</em>, 2010 IEEE International Conference on, pp. 5519-5524. IEEE, 2010.</li>
+<li id="zhu">Zhu, David, and J-C. Latombe. “New heuristic algorithms for efficient hierarchical path planning.” <em>Robotics and Automation, IEEE Transactions</em> on 7, no. 1 (1991): 9-20.</li>
+<li id="hwang">Hwang, Yong K., and Narendra Ahuja. “A potential field approach to path planning.” <em>Robotics and Automation, IEEE Transactions</em> on 8, no. 1 (1992): 23-32.</li>
+<li id="oriolo">Oriolo, Giuseppe, Giovanni Ulivi, and Marilena Vendittelli. “Real-time map building and navigation for autonomous robots in unknown environments.” <em>Systems, Man, and Cybernetics, Part B: Cybernetics, IEEE Transactions</em> on 28, no. 3 (1998): 316-333.</li>
+<li id="chatterjee">Chatterjee, Ranajit, and Fumitoshi Matsuno. “Use of single side reflex for autonomous navigation of mobile robots in unknown environments.” <em>Robotics and Autonomous Systems</em> 35, no. 2 (2001): 77-96.</li>
+<li id="afyouni">Afyouni, Imad, Cyril Ray, and Christophe Claramunt. “Spatial models for context-aware indoor navigation systems: A survey.” <em>Journal of Spatial Information Science</em> 4 (2014): 85-123.</li>
+<li id="wong">Wong, Sylvia C., and Bruce A. MacDonald. “A topological coverage algorithm for mobile robots.” In <em>Intelligent Robots and Systems</em>, 2003. (IROS 2003). Proceedings. 2003 IEEE/RSJ International Conference on, vol. 2, pp. 1685-1690. IEEE, 2003.</li>
+<li id="lumelsky4">Lumelsky, Vladimir J. “Dynamic path planning for a planar articulated robot arm moving amidst unknown obstacles.” <em>Automatica</em> 23, no. 5 (1987): 551-570.</li>
+<li id="blake">Blake, A., M. Brady, R. Cipolla, Z. Xie, and A. Zisserman. “Visual navigation around curved obstacles.” In <em>Robotics and Automation</em>, 1991. Proceedings., 1991 IEEE International Conference on, pp. 2490-2495. IEEE, 1991.</li>
+<li id="sutherland">Sutherland, I. A method for solving arbitrary wall mazes by computer. <em>IEEE transactions on Computers</em>, C-18(12): 1092 1097 1969. </li>
+<li id="lumelsky-skewis">Lumelsky, V., Skewis, T. Incorporating range sensing in the robot navigation function. <em>IEEE Transactions on Systems, Man and Cybernetics</em>, 20(5): 1058, 1069, 1990.</li>
 </ul>
 
 ## Acknowledgments
