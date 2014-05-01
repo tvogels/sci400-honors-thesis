@@ -24,7 +24,7 @@ It can then follow the edge of the obstacle without knowing about the obstacle's
 
 We study our own algorithm, *BasicAlg*, by which the robot will always try to move in a straight line to $t$. When the robot hits an obstacle, it will follow the shape of the object in the direction that initially minimizes the distance to the target until the path to $t$ is clear again. It will repeat its behavior. We assume without loss of generality that if the robot hits an obstacle perpendicularly, the robot moves counterclockwise along the object's edge. This robotic behavior can be categorized as memoryless and dynamic, since it does not plan its path in advance, but decides on its direction every time it touches an obstacle, solely based on its current position, the position of the target and the gradient of the object it hits.
 
-The paper starts with a literature review of earlier work on this topic and two similar algorithms by Lumelsky and <span class="note">John []</span> in particular. In the following sections, we will evaluate the behavior of our algorithm for cases when the obstacles in the scene are all axis-aligned squares, circles and, similar same-orientation triangles respectively. For squares we provide a tight upper bound on the ratio $\rho = R(S)/d(S)$ over all possible scenes, where $R(S)$ is the length of the path taken by the robot and $d(s)$ the distance between $s$ and $t$. We find numerical bounds for that ratio for a scene with circles, but these bounds are not tight. For triangles, the ratio is not bounded, but we prove that the robot will always reach the target if it follows our algorithm.
+The paper starts with a literature review of earlier work on this topic and two similar algorithms by Lumelsky and <span class="note">John []</span> in particular. In the following sections, we will evaluate the behavior of our algorithm for cases when the obstacles in the scene are all axis-aligned squares, circles and, similar same-orientation triangles respectively. For squares we provide a tight upper bound on the ratio $\rho = |R(S)|/|d(S)|$ over all possible scenes, where $|R(S)|$ is the length of the path taken by the robot and $|d(s)|$ the distance between $s$ and $t$. We find numerical bounds for that ratio for a scene with circles, but these bounds are not tight. For triangles, the ratio is not bounded, but we prove that the robot will always reach the target if it follows our algorithm.
 
 As a student, my role in this project was to (1) conduct a literature survey into previous work on robotic path planning and (2) to extend on the earlier work of Prof. Dr. Henk Meijer and Marijke Hengel by looking into the algorithm for scenes with circles and triangles. I found the proof for guaranteed reachability of $t$ when the obstacles are similar same-orientation triangles under Henk Meijer's supervision.
 
@@ -78,14 +78,54 @@ The two algorithms presented are guaranteed to converge for any scene and can be
 
 
 ## Notation and Conventions
-<div class="status to-be-done"></div>
+<div class="status work-in-progress"></div>
 
+Outline for this section:
 
+* $s$ and $t$ as start and target, $S$ scene
+* Hit points $H_i$
+* Leave points $L_i$
+* Obstacle $O_i$
+* Edge = whole edge
+* Side = side of a polygon obstacle
+* Formal formulation of the algorithm here.
+* If in doubt, take a left.
+* $R(S)$ robot path: $R(A,B)$ path between $A$ and $B$.
+* $d(S)$ distance
+* $o(S)$ optimal path
+* Lengths go like $|R(S)|$.
+* $\rho = \max |R(S)|/|d(S)|$ over all possible pairs of $s$ and $t$ under all configurations under consideration
+* $\lambda = \max |R(S)|/|o(S)|$ over all possible pairs of $s$ and $t$ under all configurations under consideration
+* local direction
+* $L_1$ metric: $|R(S)_{L_1}|$.
+* $x$ and $y$ coordinates: $A_x$, $A_y$
+* $AB$ is the line through $A$ and $B$
 
 ## Equal Size Squares
-<div class="status to-be-done"></div>
+<div class="status work-in-progress"></div>
 
-This section goes through the earlier work by Henk and Marijke on equal size squares. It basically gives the proof as presented in <code>paper.henk.pdf</code>.
+This section goes through the earlier work by Prof. Dr. Henk Meijer and Marijke Hengel, that was conducuted in the setting of an honors thesis. They investigated the configurations for the space $S$ where all obstacles are *equal size axis-aligned squares*. This chapter includes their findings. Firstly,  will first show two lemmas. The first lemma
+will show that if there is only one obstacle,
+then $\rho < 3$ and for any $\epsilon > 0$ there are are configurations
+such that $\rho > 3-\epsilon$. In the second lemma we show 
+that if $S$ and $T$ are restricted to 
+lie on the same horizontal or vertical line and there are arbitrarily many 
+obstacles,  we also have 
+$\rho < 3$ and for any $\epsilon > 0$ there are configurations
+such that $\rho  > 3-\epsilon$.
+
+<div class="lemma" id="le:onesquareupper">
+    If there is one rectangular obstacle in $S$, we have $R(S) < 3d(S)$.
+</div>
+<div class="proof">
+<p>
+    Let $S$ and $T$ be two points. If $ST$ does not intersect the interior of the obstacle, we have $|R(S,T)| = d(S,T)$. If $ST$ intersects two consecutive edges of the obstacle, we have $|R(S,T)| < |R(S,T)|_{L_1} \leq \sqrt 2 \cdot d(S,T)$ since $\sqrt 2 $ is the maximum ratio between the hypotenuse and the sum of the lengths of a right-angle triangle. So in both cases the lemma holds.
+</p>
+<p>
+    Now assume that  $ST$ intersects two opposite edges of the obstacle and that the ratio $|R(S,T)|_{L_1} / d(S,T) $ is maximal. Without loss of generality assume that the obstacle is axis-aligned with corners at (0,0) and (1,1), that $ST$ intersects the vertical edges of the obstacle and that $S_x < T_x$. If $S_y < T_y$ we can increase $S_y$ by some small value $\delta$ and decrease $T_y$ by  $\delta$ so that $|R(S,T)|_{L_1}$ remains unchanged and $d(S,T) $ decreases, which shows that the ratio $|R(S,T)|_{L_1} / d(S,T) $ is not maximal. Similarly, the ratio cannot be maximal when $S_y > T_y$, so $S_y = T_y$. If $S_x < 0$ we can increase $S_x$ by some small value $\delta$ so that $|R(S,T)|_{L_1}$ and $d(S,T)$ decrease by $\delta$ so the ratio $|R(S,T)|_{L_1} / d(S,T) $ increases. Therefore $S_x = 0$ and similarly we show that $T_x = 1$. It is now not hard to see that $|R(S,T)|_{L_1} / d(S,T) < 3.$
+</p>
+</div>
+
 
 
 ## Circles
