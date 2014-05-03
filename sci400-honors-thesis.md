@@ -298,11 +298,11 @@ Similarly, we can look at the performance of *Bug2* in this particular set of sc
 
 
 
-## Axis Aligned Squares of Any Size
+<!-- ## Axis Aligned Squares of Any Size
 <div class="status to-be-done"></div>
 
 I forgot that we have these results as well. I have to add this section and fix references in the rest of the paper. Somewhere I speak about *3 sections*, that should be 4. Furthermore, I introduce the results in the intro, etc.
-
+ -->
 
 
 
@@ -310,12 +310,13 @@ I forgot that we have these results as well. I have to add this section and fix 
 ## Circles
 <div class="status work-in-progress"></div>
 
-This section investigates scenes in which all obstacles are circles. Although we could not find exact solutions, we managed to find numerical upper- and lowerbounds on $\rho$. These bounds are not yet tight. Again, we prove the bounds in the structure of a series of lemmas. The first lemma will show that if there is only one obstacle, then $1.06 < \rho < \pi/2$. We also show that is there are an arbitrary number of obstacles then $1.33 < \rho < 2$. Lastly we show how with the help of Mathematica we can tighten the above bounds. 
+This section investigates scenes in which all obstacles are circles. Although we could not find exact solutions, we managed to find numerical upper- and lower bounds on $\rho$. These bounds are not yet tight. Again, we prove the bounds in the structure of a series of lemmas. The first lemma will show that if there is only one obstacle, then $1.06 < \rho < \pi/2$. We also show that is there are an arbitrary number of obstacles then $1.33 < \rho < 2$. Lastly we show how with the help of *Mathematica* we can tighten the above bounds. 
 
 
-<div class="lemma" id="le:onediskupper">If there is one circular obstacle, then 
+<div class="lemma" id="le:onediskupper">
+If the scene contains one circular obstacle, then 
     
-[[ \frac{|R(S,T)|}{d(S,T)} \leq \pi/2 ]]
+[[ \frac{|R(S,T)|}{d(S,T)} \leq \tfrac{1}{2}\pi ]]
 
 </div>
 
@@ -555,6 +556,13 @@ Other shapes?
 <li id="lumelsky-skewis">Lumelsky, V., Skewis, T. Incorporating range sensing in the robot navigation function. <em>IEEE Transactions on Systems, Man and Cybernetics</em>, 20(5): 1058, 1069, 1990.</li>
 </ul>
 
-## Acknowledgments
-<div class="status to-be-done"></div>
+<div style="page-break-before:always;"></div>
+
+**Acknowledgments**
+
+I am very grateful to my supervisor, Henk Meijer, for guiding me through this project. Working on a project with an open end and no guaranteed results is hard, and all our weekly meetings have inspired me again and again to try a different angle when I was stuck, or to focus when necessary. Doing this project with Henk has been very instructive, but above all, lots of fun.
+
+
+
+
 
