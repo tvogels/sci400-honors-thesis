@@ -98,13 +98,14 @@ Outline for this section:
 * Lengths go like $|R(S,T)|$.
 * $\rho = \max |R(S,T)|/|O(S,T)|$ over all possible pairs of $S$ and $T$ under all configurations under consideration
 * $\lambda = \max |R(S,T)|/d(S,T)$ over all possible pairs of $S$ and $T$ under all configurations under consideration
+* Note that always $\lambda >= \rho$.
 * local direction
 * $L_1$ metric: $|R(S,T)|_{L_1}$.
 * $x$ and $y$ coordinates: $A_x$, $A_y$
 * $AB$ is the line through $A$ and $B$
 
 ## Equal Size Squares
-<div class="status first-draft"></div>
+<div class="status full-draft"></div>
 
 This section goes through the earlier work by Prof. Dr. Henk Meijer and Marijke Hengel, that was conducted in the setting of an honors thesis. They investigated the configurations for the space $S$ where all obstacles are *equal size axis-aligned squares*. This section includes their findings. It is the first of three sections that each try to find bounds on the length of the robot path $|R(S,T)|$ for *BasicAlg* in a specific type of scenes.
 
@@ -176,7 +177,7 @@ The above lemma implies that if $S_x = T_x$ and $S_y < T_y$ there is no point $P
 <div class="lemma" id="le:STalignedlower">
 If $S$ and $T$ lie on the same horizontal or vertical line, and the obstacles are equal size axis aligned squares, then there is a configuration for which 
 
-[[ \frac{|R(S,T)|}{o(S,T)} > 3 - \epsilon ]]
+[[ \frac{|R(S,T)|}{O(S,T)} > 3 - \epsilon ]]
 
 for any, however small $\epsilon > 0$.
 </div>
@@ -200,7 +201,7 @@ and
 
 [[ \lim_{\delta \rightarrow 0} \frac{3(n+1)} {(n+1) (1+\delta)} = 3, ]]
 
-<p>so using <a href="#le:STalignedlower" class="lemref"></a> we know that $|R(S,T)|/|o(S,T)| < 3$. We conclude that the lemma holds.</p>
+<p>so using <a href="#le:STalignedlower" class="lemref"></a> we know that $|R(S,T)|/|O(S,T)| < 3$. We conclude that the lemma holds.</p>
 </div>
 
 
@@ -218,7 +219,10 @@ and
 
 
 <div class="lemma" id="le:equalsquaresupper">
-    If the obstacles are equal size axis aligned squares, we have $|R(S,T)| < \sqrt{10} \cdot d(S,T)$.
+If the obstacles are equal size axis aligned squares, we have 
+
+[[ \lambda = \max \frac{|R(S,T)|}{d(S,T)} < \sqrt{10}. ]]
+
 </div>
 
 <div class="proof">
@@ -241,20 +245,20 @@ and
 <div class="lemma" id="le:equalsquareslower">
 If the obstacles are equal size axis aligned squares, then there is a configuration for which 
 
-[[ \frac{|R(S,T)|}{|O(S,T)|} > \sqrt{10} - \epsilon ]]
+[[ \rho = \max \frac{|R(S,T)|}{|O(S,T)|} > \sqrt{10} - \epsilon ]]
 
 for any $\epsilon > 0$.
 </div>
 
 <div class="proof">
 <p>
-    Let $k$ be a large even integer and let $\delta \leq 1/k$. For an illustration of the construction in this proof, see <a href="#fig:equalsquares" class="figref"></a>, where $k=4$. In the figure we used  $\delta = 1/8$. Place  $S$  at (0,0) and $T$ at $(3k(1+\delta)+ (k-1)\delta,k)$. Place $7k-1$ rectangles as follows. Place square 1 with its left-bottom corner at $(0,-\delta)$. For $1 < i\leq k+1$, place square $i$ on top of square $i-1$, shifted $\delta$ to the right. Place square $k+2$ to the right of square $k+1$, and shift it up by $2\delta$. Place square $k+3$ below square $k+2$, and shift it right by $\delta$. Place square $k+4$ to the right of square $k+3$, and shift it down by $2\delta$. Place square $k+5$ above square $k+4$, and shift it right by $\delta$. As shown in the figure, we keep adding squares in groups of two, by repeating the last 4 placements. Notice that the heuristic path zigzags through the odd numbered squares that have numbers $> k$.
+    Let $k$ be a large even integer and let $\delta \leq 1/k$. For an illustration of the construction in this proof, see <a href="#fig:equalsquares" class="figref"></a>, where $k=4$. In the figure we used  $\delta = 1/8$. Place $S$ at (0,0) and $T$ at $( 3k(1+\delta)+(k-1)\delta,k)$. Place $7k-1$ rectangles as follows. Place square 1 with its left-bottom corner at $(0,-\delta)$. For $1 < i \leq k+1$, place square $i$ on top of square $i-1$, shifted $\delta$ to the right. Place square $k+2$ to the right of square $k+1$, and shift it up by $2\delta$. Place square $k+3$ below square $k+2$, and shift it right by $\delta$. Place square $k+4$ to the right of square $k+3$, and shift it down by $2\delta$. Place square $k+5$ above square $k+4$, and shift it right by $\delta$. As shown in the figure, we keep adding squares in groups of two, by repeating the last 4 placements. Notice that the heuristic path zigzags through the odd numbered squares that have numbers $> k$.
 </p>
 <p>
-    We have $|R(S,T)| \approx k + 3\cdot 3k = 10k$ and $|o(S,T)| \approx \sqrt{k^2 + (3k)^2} $ so
+    We have $|R(S,T)| \approx k + 3\cdot 3k = 10k$ and $|O(S,T)| \approx \sqrt{k^2 + (3k)^2} $ so
 </p>
 
-[[ |R(S,T)|  \approx \sqrt{10} \cdot |o(S,T)|. ]]
+[[ |R(S,T)|  \approx \sqrt{10} \cdot |O(S,T)|. ]]
 
 <p>
     We can show that we can show $k$ such that the fraction is arbitrarily close to $\sqrt{10}$. We have
@@ -262,7 +266,7 @@ for any $\epsilon > 0$.
 
 [[ |R(S,T)| > k  + 3k (3 - 2\delta) = 10k - 6k\delta \geq 10k - 6. ]]
 
-[[ |o(S,T)| < 2 + \sqrt{(3k (1+\delta))^2 + k^2} = 2 + k\sqrt{10   + 18 \delta  + 9 \delta^2}. ]]
+[[ |O(S,T)| < 2 + \sqrt{(3k (1+\delta))^2 + k^2} = 2 + k\sqrt{10   + 18 \delta  + 9 \delta^2}. ]]
 
 <p>Since $\delta \leq 1/k$ we have </p>
 
@@ -277,20 +281,27 @@ for any $\epsilon > 0$.
 
 <div class="proof">
 <p>
-    This follows from <a href="#le:equalsquaresupper" class="lemref"></a> and <a href="#le:equalsquareslower" class="lemref"></a>.
+    This follows from <a href="#le:equalsquaresupper" class="lemref"></a> and <a href="#le:equalsquareslower" class="lemref"></a> using the fact that $\rho < \lambda$.
 </p>
 </div>
 
-### Results in Contrast 
+### Comparing Performance 
 
-<div class="note">Compare the results with previous work.</div>
+Comparing the results in this section with the performance of Lumelsky and Stepanov's *Bug1* and *Bug2* algorithms <a href="#lumelsky3" class="ref"></a>, we find in the limiting case of $d(S,T)=|O(S,T)|\to \infty$ and filling in $p_i=4$ that for *Bug1* $|R(S,T)| \leq d(S,T) + 6 d(S,T)$, so $\rho \leq 7$. The performance of this algorithm is in this specific situation significantly lower than that of *BasicAlg*, even though the robot for *Bug1* has slightly higher requirements.
 
-
-
-
+Similarly, we can look at the performance of *Bug2* in this particular set of scenes. We find that for *Bug2*, $\rho \leq 5$. Using Lumelsky and Stepenov's result that $|R(S,T)| \geq d(S,T) + \Sigma\,p_i-\epsilon$, we can see that at least for *Bug2*, this bound on $\rho$ is tight.
 
 
 
+
+
+
+
+
+## Axis Aligned Squares of Any Size
+<div class="status to-be-done"></div>
+
+I forgot that we have these results as well. I have to add this section and fix references in the rest of the paper. Somewhere I speak about *3 sections*, that should be 4. Furthermore, I introduce the results in the intro, etc.
 
 
 
