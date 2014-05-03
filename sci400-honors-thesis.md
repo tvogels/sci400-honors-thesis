@@ -36,7 +36,7 @@ As a student, my role in this project was to (1) conduct a literature survey int
 ## Related Theoretical Work
 <div class="status full-draft"></div>
 
-The first classification that can be applied to the broad field of motion planning is that of *off-line* and *online* algorithms. *Off-line* algorithms are provided complete information about the scene. The challenge for an off-line algorithm is to find the optimal path for the robot through a scene with a number of known obstacles. These algorithms can be used for robots that are supplied with a map of their surroundings. The paths can be planned in advance, without the robot moving at all. The issues that are dealt with in this branch of motion planning are often related to computational complexity <div class="note">[]</div> and with approximations for the shape of the scene and the robot <div class="note">[]</div>. Because most of the algorithms make use of connectivity graphs, all shapes must be approximated by polygons in order for the planning algorithms to run in limited time and space. *Online* algorithms on the other hand are implemented in behavior of a robot. The algorithms are therefore also termed 'dynamic'. The algorithms run continuously throughout the path of the robot and use the robot's current position and sensory information as input. Of course, off-line algorithms can give more guarantees than online algorithms, but most often, complete information is unavailable. In such situations, one must resort to a online algorithm. Another advantage of online algorithms is that they are mostly not computationally intensive: they often rely on simple choices that are to be made continuously. This paper's direction of choice is into dynamic (i.e. online) algorithms. The algorithm that is proposed in this paper is also classified as online.
+The first classification that can be applied to the broad field of motion planning is that of *off-line* and *on-line* algorithms. *Off-line* algorithms are provided complete information about the scene. The challenge for an off-line algorithm is to find the optimal path for the robot through a scene with a number of known obstacles. These algorithms can be used for robots that are supplied with a map of their surroundings. The paths can be planned in advance, without the robot moving at all. The issues that are dealt with in this branch of motion planning are often related to computational complexity <div class="note">[]</div> and with approximations for the shape of the scene and the robot <div class="note">[]</div>. Because most of the algorithms make use of connectivity graphs, all shapes must be approximated by polygons in order for the planning algorithms to run in limited time and space. *On-line* algorithms on the other hand are implemented in behavior of a robot. The algorithms are therefore also termed 'dynamic'. The algorithms run continuously throughout the path of the robot and use the robot's current position and sensory information as input. Of course, off-line algorithms can give more guarantees than on-line algorithms, but most often, complete information is unavailable. In such situations, one must resort to a on-line algorithm. Another advantage of on-line algorithms is that they are mostly not computationally intensive: they often rely on simple choices that are to be made continuously. This paper's direction of choice is into dynamic (i.e. on-line) algorithms. The algorithm that is proposed in this paper is also classified as on-line.
 
 A second subdivision that can be made is in the requirements for the robot's sensors. A substantial part of research is done into robots that have a vision sensor, and therefore have complete information on the part of the scene they look at. These algorithms tend to combine off-line methods for local optimality with a dynamic approach for the global algorithm <a href="#ando" class="ref"></a> <a href="#kareti" class="ref"></a>. Early work on navigation with visual information was carried out by Sutherland <a href="#sutherland" class="ref"></a> and Lumelsky & Skewis <a href="#lumelsky-skewis" class="ref"></a>, and research into navigation with visual information is still an active topic <div class="note">[]</div>. The alternative to the use of vision sensors are touch sensors. This type of robot only receives feedback the moment it touches an obstacles. Our algorithm falls in the second category, which is therefore more relevant to this paper.
 
@@ -99,89 +99,86 @@ Outline for this section:
 * $\rho = \max |R(S,T)|/|O(S,T)|$ over all possible pairs of $S$ and $T$ under all configurations under consideration
 * $\lambda = \max |R(S,T)|/d(S,T)$ over all possible pairs of $S$ and $T$ under all configurations under consideration
 * local direction
-* $L_1$ metric: $|R(S,T)_{L_1}|$.
+* $L_1$ metric: $|R(S,T)|_{L_1}$.
 * $x$ and $y$ coordinates: $A_x$, $A_y$
 * $AB$ is the line through $A$ and $B$
 
 ## Equal Size Squares
-<div class="status work-in-progress"></div>
+<div class="status first-draft"></div>
 
-This section goes through the earlier work by Prof. Dr. Henk Meijer and Marijke Hengel, that was conducuted in the setting of an honors thesis. They investigated the configurations for the space $S$ where all obstacles are *equal size axis-aligned squares*. This chapter includes their findings. Firstly,  will first show two lemmas. The first lemma
-will show that if there is only one obstacle,
-then $\rho < 3$ and for any $\epsilon > 0$ there are are configurations
-such that $\rho > 3-\epsilon$. In the second lemma we show 
-that if $S$ and $T$ are restricted to 
-lie on the same horizontal or vertical line and there are arbitrarily many 
-obstacles,  we also have 
-$\rho < 3$ and for any $\epsilon > 0$ there are configurations
-such that $\rho  > 3-\epsilon$.
+This section goes through the earlier work by Prof. Dr. Henk Meijer and Marijke Hengel, that was conducted in the setting of an honors thesis. They investigated the configurations for the space $S$ where all obstacles are *equal size axis-aligned squares*. This section includes their findings. It is the first of three sections that each try to find bounds on the length of the robot path $|R(S,T)|$ for *BasicAlg* in a specific type of scenes.
+
+We will derive a tight bound of $\rho = \sqrt{10}$ on the length of the robot path over the optimal path, but first, we will show that if there is only one obstacle, then $\rho < 3$ and for any, however small $\epsilon > 0$ there are are configurations such that $\rho > 3-\epsilon$. Secondly, we show that if $S$ and $T$ are restricted to lie on the same horizontal or vertical line and there are arbitrarily many obstacles, we also have $\rho < 3$ and that for any $\epsilon > 0$ there are configurations such that $\rho  > 3-\epsilon$. Finally, all pieces can be brought together in finding that for any scene with obstacles that are axis-aligned unit squares, there is a tight bound of $3 - \epsilon < \rho < 3$. The structure of the proof is divided into several lemmas.
 
 <div class="lemma" id="le:onesquareupper">
-    If there is one rectangular obstacle in $S$, we have $R(S,T) < 3d(S,T)$.
+    If the scene contains exactly one square obstacle, we have $|R(S,T)| < 3d(S,T)$.
 </div>
 <div class="proof">
 <p>
-    Let $S$ and $T$ be two points. If $ST$ does not intersect the interior of the obstacle, we have $|R(S,T)| = d(S,T)$. If $ST$ intersects two consecutive edges of the obstacle, we have $|R(S,T)| < |R(S,T)|_{L_1} \leq \sqrt 2 \cdot d(S,T)$ since $\sqrt 2 $ is the maximum ratio between the hypotenuse and the sum of the lengths of a right-angle triangle. So in both cases the lemma holds.
+    Let $S$ and $T$ be two points. If $ST$ does not intersect the interior of the obstacle, we have $|R(S,T)| = d(S,T)$. Now define a coordinate system along the sides of the obstacle. If $ST$ intersects two consecutive sides of the obstacle, we have $|R(S,T)| < |R(S,T)|_{L_1} \leq \sqrt 2 \cdot d(S,T)$ since $\sqrt 2 $ is the maximum ratio between the hypotenuse and the sum of the lengths of a right-angle triangle. So in both cases the lemma holds.
 </p>
 <p>
-    Now assume that  $ST$ intersects two opposite edges of the obstacle and that the ratio $|R(S,T)|_{L_1} / d(S,T) $ is maximal. Without loss of generality assume that the obstacle is axis-aligned with corners at (0,0) and (1,1), that $ST$ intersects the vertical edges of the obstacle and that $S_x < T_x$. If $S_y < T_y$ we can increase $S_y$ by some small value $\delta$ and decrease $T_y$ by  $\delta$ so that $|R(S,T)|_{L_1}$ remains unchanged and $d(S,T) $ decreases, which shows that the ratio $|R(S,T)|_{L_1} / d(S,T) $ is not maximal. Similarly, the ratio cannot be maximal when $S_y > T_y$, so $S_y = T_y$. If $S_x < 0$ we can increase $S_x$ by some small value $\delta$ so that $|R(S,T)|_{L_1}$ and $d(S,T)$ decrease by $\delta$ so the ratio $|R(S,T)|_{L_1} / d(S,T) $ increases. Therefore $S_x = 0$ and similarly we show that $T_x = 1$. It is now not hard to see that $|R(S,T)|_{L_1} / d(S,T) < 3.$
+    Now assume that $ST$ intersects two opposite edges of the obstacle and that the ratio $|R(S,T)|_{L_1} / d(S,T) $ is maximal. Without loss of generality assume that the obstacle is axis-aligned with corners at (0,0) and (1,1), that $ST$ intersects the vertical edges of the obstacle and that $S_x < T_x$. If $S_y < T_y$ we can increase $S_y$ by some small value $\delta$ and decrease $T_y$ by $\delta$ so that $|R(S,T)|_{L_1}$ remains unchanged and $d(S,T)$ decreases. In this case, the ratio $|R(S,T)|_{L_1} / d(S,T)$ was clearly not maximal. Similarly, the ratio cannot be maximal when $S_y > T_y$, so $S_y = T_y$. If $S_x < 0$ we can increase $S_x$ by some small value $\delta$ so that $|R(S,T)|_{L_1}$ and $d(S,T)$ decrease by $\delta$ so the ratio $|R(S,T)|_{L_1} / d(S,T) $ increases. Therefore $S_x = 0$ and similarly we show that $T_x = 1$. It is now not hard to see that $|R(S,T)|_{L_1} / d(S,T) < 3.$
 </p>
 </div>
 
-We say that a path is $x$-monotone if the $x$-coordinates of a point
-that travels along the path do not decrease or do not increase. 
-We define $y$-monotone similarly.
+<div class="definition" id="def:monotone">
+    We say that a path is $x$-monotone if the $x$-coordinates of a point that travels along the path do not decrease or do not increase. We define $y$-monotone similarly.
+</div>
 
 <div class="lemma" id="le:monotone">
-    Consider obstacles that are axis-aligned rectangles. Let $P$ be a point on the path $R(S,T)$  with $P_x < T_x$ and $P_y < T_y$. Assume  that $R(S,T)$ immediately after $P$ travels in direction $(a,b)$ with $a\geq 0$ and $b\geq 0$. If $R$ is the first point on $R(S,T)$ after $P$ with $R_x = T_x$ or $R_y = T_y$ then the path $R(S,T)$ from $P$ to $R$ is $x$- and $y$-monotone.
+    Consider a scene with obstacles that are axis-aligned rectangles. Let $P$ be a point on the path $R(S,T)$ with $P_x < T_x$ and $P_y < T_y$. Assume that $R(S,T)$ immediately after $P$ travels in direction $(a,b)$ with $a \geq 0$ and $b \geq 0$. If $R$ is the first point on $R(S,T)$ after $P$ with $R_x = T_x$ or $R_y = T_y$ then the path $R(S,T)$ from $P$ to $R$ is $x$- and $y$-monotone.
 </div>
 
 <div class="proof">
 <p>
-    After the point $P$, the path $R(S,T)$ will first travel along the line segment $PT$. If $R(S,T)$ hits a left vertical boundary of an obstacle, it will continue to travel in direction $(0,1)$. If $R(S,T)$ hits a bottom horizal boundary of an obstacle, it will continue to travel in direction $(1,0)$. In either case, it will continue to travel in direction $(0,1)$ or $(1,0)$ until it either hits the $x$- or the $y$-axis, or reaches another point $Q$ from which it travels along the line segment $QT$ and then we can repeat the argument. So $x$- and $y$-coordinates do not decrease.
+    After the point $P$, the path $R(S,T)$ will first travel along the line segment $PT$. If $R(S,T)$ hits a left vertical boundary of an obstacle, it will continue to travel in direction $(0,1)$. If $R(S,T)$ hits a bottom horizontal boundary of an obstacle, it will continue to travel in direction $(1,0)$. In either case, it will continue to travel in direction $(0,1)$ or $(1,0)$ until it either hits the $x$- or the $y$-axis, or reaches another point $Q$ from which it travels along the line segment $QT$. In that case we can repeat the argument. We conclude that both the $x$- and $y$-coordinates do not decrease.
 </p>
 </div>
 
 <div class="lemma" id="le:closetoxaxis">
-    Consider obstacles that are equal size unit squares. Suppose $S$ and $T$ lie on the $x$-axis. Then $-1<P_y < 1$ for any point on $R(S,T)$.
+    Consider obstacles that are equal size unit squares. Suppose $S$ and $T$ lie on the $x$-axis. In this case any point on $R(S,T)$ is bounded to the box with $-1 < P_y < 1$.
 </div>
 
 <div class="proof">
 <p>
-    Without loss of generality assume that $S$ and $T$ lie on the $x-$axis with $S_x < T_x$. Consider  $P_y$ to be a function whose parameter is a point $P$ that travels on $R(S,T)$ from $S$ to $T$ and whose value is the $y$-coordinate of $P$.Observe that the absolute value of $P_y$ can only increase if $P$ lies on the left vertical boundary of an obstacle (and not on a corner of the obstacle). The point $P$ travels upward if the first point of $R(S,T)$ on this boundary edge has a $y$-coordinate  $\leq 0$, and downwards if it postive. In both cases it follws that $-1 < P_y < 1$ for all points $P$. 
+    Without loss of generality, assume that $S$ and $T$ lie on the $x-$axis with $S_x < T_x$. Consider $P_y$ to be a function whose parameter is a point $P$ that travels along $R(S,T)$ from $S$ to $T$ and whose value is the $y$-coordinate of $P$. Observe that the absolute value of $P_y$ can only increase if $P$ lies on the left vertical side of an obstacle (and not on a corner of the obstacle). The point $P$ travels upward if the first point of $R(S,T)$ on this side has a $y$-coordinate  $\leq 0$, and downwards if it positive. In both cases it follows that $-1 < P_y < 1$ for all points $P$. 
 </p>
 </div>
 
-The above lemma implies that if $S_x = T_x$ and $S_y < T_y$ there is no point $P$ on $R(S,T)$ with $P_x > T_x$: let $Q$ be the first point of $R(S,T)$ with $Q_x = T_x$. Since $-1 < Q_y < 1$ there can be no obstacle between $Q$ and $T$, so after $Q$, the path $R(S,T)$ stays on the line $x = T_x$.
+The above lemma implies that if $S_x = T_x$ and $S_y < T_y$ there is no point $P$ on $R(S,T)$ with $P_y > T_y$: let $Q$ be the first point of $R(S,T)$ with $Q_y = T_y$. Since $-1 < Q_x < 1$ there can be no obstacle between $Q$ and $T$, so after $Q$, the path $R(S,T)$ stays on the line $y = T_y$.
 
 <div class="lemma" id="le:STalignedupper">
-    If $S$ and $T$ lie on the same horizontal or vertical line, and the obstacles are axis aligned unit squares, we have  $R(S,T) < 3d(S,T)$.
+    If $S$ and $T$ lie on the same horizontal or vertical line, and the obstacles are axis aligned unit squares, we have $R(S,T) < 3d(S,T)$.
 </div>
 
 <div class="proof">
 <p>
-Let $n$ be the number of obstacles. We prove the lemma by induction on $n$. If $n=1$ the lemma holds by <a href="#le:onesquareupper" class="lemref"></a>. So assume that the lemma holds if there are $n$ obstacles where $n \geq 1$. Now assume that there are $n+1$ obstacles. The path $R(S,T)$ first travels to the right on the $x$-axis until it hits the first obstacle at a point $U$. The path then travels upwards along the obstacle. So the path continues until it hits the right top corner $V$ of the obstacle. From $V$ the path travels in a direction $(a,b)$ with $a > 0$ and $b\leq 0$. By <a href="#le:monotone" class="lemref"></a> we derive that the path after $SV$ has monotone $x$- and $y$- coordinates until it reaches the $x$-axis at $W$ or the $y$-axis at point $Z$. In the latter case we derive from <a href="#le:STalignedupper" class="lemref"></a> that $-1 < Z_y > 1$ so $R(S,T)$ from $Z$ to $T$ follows the $y$-axis, so the statement of the lemma holds. If the path reaches $W$, we know that from the inductive assumption that 
+    Let $n$ be the number of obstacles. We prove the lemma by induction on $n$. If $n=1$ the lemma holds by <a href="#le:onesquareupper" class="lemref"></a>. Assume that the lemma holds if there are $n$ obstacles for some $n \geq 1$. Now assume that there are $n+1$ obstacles. Assume without loss of generality that $S$ and $T$ are both on the $x$-axis with $S_x < T_x$. The path $R(S,T)$ then first travels to the right on the $x$-axis until it hits the first obstacle at a point $H_1$. The path then runs upwards along the side of the obstacle. So the path continues until it hits the right top corner $L_1$ of the obstacle. From $L_1$ the path travels in a direction $(a,b)$ with $a > 0$ and $b \leq 0$.
+</p>
+<P>
+    By <a href="#le:monotone" class="lemref"></a> we derive that the path after $H_1$ and $L_1$ has monotone $x$- and $y$- coordinates until it reaches the $x$-axis at $W$ or the $y$-axis at point $Z$. In the latter case we derive from <a href="#le:STalignedupper" class="lemref"></a> that $-1 < Z_y > 1$ so $R(S,T)$ from $Z$ to $T$ follows the $y$-axis and the statement of the lemma holds. If the path reaches $W$, we know that from the inductive assumption that 
 </p>
 
-[[ |R(W,T)| < 3|d(W,T)|. ]]
+[[ |R(W,T)| < 3d(W,T). ]]
 
 <p>Moreover we have</p>
 
-[[ |R(S,W) \leq |SU| + |UV| + d_{L_1} (V,W)  \leq 3d(U,W) ]]
+[[ |R(S,W) \leq |SH_1| + |H_1L_1| + d_{L_1} (L_1,W)  \leq 3d(H_1,W), ]]
 
 <p>so</p>
 
-[[ |R(S,T)| ~=~ |R(S,W)| + |R(W,T)| ~<~ 3 d(S,W) +  3 d(W,T) ~=~ 3d(S,T). ]]
+[[ |R(S,T)| = |R(S,W)| + |R(W,T)| < 3 d(S,W) +  3 d(W,T) = 3d(S,T). ]]
 
 <p>So the lemma holds.</p>
 </div>
 
 <div class="lemma" id="le:STalignedlower">
-If  $S$ and $T$ lie on the same horizontal or vertical line, and the obstacles are equal size axis aligned squares, then there is a configuration for which 
+If $S$ and $T$ lie on the same horizontal or vertical line, and the obstacles are equal size axis aligned squares, then there is a configuration for which 
 
-[[ \frac{|R(S,T)|}{o(S,T)} ~>~ 3 - \epsilon ]]
+[[ \frac{|R(S,T)|}{o(S,T)} > 3 - \epsilon ]]
 
-for any $\epsilon > 0$.
+for any, however small $\epsilon > 0$.
 </div>
 
 <figure id="fig:equalsquares">
@@ -190,22 +187,24 @@ for any $\epsilon > 0$.
 </figure>
 
 <div class="proof">
-<p>Let $n$ be odd and $0 < \delta < 1$. Let $S = (0,0)$ and $T = ((n+1)/2+(n-3)\delta,0)$. Place obstacle 1 with its left-bottom corner at $(0,\-\delta$. Place square $2$ to the right of square $1$, and shift it up by $2\delta$. Place square $3$ below square $2$, and shift it right by $\delta$. Place square $4$ to the right of square $3$, and shift it down by $2\delta$. Place square $5$ above square $4$, and shift it right by $\delta$. We keep adding squares in groups of two, by repeating the last 4 placements. Notice that the heuristic path zigzags through the odd numbered squares. The placement of the obstacles is illustrated in the placement of the squares numbers 4 though 27 <a href="#fig:equalsquares" class="figref"></a>. We have</p>
+<p>This is a proof by construction. Let the number of obstacles $n$ be odd and define some constant $\delta$ with $0 < \delta < 1$. Let $S = (0,0)$ and $T = ((n+1)/2+(n-3)\delta,0)$. Place obstacle 1 with its left-bottom corner at $(0,-\delta)$. Place square $2$ to the right of square $1$, and shift it up by $2\delta$. Place square $3$ below square $2$, and shift it right by $\delta$. Place square $4$ to the right of square $3$, and shift it down by $2\delta$. Place square $5$ above square $4$, and shift it right by $\delta$. We keep adding squares in groups of two, by repeating the last 4 placements. Notice that the heuristic path zigzags through the odd numbered squares. The placement of the obstacles is illustrated in <a href="#fig:equalsquares" class="figref"></a>. We have</p>
 
 
-[[ |R(S,T)| ~>~ \frac{3(n+1)}{2} ]]
+[[ |R(S,T)| > \frac{3(n+1)}{2} ]]
 
-[[ d(S,T) < \frac{n+1}{2} (1+ \delta) ]]
+and
 
-<p>We have</p>
+[[ d(S,T) < \frac{n+1}{2} (1+\delta) ]]
 
-[[ \lim_{\delta \rightarrow 0} \frac{3(n+1)} {(n+1) (1+ \delta)} = 3. ]]
+<p>Furthermore, we know that</p>
 
-<p>From <a href="#le:STalignedlower" class="lemref"></a> we know that $|R(S,T)|/|o(S,T)| < 3$. So the lemma holds.</p>
+[[ \lim_{\delta \rightarrow 0} \frac{3(n+1)} {(n+1) (1+\delta)} = 3, ]]
+
+<p>so using <a href="#le:STalignedlower" class="lemref"></a> we know that $|R(S,T)|/|o(S,T)| < 3$. We conclude that the lemma holds.</p>
 </div>
 
 <div class="lemma" id="le:STaligned">
-    If $S$ and $T$ lie on the same horizontal or vertical line, and the obstacles are equal size axis aligned squares, we have $3-\epsilon < \rho < 3$  for any $\epsilon > 0$.
+    If $S$ and $T$ lie on the same horizontal or vertical line, and the obstacles are equal size axis aligned squares, we have $3 - \epsilon < \rho < 3$  for any $\epsilon > 0$.
 </div>
 
 <div class="proof">
@@ -215,7 +214,7 @@ for any $\epsilon > 0$.
 </div>
 
 <div class="lemma" id="le:equalsquaresupper">
-    If the obstacles are equal size axis aligned squares, we have $|R(S,T)| < \sqrt{10}\cdot d(S,T)$.
+    If the obstacles are equal size axis aligned squares, we have $|R(S,T)| < \sqrt{10} \cdot d(S,T)$.
 </div>
 
 <div class="proof">
@@ -223,29 +222,29 @@ for any $\epsilon > 0$.
     Without loss of generality assume that $S_x < 0$, $S_y < 0$ and $T = (0,0)$. From <a href="#le:monotone" class="lemref"></a> we derive that $(R(S,T)$ is initially $x$- and $y$-monotone until it intersects that $x$- or $y$-axis for the first time, at point $P$ say. Without loss of generality assume that $P$ lies on the $x$-axis. Let $Q = (S_x,0)$. We have
 </p>
 
-[[ |R(S,T)| &~\leq~ d_{L_1}(S,P) + |R(P,T)| \\ &~<~ d(S,Q) + d(Q,p) + 3d(P,T)
+[[ |R(S,T)| &~\leq~ d_{L_1}(S,P) + |R(P,T)| \\ &< d(S,Q) + d(Q,p) + 3d(P,T)
 \leq d(S,Q) + 3d(Q,T). ]]
 
 <p>
     Consider the function $f(a,b) = (a+3b)/\sqrt{a^2 + b^2}$. By computing the gradient of $f$ and setting it to (0,0), we can find that the maximum value of $f$ occurs at $a=1$ and $b=3$. So we have $f(a,b) \leq  \sqrt {10}$. Let $a = d(S,Q)$ and $b =  d(Q,T)$. So we have
 </p>
 
-[[ \frac{|R(S,T)|}{d(S,T)} ~<~ \frac{a+3b}{\sqrt{a^2 + b^2}} ~\leq~ \sqrt{10}. ]]
+[[ \frac{|R(S,T)|}{d(S,T)} < \frac{a+3b}{\sqrt{a^2 + b^2}} ~\leq~ \sqrt{10}. ]]
 
 <p>This proves the lemma.</p>
 </div>
 
 <div class="lemma" id="le:equalsquareslower">
-If  the obstacles are equal size axis aligned squares, then there is a configuration for which 
+If the obstacles are equal size axis aligned squares, then there is a configuration for which 
 
-[[ \frac{|R(S,T)|}{o(S,T)} ~>~ \sqrt {10} - \epsilon ]]
+[[ \frac{|R(S,T)|}{o(S,T)} > \sqrt {10} - \epsilon ]]
 
 for any $\epsilon > 0$.
 </div>
 
 <div class="proof">
 <p>
-    Let $k$ be a large even integer and let $\delta \leq 1/k$. For an illustration of the construction in this proof, see <a href="#fig:equalsquares" class="figref"></a>, where $k=4$. In the figure we used  $\delta = 1/8$. Place  $S$  at (0,0) and $T$ at $(3k(1+\delta)+ (k-1)\delta,k)$. Place $7k-1$ rectangles as follows. Place  square 1 with its left-bottom corner at $(0,-\delta)$. For $1 < i\leq k+1$, place square $i$ on top of square $i-1$, shifted $\delta$ to the right. Place square $k+2$ to the right of square $k+1$, and shift it up by $2\delta$. Place square $k+3$ below square $k+2$, and shift it right by $\delta$. Place square $k+4$ to the right of square $k+3$, and shift it down by $2\delta$. Place square $k+5$ above square $k+4$, and shift it right by $\delta$. As shown in the figure, we keep adding squares in groups of two, by repeating the last 4 placements. Notice that the heuristic path zigzags through the odd numbered squares that have numbers $> k$.
+    Let $k$ be a large even integer and let $\delta \leq 1/k$. For an illustration of the construction in this proof, see <a href="#fig:equalsquares" class="figref"></a>, where $k=4$. In the figure we used  $\delta = 1/8$. Place  $S$  at (0,0) and $T$ at $(3k(1+\delta)+ (k-1)\delta,k)$. Place $7k-1$ rectangles as follows. Place square 1 with its left-bottom corner at $(0,-\delta)$. For $1 < i\leq k+1$, place square $i$ on top of square $i-1$, shifted $\delta$ to the right. Place square $k+2$ to the right of square $k+1$, and shift it up by $2\delta$. Place square $k+3$ below square $k+2$, and shift it right by $\delta$. Place square $k+4$ to the right of square $k+3$, and shift it down by $2\delta$. Place square $k+5$ above square $k+4$, and shift it right by $\delta$. As shown in the figure, we keep adding squares in groups of two, by repeating the last 4 placements. Notice that the heuristic path zigzags through the odd numbered squares that have numbers $> k$.
 </p>
 <p>
     We have $|R(S,T)| \approx k + 3\cdot 3k = 10k$ and $|o(S,T)| \approx \sqrt {k^2 + (3k)^2} $ so
@@ -254,12 +253,12 @@ for any $\epsilon > 0$.
 [[ |R(S,T)|  \approx \sqrt {10} \cdot |o(S,T)|. ]]
 
 <p>
-    We can  show that we can show $k$ such that the fraction is arbitrarily close to $\sqrt {10}$. We have
+    We can show that we can show $k$ such that the fraction is arbitrarily close to $\sqrt {10}$. We have
 </p>
 
-[[ |R(S,T)| ~>~ k  + 3k (3 - 2\delta) = 10k - 6k\delta \geq  10k - 6. ]]
+[[ |R(S,T)| > k  + 3k (3 - 2\delta) = 10k - 6k\delta \geq 10k - 6. ]]
 
-[[ |o(S,T)| ~<~ 2 + \sqrt ( (3k (1+\delta))^2 + k^2) ~=~ 2 + k\sqrt{10   + 18 \delta  + 9 \delta^2}. ]]
+[[ |o(S,T)| < 2 + \sqrt {(3k (1+\delta))^2 + k^2} = 2 + k\sqrt{10   + 18 \delta  + 9 \delta^2}. ]]
 
 <p>Since $\delta \leq 1/k$ we have </p>
 
@@ -269,7 +268,7 @@ for any $\epsilon > 0$.
 </div>
 
 <div class="theorem" id="le:equalsquares">
-    If  the obstacles are equal size axis aligned squares, we have $\sqrt{10}-\epsilon < \rho < \sqrt{10}$  for any $\epsilon > 0$.
+    If the obstacles are equal size axis aligned squares, we have $\sqrt{10}-\epsilon < \rho < \sqrt{10}$  for any $\epsilon > 0$.
 </div>
 
 <div class="proof">
@@ -307,10 +306,10 @@ This section investigates scenes in which all obstacles are circles. Although we
 
 <div class="proof">
 <p>
-    Let $S$ and $T$ be two points. Assume that  $ST$ intersects the disk and that the ratio $|HP(S,T)| / d(S,T) $ is maximal. If $S$ does not lie on the disk, we can move it a bit closer to $T$. So both $d(S,T)$ and  $|HP(S,T)|$ decreases  by some small value $\delta$. Since  $|HP(S,T)|/ d(S,T) > 1$, this operation increases $|HP(S,T)|/ d(S,T)$, which shows that the ratio $|HP(S,T)|/ d(S,T)$ was not maximal.
+    Let $S$ and $T$ be two points. Assume that  $ST$ intersects the disk and that the ratio $|HP(S,T)| / d(S,T) $ is maximal. If $S$ does not lie on the disk, we can move it a bit closer to $T$. So both $d(S,T)$ and  $|HP(S,T)|$ decreases by some small value $\delta$. Since  $|HP(S,T)|/ d(S,T) > 1$, this operation increases $|HP(S,T)|/ d(S,T)$, which shows that the ratio $|HP(S,T)|/ d(S,T)$ was not maximal.
 </p>
 <p>
-    If $T$ does not lie on the disk, we can move it a bit closer to $S$. So  $d(S,T)$  decreases  by some small value $\delta$ and  $|HP(S,T)|$ decreases with less than $\delta$. So this operation increases $|HP(S,T)|/ d(S,T)$, which shows that the ratio $|HP(S,T)|/ d(S,T)$ was not maximal. Therefore both $S$ and $T$ lie on the disk. Now it is easy to see that $ST$ is a diagonal of the disk and $|HP(S,T| =  \pi/2 \cdot d(S,T)$. 
+    If $T$ does not lie on the disk, we can move it a bit closer to $S$. So  $d(S,T)$  decreases by some small value $\delta$ and  $|HP(S,T)|$ decreases with less than $\delta$. So this operation increases $|HP(S,T)|/ d(S,T)$, which shows that the ratio $|HP(S,T)|/ d(S,T)$ was not maximal. Therefore both $S$ and $T$ lie on the disk. Now it is easy to see that $ST$ is a diagonal of the disk and $|HP(S,T| =  \pi/2 \cdot d(S,T)$. 
 </p>
 </div>
 
@@ -339,7 +338,7 @@ If there is one circular obstacle, there is a configuration for which
 
 
 
-In a configuration with one circular obstacle and a maximal value of $|HP(S,T)|/|SP(S,T)|$  it is not hard to see that $T$ lies on the obstacle. We used both Mathematica as well as program written in Java to solve this problem, and both implementations computed that in the optimal configuration, we have $x \approx  2.562$, $y = 0$ and $|HP(S,T)|/|SP(S,T)| \approx 1.08614$, so this confirms that the bound in the previous lemma is almost tight.
+In a configuration with one circular obstacle and a maximal value of $|HP(S,T)|/|SP(S,T)|$  it is not hard to see that $T$ lies on the obstacle. We used both Mathematica as well as program written in Java to solve this problem, and both implementations computed that in the optimal configuration, we have $x \approx 2.562$, $y = 0$ and $|HP(S,T)|/|SP(S,T)| \approx 1.08614$, so this confirms that the bound in the previous lemma is almost tight.
  
 We first prove a lemma we need when computing an upperbound on $\alpha$. If $A$ and $B$ lie on a disk then we use the notation $arc(A,B)$ to denote the length of the shortest arc on the disk from $A$ to $B$.  
 
@@ -357,7 +356,7 @@ of $HP(S,T)$ on the disk, then
     Suppose that we have a configuration in which $ratio = arc(S,P)/(d(S,T)- d(S,T))$ is maximal. If $ST$ does not contain the diameter, we move move $T$ away from $P$ along the line through $P$ and $T$. This increases$ d(S,T)$ by less than $d(S,T)$ increases, while $arc(S,P)$ remains equal, so the ratio increases. Therefore $ST$ does contain the diameter of the disk. By placing $S$ at $(-1,0)$, the disk centered at the origin and $T$ at $(x,0)$, we can compute that
 </p>
 
-[[ ratio  ~=~ \frac{arc(S,P)}{d(S,T)- d(P,T)} = \frac{\pi}{x+1 - \sqrt{x^2-1}}.]]
+[[ ratio  = \frac{arc(S,P)}{d(S,T)- d(P,T)} = \frac{\pi}{x+1 - \sqrt{x^2-1}}.]]
 
 <p>
     This function is maximal at $x \approx$ 1.341 where $ratio \approx 16656$.
@@ -366,7 +365,7 @@ of $HP(S,T)$ on the disk, then
 
 
 <div class="lemma" id="le:diskupper">
-If there are an aribrary number of  circular obstacles, then 
+If there are an aribrary number of circular obstacles, then 
 
 [[\frac{|HP(ST)|}{d(S,T)} \leq 1.666]]
 
@@ -377,7 +376,7 @@ If there are an aribrary number of  circular obstacles, then
     We prove this lemaa by induction on $n$, the number of obstacles. The lemma holds for $n=1$ bu Lemma \ref{le:onediskupper}. Assume the lemma holds for $n\geq 1$ obstacles and that we have $n+1$ obstacles and that we have a configuration with the maximal value of $|HP(ST)|/d(S,T)$. As before we can argue that $S$ lies on an obstacle. Assume that $S$ lies on the unit disk centered at the origin. Let $P$ be the last point of $HP(S,T)$ on this disk. Then by induction we have $|HP(P,T)| \leq 1.666 d(P,T)$. From Lemma \ref{} we have that the length of  $arc(SP) < 1.666 (d(S,T) - d(P,T))$. So
 </p> 
 
-[[|HP(S,T)| ~=~ arc(SP) + |HP(P,T)| ~\leq~ 1.666 (d(S,T) - d(P,T)) + 1.666 d(P,T) ~=~  1.666d(S,T),]]
+[[|HP(S,T)| = arc(SP) + |HP(P,T)| ~\leq~ 1.666 (d(S,T) - d(P,T)) + 1.666 d(P,T) =  1.666d(S,T),]]
 
 <p>which proves the lemma.</p>
 </div>
