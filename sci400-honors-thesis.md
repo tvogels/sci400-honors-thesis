@@ -213,7 +213,7 @@ for any $\epsilon > 0$.
 </div>
 
 <div class="lemma" id="le:equalsquaresupper">
-    If the obstacles are equal size axis aligned squares, we have $|R(S,T)| < \sqrt(10) d(S,T)$.
+    If the obstacles are equal size axis aligned squares, we have $|R(S,T)| < \sqrt{10}\cdot d(S,T)$.
 </div>
 
 <div class="proof">
@@ -225,7 +225,7 @@ for any $\epsilon > 0$.
 \leq d(S,Q) + 3d(Q,T). ]]
 
 <p>
-    Consider the function $f(a,b) = (a+3b)/\sqrt(a^2 + b^2)$. By computing the gradient of $f$ and setting it to (0,0), we can find that the maximum value of $f$ occurs at $a=1$ and $b=3$. So we have $f(a,b) \leq  \sqrt {10}$. Let $a = d(S,Q)$ and $b =  d(Q,T)$. So we have
+    Consider the function $f(a,b) = (a+3b)/\sqrt{a^2 + b^2}$. By computing the gradient of $f$ and setting it to (0,0), we can find that the maximum value of $f$ occurs at $a=1$ and $b=3$. So we have $f(a,b) \leq  \sqrt {10}$. Let $a = d(S,Q)$ and $b =  d(Q,T)$. So we have
 </p>
 
 [[ \frac{|R(S,T)|}{d(S,T)} ~<~ \frac{a+3b}{\sqrt{a^2 + b^2}} ~\leq~ \sqrt{10}. ]]
@@ -234,7 +234,7 @@ for any $\epsilon > 0$.
 </div>
 
 <div class="lemma" id="le:equalsquareslower">
-If  the obstacles are equal size axis aligned squares, then therer is a configuration for which 
+If  the obstacles are equal size axis aligned squares, then there is a configuration for which 
 
 [[ \frac{|R(S,T)|}{o(S,T)} ~>~ \sqrt {10} - \epsilon ]]
 
@@ -276,10 +276,124 @@ for any $\epsilon > 0$.
 </p>
 </div>
 
-## Circles
-<div class="status to-be-done"></div>
+### Results in Contrast 
 
-This section will only be included if we do not manage to generalize our results to arbitrary convex objects. If we include it, it shows the numerical bounds for the worst-case heuristic paths over the optimal path or distance.
+<div class="note">Compare the results with previous work.</div>
+
+
+
+
+
+
+
+
+
+
+
+
+## Circles
+<div class="status work-in-progress"></div>
+
+This section investigates scenes in which all obstacles are circles. Although we could not find exact solutions, we managed to find numerical upper- and lowerbounds on $\rho$. These bounds are not yet tight. Again, we prove the bounds in the structure of a series of lemmas. The first lemma will show that if there is only one obstacle, then $1.06 < \rho < \pi/2$. We also show that is there are an arbitrary number of obstacles then $1.33 < \rho < 2$. Lastly we show how with the help of Mathematica we can tighten the above bounds. 
+
+
+<div class="lemma" id="le:onediskupper">If there is one circular obstacle, then 
+    
+[[ \frac{|R(S)|}{|d(S)|} \leq \pi/2 ]]
+
+</div>
+
+<div class="proof">
+<p>
+    Let $S$ and $T$ be two points. Assume that  $ST$ intersects the disk and that the ratio $|HP(S,T)| / d(S,T) $ is maximal. If $S$ does not lie on the disk, we can move it a bit closer to $T$. So both $d(S,T)$ and  $|HP(S,T)|$ decreases  by some small value $\delta$. Since  $|HP(S,T)|/ d(S,T) > 1$, this operation increases $|HP(S,T)|/ d(S,T)$, which shows that the ratio $|HP(S,T)|/ d(S,T)$ was not maximal.
+</p>
+<p>
+    If $T$ does not lie on the disk, we can move it a bit closer to $S$. So  $d(S,T)$  decreases  by some small value $\delta$ and  $|HP(S,T)|$ decreases with less than $\delta$. So this operation increases $|HP(S,T)|/ d(S,T)$, which shows that the ratio $|HP(S,T)|/ d(S,T)$ was not maximal. Therefore both $S$ and $T$ lie on the disk. Now it is easy to see that $ST$ is a diagonal of the disk and $|HP(S,T| =  \pi/2 \cdot d(S,T)$. 
+</p>
+</div>
+
+<div class="lemma" id="le:onedisklower">
+If there is one circular obstacle, there is a configuration for which  
+
+[[\frac{|HP(ST)|}{|SP(S,T)|} > 1.086]]
+    
+</div>
+
+<div class="proof">
+<p>
+    Let $S = (2.562,0)$ with $x > 1$,  $T = (-1,0)$ and let the obstacle be a unit disk centered at the origin. We have $|HP(S,T)| = 1.562+\pi$. Moreover,
+</p>
+
+[[|SP(S,T)| = \sqrt{2.562^2 - 1} + \pi - \arccos (1/2.562).]]
+
+<p>
+    This gives 
+</p>
+
+[[ \frac{|HP(S,T)|}{|SP(S,T)|} ~\approx~ 1.08614 > 1.086, ]]
+
+<p>which proves the lemma.</p>
+</div>
+
+
+
+In a configuration with one circular obstacle and a maximal value of $|HP(S,T)|/|SP(S,T)|$  it is not hard to see that $T$ lies on the obstacle. We used both Mathematica as well as program written in Java to solve this problem, and both implementations computed that in the optimal configuration, we have $x \approx  2.562$, $y = 0$ and $|HP(S,T)|/|SP(S,T)| \approx 1.08614$, so this confirms that the bound in the previous lemma is almost tight.
+ 
+We first prove a lemma we need when computing an upperbound on $\alpha$. If $A$ and $B$ lie on a disk then we use the notation $arc(A,B)$ to denote the length of the shortest arc on the disk from $A$ to $B$.  
+
+
+<div class="lemma" id="le:diskupper">
+If $S$ lies on a disk, $ST$ intersects the disk and $P$ is the last point
+of $HP(S,T)$ on the disk, then
+
+[[\frac{arc(S,P)}{d(S,T)- d(P,T)} \leq 1.666]]
+
+</div>
+
+<div class="proof">
+<p>
+    Suppose that we have a configuration in which $ratio = arc(S,P)/(d(S,T)- d(S,T))$ is maximal. If $ST$ does not contain the diameter, we move move $T$ away from $P$ along the line through $P$ and $T$. This increases$ d(S,T)$ by less than $d(S,T)$ increases, while $arc(S,P)$ remains equal, so the ratio increases. Therefore $ST$ does contain the diameter of the disk. By placing $S$ at $(-1,0)$, the disk centered at the origin and $T$ at $(x,0)$, we can compute that
+</p>
+
+[[ ratio  ~=~ \frac{arc(S,P)}{d(S,T)- d(P,T)} = \frac{\pi}{x+1 - \sqrt{x^2-1}}.]]
+
+<p>
+    This function is maximal at $x \approx$ 1.341 where $ratio \approx 16656$.
+</p>
+</div>
+
+
+<div class="lemma" id="le:diskupper">
+If there are an aribrary number of  circular obstacles, then 
+
+[[\frac{|HP(ST)|}{d(S,T)} \leq 1.666]]
+
+</div>
+
+<div class="proof">
+<p>
+    We prove this lemaa by induction on $n$, the number of obstacles. The lemma holds for $n=1$ bu Lemma \ref{le:onediskupper}. Assume the lemma holds for $n\geq 1$ obstacles and that we have $n+1$ obstacles and that we have a configuration with the maximal value of $|HP(ST)|/d(S,T)$. As before we can argue that $S$ lies on an obstacle. Assume that $S$ lies on the unit disk centered at the origin. Let $P$ be the last point of $HP(S,T)$ on this disk. Then by induction we have $|HP(P,T)| \leq 1.666 d(P,T)$. From Lemma \ref{} we have that the length of  $arc(SP) < 1.666 (d(S,T) - d(P,T))$. So
+</p> 
+
+[[|HP(S,T)| ~=~ arc(SP) + |HP(P,T)| ~\leq~ 1.666 (d(S,T) - d(P,T)) + 1.666 d(P,T) ~=~  1.666d(S,T),]]
+
+<p>which proves the lemma.</p>
+</div>
+
+
+<div class="lemma:le:diskslower">
+There is a configuration for which
+
+[[\frac{|HP(ST)|}{|SP(S,T)|} > 1.086]]
+
+</div>
+
+<div class="proof">
+<p>Based on computer placements. <span class="note">picture</span></p>
+</div>
+
+
+<div class="note">Concluding words and comparison with other stuff.</div>
 
 
 ## Similar Same-Orientation Sharp Triangles
