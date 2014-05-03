@@ -26,7 +26,7 @@ It can then follow the edge of the obstacle without knowing about the obstacle's
 
 We study our own algorithm, *BasicAlg*, by which the robot will always try to move in a straight line to $T$. When the robot hits an obstacle, it will follow the outline of the object in the direction that initially minimizes the distance to the target until the path to $T$ is clear again. It then leaves the outline of the obstacle and repeats its behavior. We assume without loss of generality that if the robot hits an obstacle perpendicularly, the robot moves counterclockwise along the object's edge. This robotic behavior can be categorized as memoryless and dynamic, since it does not plan its path in advance, but decides on its direction every time it touches an obstacle, solely based on its current position, the position of the target and the gradient of the object it hits.
 
-The paper starts with a literature review of earlier work on this topic and two similar algorithms by Lumelsky and <span class="note">John []</span> in particular. In the following sections, we will evaluate the behavior of our algorithm for cases when the obstacles in the scene are all axis-aligned squares, circles, and similar same-orientation triangles respectively. For squares we provide a tight upper bound on the ratio $\rho = |R(S)|/|d(S)|$ over all possible scenes, where $|R(S)|$ is the length of the path taken by the robot and $|d(s)|$ the distance between $S$ and $T$. We find numerical bounds for that ratio for a scene with circles, but these bounds are not tight. For triangles, the ratio is not bounded, but we prove that the robot will always reach the target if it follows our algorithm.
+The paper starts with a literature review of earlier work on this topic and two similar algorithms by Lumelsky and <span class="note">John []</span> in particular. In the following sections, we will evaluate the behavior of our algorithm for cases when the obstacles in the scene are all axis-aligned squares, circles, and similar same-orientation triangles respectively. For squares we provide a tight upper bound on the ratio $\rho = |R(S,T)|/|O(S,T)|$ over all possible scenes, where $|R(S,T)|$ is the length of the path taken by the robot and $|O(S,T)|$ the length of the optimal path from $S$ to $T$. We find numerical bounds for that ratio for a scene with circles, but these bounds are not tight. For triangles, the ratio is not bounded, but we prove that the robot will always reach the target if it follows our algorithm.
 
 As a student, my role in this project was to (1) conduct a literature survey into previous work on robotic path planning and (2) to extend on the earlier work of Prof. Dr. Henk Meijer and Marijke Hengel by looking into the algorithm for scenes with circles and triangles. I found the proof for guaranteed reachability of the target when the obstacles are similar same-orientation triangles under Henk Meijer's supervision.
 
@@ -43,39 +43,38 @@ A second subdivision that can be made is in the requirements for the robot's sen
 Thirdly, we apply a classification introduced by Kareti e.a. <a href="#kareti" class="ref"></a>. They divide robot navigation research into three classes:
 
 * The goal of research that is classified as *Class A* is to guarantee a certain navigation objective. This objective could be drawing a map of the surroundings, navigating to a goal (point or wall) or anything else that requires navigation. It is not important that parameters such as the distance traveled are minimized, as long as the goal is reached.
-* A *Class B* method needs to optimized some parameter(s). These could be for example the distance traveled, as in <a href="#baeza-yates" class="ref"></a>, or the ratio between the length of the path taken by the algorithm and the optimal path, like in <a href="#papadimitriou" class="ref"></a> or this paper.
+* A *Class B* method needs to optimized some parameters. These could be for example the distance traveled, as in <a href="#baeza-yates" class="ref"></a>, or the ratio between the length of the path taken by the algorithm and the optimal path, like in <a href="#papadimitriou" class="ref"></a> or this paper.
 * *Class C* is concerned with computational issues. A *Class C*-paper could for example look into which problems can be solved by a robot with the computational power of a finite state machine. In a way, our work relates to this category in the sense that we study a memoryless robot. We explore the boundaries of what scenes can be successfully navigated through by these robots.
 
 Finally, there is a division between heuristic and non-heuristic algorithms. Heuristic robot navigation algorithms can guarantee reaching a target in certain situations, possibly even within a certain bound whereas non-heuristic algorithms may fail to converge in some cases. Although guaranteed convergence is of course often desirable, it turns out that heuristic algorithms for motion planning often perform better than non-heuristic algorithms <a href="#blum" class="ref"></a>. Although they may perform badly or fail in some situations, they can still perform significantly better on average than heuristic variants.
 
 ### Two Algorithms
 
-This section introduces two algorithms that have been presented by Lumelsky and Stepanov <a href="#lumelsky" class="ref"></a> <a href="#lumelsky3" class="ref"></a> for robots with similar capabilities as the robot simple machine. The algorithms are dynamic and can be followed by a robot without knowledge of the environment that only receive sensory feedback when hitting an obstacle, but in both cases, a few registers of memory are required. In that sense, the robots are less basic than the one we will study in this paper. For both of the algorithms, we will give information about the bounds that Lumelsky and Stepanov founds for their performance and in what cases they are non-heuristic. 
+This section introduces two algorithms that have been presented by Lumelsky and Stepanov <a href="#lumelsky" class="ref"></a> <a href="#lumelsky3" class="ref"></a> for robots with similar capabilities as our basic robot that can follow *BasicAlg*. The algorithms are dynamic and can be followed by a robot without knowledge of the environment that only receive sensory feedback when hitting an obstacle. In both cases, however, a few registers of memory are required. In that sense, the robots are less basic than the one we will study in this paper. For both of the algorithms, we will give information about the bounds that Lumelsky and Stepanov founds for their performance and in what cases they are non-heuristic. 
 
-The first algorithm is called *Bug1*. It uses three registers, say $R_1$, $R_2$ and $R_3$ to store intermediate information. When free, the robot moves towards $T$. If the target is reached, the procedure stops. When an obstacle is encountered, define a hit point $H_j$. Now move along the edge of the obstacle that was hit in a fixed local direction. Assume without loss of generality that this is counter-clockwise. If the robot reaches the target, stop. Travel around the edge of the object until back at $H_j$. Along the way, keep track of three things: (1) store $L_j$, the point that is closest to the target, in $R_1$, (2) store the distance traveled along the edge in $R_2$, and the distance traveled since $L_j$ in $R_3$. Using the information in the latter two registers, we can now navigate along the edge in the most efficient way to leave it at $L_j$ and move towards $T$ again. The algorithm is illustrated in <a href="#fig:bug1" class="figref"></a>.
+The first algorithm is called *Bug1*. It uses three registers, say $R_1$, $R_2$ and $R_3$ to store intermediate information. When free, the robot moves towards $T$. If the target is reached, the procedure stops. When an obstacle is encountered, define a hit point $H_j$. Now move along the edge of the obstacle that was hit in a fixed local direction. Assume without loss of generality that this is always counter-clockwise. If the robot reaches the target, stop. Travel around the edge of the object until back at $H_j$. Along the way, keep track of three things: (1) store $L_j$, the point that is closest to the target, in register $R_1$, (2) store the distance traveled along the edge in $R_2$, and the distance traveled since $L_j$ in $R_3$. Using the information in the latter two registers, we can now navigate along the edge in the most efficient way to leave the obstacle at $L_j$ and move towards $T$ again. The algorithm is illustrated in <a href="#fig:bug1" class="figref"></a>.
 
 <figure id="fig:bug1">
     <div style="text-align:center;">
         <img src="drawings/bug1.png" alt="" width="300">
     </div>
-    <figcaption>Illustration of the <em>Bug1</em>-algorithm.</figcaption>
+    <figcaption>Illustration of the <em>Bug1</em>-algorithm. By going around the outline of an obstacle between 1 and 1.5 times in order to leave the obstacle at a point closest to the target, this algorithm reaches guaranteed convergence for any scene in which $S$ and $T$ are not enclosed by an obstacle. The algorithm uses three registers of memory.</figcaption>
 </figure>
 
-Two theorems identify the behavior of the *Bug1* algorithm quite well. Firstly, for any algorithm with the given information and robot capabilities and for any $\epsilon > 0$, there exists a scene for which the length $P$ of the path generated by the algorithm will obey the relationship $P \geq D + \Sigma\,p_i-\epsilon$, where $D$ is the distance between $S$ and $T$ and $\Sigma\, p_i$ is the sum of perimeters of the obstacles intersecting the line that connects $S$ and $T$. Secondly,  the length of a path generated by *Bug1* never exceeds the limit $P=D+1.5\cdot \Sigma\, p_i$. The algorithm is guaranteed to converge for scenes with arbitrary obstacles as long as the target and starting point are not enclosed in an obstacle.
+Two theorems are used to access the performance of the *Bug1*-algorithm. Firstly, Lumelsky <a href="#lumelsky" class="ref"></a> finds that for any algorithm with the given information and robot capabilities and for any $\epsilon > 0$, there exists a scene for which the length $|R(S,T)|$ of the path generated by the algorithm will obey the relationship $|R(S,T)| \geq d(S,T) + \Sigma\,p_i-\epsilon$, where $d(S,T)$ is the distance between $S$ and $T$ and $\Sigma\, p_i$ is the sum of perimeters of the obstacles intersecting the line that connects $S$ and $T$. Secondly,  the length of a path generated by *Bug1* never exceeds the limit $|R(S,T)|=d(S,T)+1.5\cdot \Sigma\, p_i$. The algorithm is guaranteed to converge for scenes with arbitrary obstacles as long as the target and starting point are not enclosed in an obstacle.
 
-Now, let's look at *Bug2*, the second algorithm proposed by Lumeksly and Stepanov. It goes as follows: Follow the line between $S$ and $T$. When the target is reached, stop. When an obstacle is encountered, define a hit point $H_j$ and move around the object in a fixed local direction. Assume the local direction without loss of generality to be counter-clockwise. Move along the edge of the obstacle until either the target is reached or the robot crosses the line between $S$ and $T$. In the latter case, move on towards $T$. The algorithm is illustrated in <a href="#fig:bug2" class="figref"></a> 
+Now, let's look at *Bug2*, the second algorithm proposed by Lumeksly and Stepanov. The algorithm goes as follows: Follow the line between $S$ and $T$. When the target is reached, stop. When an obstacle is encountered, define a hit point $H_j$ and move around the object in a fixed local direction. Assume the local direction without loss of generality to be counter-clockwise. Move along the edge of the obstacle until either the target is reached or the robot crosses the line between $S$ and $T$. In the latter case, move on towards $T$. The algorithm is illustrated in <a href="#fig:bug2" class="figref"></a> 
 
-This algorithm too needs some memory to keep track of where the line that connects $S$ and $T$ is exactly. Although this algorithm intuitively produces shorter paths than *Bug1*, it can generate cycles when concave obstacles intersect the $st$-line multiple times. A worst-case bound on the performance of the algorithm is given by $P=D+\sum \frac{n_i p_i}{2}$, where $n_i$ is the number of intersections between the $st$-line and the $i$-th obstacle on the $st$-line and $p_i$ its perimeter. For convex obstacles, the upper bound for the length of the path simplifies to the worst-case $P=D+\Sigma\,p_i$ and on average $P=D+0.5\cdot \Sigma\,p_i$. Together with the earlier lower bound presented in the paragraph on the *Bug1*-algorithm, it follows that this bound is tight.
+This algorithm too needs some memory to keep track of where the line that connects $S$ and $T$ is exactly. Although this algorithm intuitively produces shorter paths than *Bug1*, it can generate cycles when concave obstacles intersect the $ST$-line multiple times. A worst-case bound on the performance of the algorithm is given by $|R(S,T)|=d(S,T)+\sum \frac{n_i p_i}{2}$, where $n_i$ is the number of intersections between $ST$ and the $i$-th obstacle on $ST$, and $p_i$, its perimeter. For convex obstacles, the upper bound for the length of the path simplifies to the worst-case $|R(S,T)|=d(S,T)+\Sigma\,p_i$ and on average $|R(S,T)|=d(S,T)+0.5\cdot \Sigma\,p_i$. Together with the universal earlier lower bound presented in the paragraph on the *Bug1*-algorithm, it follows that this bound is tight.
+
+The two algorithms presented are guaranteed to converge for any scene and can be said to perform reasonably well, with a bound based on the perimeters on the obstacles in the scene. The algorithm proposed in this paper, *BasicAlg*, will not have such strong properties, but has the advantage of assuming no robot memory at all. In a way, it goes back to the essence of the navigation problem even more. Furthermore, in some situations, the basic algorithm could even perform better than *Bug1* and *Bug2* <div class="note">[...]</div>.
 
 <figure id="fig:bug2">
     <div style="text-align:center;">
         <img src="drawings/bug2.png" alt="" width="300">
     </div>
-    <figcaption>Illustration of the <em>Bug2</em>-algorithm.</figcaption>
+    <figcaption>Illustration of the <em>Bug2</em>-algorithm. This algorithm solves the issue of guaranteed convergence to the target by keeping the $ST$-line in memory. After following an obstacle, <em>Bug2</em> will approach $T$ on that line. This method does not perform well when the scene contains concave obstacles that cross $ST$ often.</figcaption>
 </figure>
-
-The two algorithms presented are guaranteed to converge for any scene and can be said to perform reasonably well, with a bound based on the perimeters on the obstacles in the scene. The algorithm proposed in this paper, *BasicAlg*, will not have such strong properties, but has the advantage of assuming no memory at all. In a way, it goes back to the essence of the problem even more. Furthermore, in some situations, the basic algorithm could even perform better than *Bug1* and *Bug2*.
-
 
 
 
@@ -84,22 +83,22 @@ The two algorithms presented are guaranteed to converge for any scene and can be
 
 Outline for this section:
 
-* $S$ and $T$ as start and target, $S$ scene
+* $S$ and $T$ as start and target
 * Hit points $H_i$
 * Leave points $L_i$
 * Obstacle $O_i$
 * Edge = whole edge
-* Side = side of a polygon obstacle
+* Side = side of a polygonal obstacle
 * Formal formulation of the algorithm here.
 * If in doubt, take a left.
-* $R(S)$ robot path: $R(A,B)$ path between $A$ and $B$.
-* $d(S)$ distance
-* $o(S)$ optimal path
-* Lengths go like $|R(S)|$.
-* $\rho = \max |R(S)|/|d(S)|$ over all possible pairs of $S$ and $T$ under all configurations under consideration
-* $\lambda = \max |R(S)|/|o(S)|$ over all possible pairs of $S$ and $T$ under all configurations under consideration
+* $R(S,T)$ robot path: $R(A,B)$ path between $A$ and $B$.
+* $d(S,T)$ distance
+* $O(S,T)$ optimal path
+* Lengths go like $|R(S,T)|$.
+* $\rho = \max |R(S,T)|/|O(S,T)|$ over all possible pairs of $S$ and $T$ under all configurations under consideration
+* $\lambda = \max |R(S,T)|/d(S,T)$ over all possible pairs of $S$ and $T$ under all configurations under consideration
 * local direction
-* $L_1$ metric: $|R(S)_{L_1}|$.
+* $L_1$ metric: $|R(S,T)_{L_1}|$.
 * $x$ and $y$ coordinates: $A_x$, $A_y$
 * $AB$ is the line through $A$ and $B$
 
@@ -117,7 +116,7 @@ $\rho < 3$ and for any $\epsilon > 0$ there are configurations
 such that $\rho  > 3-\epsilon$.
 
 <div class="lemma" id="le:onesquareupper">
-    If there is one rectangular obstacle in $S$, we have $R(S) < 3d(S)$.
+    If there is one rectangular obstacle in $S$, we have $R(S,T) < 3d(S,T)$.
 </div>
 <div class="proof">
 <p>
@@ -301,7 +300,7 @@ This section investigates scenes in which all obstacles are circles. Although we
 
 <div class="lemma" id="le:onediskupper">If there is one circular obstacle, then 
     
-[[ \frac{|R(S)|}{|d(S)|} \leq \pi/2 ]]
+[[ \frac{|R(S,T)|}{d(S,T)} \leq \pi/2 ]]
 
 </div>
 
