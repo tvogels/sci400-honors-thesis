@@ -123,7 +123,7 @@ We will derive a tight bound of $\rho = \sqrt{10}$ on the length of the robot pa
 </div>
 
 <div class="definition" id="def:monotone">
-    We say that a path is $x$-monotone if the $x$-coordinates of a point that travels along the path do not decrease or do not increase. We define $y$-monotone similarly.
+    We say that a path is $x$-monotone if the $x$-coordinates of a point that travels along the path do either not decrease or not increase along the way. We define $y$-monotone similarly.
 </div>
 
 <div class="lemma" id="le:monotone">
@@ -164,7 +164,7 @@ The above lemma implies that if $S_x = T_x$ and $S_y < T_y$ there is no point $P
 
 <p>Moreover we have</p>
 
-[[ |R(S,W) \leq |SH_1| + |H_1L_1| + d_{L_1} (L_1,W)  \leq 3d(H_1,W), ]]
+[[ |R(S,W) \leq |SH_1| + |H_1L_1| + d_{L_1} (L_1,W)  \leq 3d(S,W), ]]
 
 <p>so</p>
 
@@ -187,7 +187,7 @@ for any, however small $\epsilon > 0$.
 </figure>
 
 <div class="proof">
-<p>This is a proof by construction. Let the number of obstacles $n$ be odd and define some constant $\delta$ with $0 < \delta < 1$. Let $S = (0,0)$ and $T = ((n+1)/2+(n-3)\delta,0)$. Place obstacle 1 with its left-bottom corner at $(0,-\delta)$. Place square $2$ to the right of square $1$, and shift it up by $2\delta$. Place square $3$ below square $2$, and shift it right by $\delta$. Place square $4$ to the right of square $3$, and shift it down by $2\delta$. Place square $5$ above square $4$, and shift it right by $\delta$. We keep adding squares in groups of two, by repeating the last 4 placements. Notice that the heuristic path zigzags through the odd numbered squares. The placement of the obstacles is illustrated in <a href="#fig:equalsquares" class="figref"></a>. We have</p>
+<p>This is a proof by construction. Let the number of obstacles $n$ be odd and define some constant $\delta$ with $0 < \delta < 1$. Let $S = (0,0)$ and $T = ((n+1)/2+(n-3)\delta,0)$. Place obstacle 1 with its left-bottom corner at $(0,-\delta)$. Place square $2$ to the right of square $1$, and shift it up by $2\delta$. Place square $3$ below square $2$, and shift it right by $\delta$. Place square $4$ to the right of square $3$, and shift it down by $2\delta$. Place square $5$ above square $4$, and shift it right by $\delta$. We keep adding squares in groups of two, by repeating the last 4 placements. Notice that the heuristic path zigzags through the odd numbered squares. The placement of the obstacles is illustrated in <a href="#fig:equalsquares" class="figref"></a>, looking at the squares numbered 4 or higher. We have</p>
 
 
 [[ |R(S,T)| > \frac{3(n+1)}{2} ]]
@@ -203,6 +203,8 @@ and
 <p>so using <a href="#le:STalignedlower" class="lemref"></a> we know that $|R(S,T)|/|o(S,T)| < 3$. We conclude that the lemma holds.</p>
 </div>
 
+
+
 <div class="lemma" id="le:STaligned">
     If $S$ and $T$ lie on the same horizontal or vertical line, and the obstacles are equal size axis aligned squares, we have $3 - \epsilon < \rho < 3$  for any $\epsilon > 0$.
 </div>
@@ -213,20 +215,22 @@ and
 </p>
 </div>
 
+
+
 <div class="lemma" id="le:equalsquaresupper">
     If the obstacles are equal size axis aligned squares, we have $|R(S,T)| < \sqrt{10} \cdot d(S,T)$.
 </div>
 
 <div class="proof">
 <p>
-    Without loss of generality assume that $S_x < 0$, $S_y < 0$ and $T = (0,0)$. From <a href="#le:monotone" class="lemref"></a> we derive that $(R(S,T)$ is initially $x$- and $y$-monotone until it intersects that $x$- or $y$-axis for the first time, at point $P$ say. Without loss of generality assume that $P$ lies on the $x$-axis. Let $Q = (S_x,0)$. We have
+    Without loss of generality, assume that $S_x < 0$, $S_y < 0$ and $T = (0,0)$. From <a href="#le:monotone" class="lemref"></a> we derive that $(R(S,T)$ is initially $x$- and $y$-monotone until it intersects that $x$- or $y$-axis for the first time, at point $P$ say. Without loss of generality assume that $P$ lies on the $x$-axis. Let $Q = (S_x,0)$. We have
 </p>
 
 [[ |R(S,T)| &\leq d_{L_1}(S,P) + |R(P,T)| \\ &< d(S,Q) + d(Q,p) + 3d(P,T)
 \leq d(S,Q) + 3d(Q,T). ]]
 
 <p>
-    Consider the function $f(a,b) = (a+3b)/\sqrt{a^2 + b^2}$. By computing the gradient of $f$ and setting it to (0,0), we can find that the maximum value of $f$ occurs at $a=1$ and $b=3$. So we have $f(a,b) \leq  \sqrt{10}$. Let $a = d(S,Q)$ and $b =  d(Q,T)$. So we have
+    Consider the function $f(a,b) = (a+3b)/\sqrt{a^2 + b^2}$. By computing the gradient of $f$ and setting it to (0,0), we find that the maximum value of $f$ occurs at $a=1$ and $b=3$ and is $\sqrt{10}$. It turns out that $f(a,b) \leq \sqrt{10}$ for all $a$ and $b$. Let $a = d(S,Q)$ and $b = d(Q,T)$.
 </p>
 
 [[ \frac{|R(S,T)|}{d(S,T)} < \frac{a+3b}{\sqrt{a^2 + b^2}} \leq \sqrt{10}. ]]
@@ -237,7 +241,7 @@ and
 <div class="lemma" id="le:equalsquareslower">
 If the obstacles are equal size axis aligned squares, then there is a configuration for which 
 
-[[ \frac{|R(S,T)|}{o(S,T)} > \sqrt{10} - \epsilon ]]
+[[ \frac{|R(S,T)|}{|O(S,T)|} > \sqrt{10} - \epsilon ]]
 
 for any $\epsilon > 0$.
 </div>
