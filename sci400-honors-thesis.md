@@ -115,7 +115,7 @@ We will derive a tight bound of $\rho = \sqrt{10}$ on the length of the robot pa
 </div>
 <div class="proof">
 <p>
-    Let $S$ and $T$ be two points. If $ST$ does not intersect the interior of the obstacle, we have $|R(S,T)| = d(S,T)$. Now define a coordinate system along the sides of the obstacle. If $ST$ intersects two consecutive sides of the obstacle, we have $|R(S,T)| < |R(S,T)|_{L_1} \leq \sqrt 2 \cdot d(S,T)$ since $\sqrt 2 $ is the maximum ratio between the hypotenuse and the sum of the lengths of a right-angle triangle. So in both cases the lemma holds.
+    Let $S$ and $T$ be two points. If $ST$ does not intersect the interior of the obstacle, we have $|R(S,T)| = d(S,T)$. Now define a coordinate system along the sides of the obstacle. If $ST$ intersects two consecutive sides of the obstacle, we have $|R(S,T)| < |R(S,T)|_{L_1} \leq \sqrt{2} \cdot d(S,T)$ since $\sqrt{2} $ is the maximum ratio between the hypotenuse and the sum of the lengths of a right-angle triangle. So in both cases the lemma holds.
 </p>
 <p>
     Now assume that $ST$ intersects two opposite edges of the obstacle and that the ratio $|R(S,T)|_{L_1} / d(S,T) $ is maximal. Without loss of generality assume that the obstacle is axis-aligned with corners at (0,0) and (1,1), that $ST$ intersects the vertical edges of the obstacle and that $S_x < T_x$. If $S_y < T_y$ we can increase $S_y$ by some small value $\delta$ and decrease $T_y$ by $\delta$ so that $|R(S,T)|_{L_1}$ remains unchanged and $d(S,T)$ decreases. In this case, the ratio $|R(S,T)|_{L_1} / d(S,T)$ was clearly not maximal. Similarly, the ratio cannot be maximal when $S_y > T_y$, so $S_y = T_y$. If $S_x < 0$ we can increase $S_x$ by some small value $\delta$ so that $|R(S,T)|_{L_1}$ and $d(S,T)$ decrease by $\delta$ so the ratio $|R(S,T)|_{L_1} / d(S,T) $ increases. Therefore $S_x = 0$ and similarly we show that $T_x = 1$. It is now not hard to see that $|R(S,T)|_{L_1} / d(S,T) < 3.$
@@ -222,14 +222,14 @@ and
     Without loss of generality assume that $S_x < 0$, $S_y < 0$ and $T = (0,0)$. From <a href="#le:monotone" class="lemref"></a> we derive that $(R(S,T)$ is initially $x$- and $y$-monotone until it intersects that $x$- or $y$-axis for the first time, at point $P$ say. Without loss of generality assume that $P$ lies on the $x$-axis. Let $Q = (S_x,0)$. We have
 </p>
 
-[[ |R(S,T)| &~\leq~ d_{L_1}(S,P) + |R(P,T)| \\ &< d(S,Q) + d(Q,p) + 3d(P,T)
+[[ |R(S,T)| &\leq d_{L_1}(S,P) + |R(P,T)| \\ &< d(S,Q) + d(Q,p) + 3d(P,T)
 \leq d(S,Q) + 3d(Q,T). ]]
 
 <p>
-    Consider the function $f(a,b) = (a+3b)/\sqrt{a^2 + b^2}$. By computing the gradient of $f$ and setting it to (0,0), we can find that the maximum value of $f$ occurs at $a=1$ and $b=3$. So we have $f(a,b) \leq  \sqrt {10}$. Let $a = d(S,Q)$ and $b =  d(Q,T)$. So we have
+    Consider the function $f(a,b) = (a+3b)/\sqrt{a^2 + b^2}$. By computing the gradient of $f$ and setting it to (0,0), we can find that the maximum value of $f$ occurs at $a=1$ and $b=3$. So we have $f(a,b) \leq  \sqrt{10}$. Let $a = d(S,Q)$ and $b =  d(Q,T)$. So we have
 </p>
 
-[[ \frac{|R(S,T)|}{d(S,T)} < \frac{a+3b}{\sqrt{a^2 + b^2}} ~\leq~ \sqrt{10}. ]]
+[[ \frac{|R(S,T)|}{d(S,T)} < \frac{a+3b}{\sqrt{a^2 + b^2}} \leq \sqrt{10}. ]]
 
 <p>This proves the lemma.</p>
 </div>
@@ -237,7 +237,7 @@ and
 <div class="lemma" id="le:equalsquareslower">
 If the obstacles are equal size axis aligned squares, then there is a configuration for which 
 
-[[ \frac{|R(S,T)|}{o(S,T)} > \sqrt {10} - \epsilon ]]
+[[ \frac{|R(S,T)|}{o(S,T)} > \sqrt{10} - \epsilon ]]
 
 for any $\epsilon > 0$.
 </div>
@@ -247,18 +247,18 @@ for any $\epsilon > 0$.
     Let $k$ be a large even integer and let $\delta \leq 1/k$. For an illustration of the construction in this proof, see <a href="#fig:equalsquares" class="figref"></a>, where $k=4$. In the figure we used  $\delta = 1/8$. Place  $S$  at (0,0) and $T$ at $(3k(1+\delta)+ (k-1)\delta,k)$. Place $7k-1$ rectangles as follows. Place square 1 with its left-bottom corner at $(0,-\delta)$. For $1 < i\leq k+1$, place square $i$ on top of square $i-1$, shifted $\delta$ to the right. Place square $k+2$ to the right of square $k+1$, and shift it up by $2\delta$. Place square $k+3$ below square $k+2$, and shift it right by $\delta$. Place square $k+4$ to the right of square $k+3$, and shift it down by $2\delta$. Place square $k+5$ above square $k+4$, and shift it right by $\delta$. As shown in the figure, we keep adding squares in groups of two, by repeating the last 4 placements. Notice that the heuristic path zigzags through the odd numbered squares that have numbers $> k$.
 </p>
 <p>
-    We have $|R(S,T)| \approx k + 3\cdot 3k = 10k$ and $|o(S,T)| \approx \sqrt {k^2 + (3k)^2} $ so
+    We have $|R(S,T)| \approx k + 3\cdot 3k = 10k$ and $|o(S,T)| \approx \sqrt{k^2 + (3k)^2} $ so
 </p>
 
-[[ |R(S,T)|  \approx \sqrt {10} \cdot |o(S,T)|. ]]
+[[ |R(S,T)|  \approx \sqrt{10} \cdot |o(S,T)|. ]]
 
 <p>
-    We can show that we can show $k$ such that the fraction is arbitrarily close to $\sqrt {10}$. We have
+    We can show that we can show $k$ such that the fraction is arbitrarily close to $\sqrt{10}$. We have
 </p>
 
 [[ |R(S,T)| > k  + 3k (3 - 2\delta) = 10k - 6k\delta \geq 10k - 6. ]]
 
-[[ |o(S,T)| < 2 + \sqrt {(3k (1+\delta))^2 + k^2} = 2 + k\sqrt{10   + 18 \delta  + 9 \delta^2}. ]]
+[[ |o(S,T)| < 2 + \sqrt{(3k (1+\delta))^2 + k^2} = 2 + k\sqrt{10   + 18 \delta  + 9 \delta^2}. ]]
 
 <p>Since $\delta \leq 1/k$ we have </p>
 
@@ -376,7 +376,7 @@ If there are an aribrary number of circular obstacles, then
     We prove this lemaa by induction on $n$, the number of obstacles. The lemma holds for $n=1$ bu Lemma \ref{le:onediskupper}. Assume the lemma holds for $n\geq 1$ obstacles and that we have $n+1$ obstacles and that we have a configuration with the maximal value of $|HP(ST)|/d(S,T)$. As before we can argue that $S$ lies on an obstacle. Assume that $S$ lies on the unit disk centered at the origin. Let $P$ be the last point of $HP(S,T)$ on this disk. Then by induction we have $|HP(P,T)| \leq 1.666 d(P,T)$. From Lemma \ref{} we have that the length of  $arc(SP) < 1.666 (d(S,T) - d(P,T))$. So
 </p> 
 
-[[|HP(S,T)| = arc(SP) + |HP(P,T)| ~\leq~ 1.666 (d(S,T) - d(P,T)) + 1.666 d(P,T) =  1.666d(S,T),]]
+[[|HP(S,T)| = arc(SP) + |HP(P,T)| \leq 1.666 (d(S,T) - d(P,T)) + 1.666 d(P,T) =  1.666d(S,T),]]
 
 <p>which proves the lemma.</p>
 </div>
