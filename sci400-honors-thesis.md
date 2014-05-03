@@ -310,58 +310,58 @@ I forgot that we have these results as well. I have to add this section and fix 
 ## Circles
 <div class="status work-in-progress"></div>
 
-This section investigates scenes in which all obstacles are circles. Although we could not find exact solutions, we managed to find numerical upper- and lower bounds on $\rho$. These bounds are not yet tight. Again, we prove the bounds in the structure of a series of lemmas. The first lemma will show that if there is only one obstacle, then $1.06 < \rho < \pi/2$. We also show that is there are an arbitrary number of obstacles then $1.33 < \rho < 2$. Lastly we show how with the help of *Mathematica* we can tighten the above bounds. 
+This section investigates scenes in which all obstacles are circles. Although we could not find exact bounds on the performance of *BasicAlg* in this situation, we have numerical upper- and lower bounds on $\rho$ that were derived by Dr. Meijer earlier. These bounds are not yet tight. Again, we prove the bounds in the structure of a series of lemmas. The first lemma will show that if there is only one obstacle, then $1.06 < \rho < \pi/2$. We also show that is there are an arbitrary number of obstacles then $1.33 < \rho < 2$. Lastly we show how with the help of *Mathematica* we can tighten the above bounds. 
 
 
 <div class="lemma" id="le:onediskupper">
 If the scene contains one circular obstacle, then 
     
-[[ \frac{|R(S,T)|}{d(S,T)} \leq \tfrac{1}{2}\pi ]]
+[[ \lambda = \max \frac{|R(S,T)|}{d(S,T)} \leq \tfrac{1}{2}\pi ]]
 
 </div>
 
 <div class="proof">
 <p>
-    Let $S$ and $T$ be two points. Assume that  $ST$ intersects the disk and that the ratio $|HP(S,T)| / d(S,T) $ is maximal. If $S$ does not lie on the disk, we can move it a bit closer to $T$. So both $d(S,T)$ and  $|HP(S,T)|$ decreases by some small value $\delta$. Since  $|HP(S,T)|/ d(S,T) > 1$, this operation increases $|HP(S,T)|/ d(S,T)$, which shows that the ratio $|HP(S,T)|/ d(S,T)$ was not maximal.
+    Let $S$ and $T$ be two points. Assume that  $ST$ intersects the disk and that the ratio $|R(S,T)| / d(S,T)$ is maximal. If $S$ does not lie on the disk, we can move it a bit closer to $T$, so both $d(S,T)$ and  $|R(S,T)|$ decreases by some infinitesimal value $\delta$. Since $|R(S,T)| / d(S,T) > 1$, this operation increases $|R(S,T)| / d(S,T)$. This shows that the ratio $|R(S,T)| / d(S,T)$ was not maximal.
 </p>
 <p>
-    If $T$ does not lie on the disk, we can move it a bit closer to $S$. So  $d(S,T)$  decreases by some small value $\delta$ and  $|HP(S,T)|$ decreases with less than $\delta$. So this operation increases $|HP(S,T)|/ d(S,T)$, which shows that the ratio $|HP(S,T)|/ d(S,T)$ was not maximal. Therefore both $S$ and $T$ lie on the disk. Now it is easy to see that $ST$ is a diagonal of the disk and $|HP(S,T| =  \pi/2 \cdot d(S,T)$. 
+    If $T$ does not lie on the disk, we can move it a bit closer to $S$, so $d(S,T)$ decreases by some small value $\delta$ and $|R(S,T)|$ decreases with less than $\delta$. This operation also increases $|R(S,T)| / d(S,T)$. This shows that the ratio $|R(S,T)| / d(S,T)$ was not maximal. We conclude that both $S$ and $T$ lie on the disk. Now it is easy to see that $ST$ is a diagonal of the disk and $|R(S,T)| = \tfrac{1}{2}\pi \cdot d(S,T)$. 
 </p>
 </div>
 
 <div class="lemma" id="le:onedisklower">
 If there is one circular obstacle, there is a configuration for which  
 
-[[\frac{|HP(ST)|}{|SP(S,T)|} > 1.086]]
+[[\frac{|R(ST)|}{|O(S,T)|} > 1.086]]
     
 </div>
 
 <div class="proof">
 <p>
-    Let $S = (2.562,0)$ with $x > 1$,  $T = (-1,0)$ and let the obstacle be a unit disk centered at the origin. We have $|HP(S,T)| = 1.562+\pi$. Moreover,
+    Let $S = (2.562,0)$ with $x > 1$,  $T = (-1,0)$ and let the obstacle be a unit disk centered at the origin. We have $|R(S,T)| = 1.562+\pi$. Moreover,
 </p>
 
-[[|SP(S,T)| = \sqrt{2.562^2 - 1} + \pi - \arccos (1/2.562).]]
+[[|O(S,T)| = \sqrt{2.562^2 - 1} + \pi - \arccos (1/2.562).]]
 
 <p>
     This gives 
 </p>
 
-[[ \frac{|HP(S,T)|}{|SP(S,T)|} ~\approx~ 1.08614 > 1.086, ]]
+[[ \frac{|R(S,T)|}{|O(S,T)|} ~\approx~ 1.08614 > 1.086, ]]
 
 <p>which proves the lemma.</p>
 </div>
 
 
 
-In a configuration with one circular obstacle and a maximal value of $|HP(S,T)|/|SP(S,T)|$  it is not hard to see that $T$ lies on the obstacle. We used both Mathematica as well as program written in Java to solve this problem, and both implementations computed that in the optimal configuration, we have $x \approx 2.562$, $y = 0$ and $|HP(S,T)|/|SP(S,T)| \approx 1.08614$, so this confirms that the bound in the previous lemma is almost tight.
+In a configuration with one circular obstacle and a maximal value of $|R(S,T)|/|O(S,T)|$  it is not hard to see that $T$ lies on the obstacle. We used both Mathematica as well as program written in Java to solve this problem, and both implementations computed that in the optimal configuration, we have $x \approx 2.562$, $y = 0$ and $|R(S,T)|/|O(S,T)| \approx 1.08614$, so this confirms that the bound in the previous lemma is almost tight.
  
 We first prove a lemma we need when computing an upperbound on $\alpha$. If $A$ and $B$ lie on a disk then we use the notation $arc(A,B)$ to denote the length of the shortest arc on the disk from $A$ to $B$.  
 
 
 <div class="lemma" id="le:diskupper">
 If $S$ lies on a disk, $ST$ intersects the disk and $P$ is the last point
-of $HP(S,T)$ on the disk, then
+of $R(S,T)$ on the disk, then
 
 [[\frac{arc(S,P)}{d(S,T)- d(P,T)} \leq 1.666]]
 
@@ -383,16 +383,16 @@ of $HP(S,T)$ on the disk, then
 <div class="lemma" id="le:diskupper">
 If there are an aribrary number of circular obstacles, then 
 
-[[\frac{|HP(ST)|}{d(S,T)} \leq 1.666]]
+[[\frac{|R(ST)|}{d(S,T)} \leq 1.666]]
 
 </div>
 
 <div class="proof">
 <p>
-    We prove this lemaa by induction on $n$, the number of obstacles. The lemma holds for $n=1$ bu Lemma \ref{le:onediskupper}. Assume the lemma holds for $n\geq 1$ obstacles and that we have $n+1$ obstacles and that we have a configuration with the maximal value of $|HP(ST)|/d(S,T)$. As before we can argue that $S$ lies on an obstacle. Assume that $S$ lies on the unit disk centered at the origin. Let $P$ be the last point of $HP(S,T)$ on this disk. Then by induction we have $|HP(P,T)| \leq 1.666 d(P,T)$. From Lemma \ref{} we have that the length of  $arc(SP) < 1.666 (d(S,T) - d(P,T))$. So
+    We prove this lemaa by induction on $n$, the number of obstacles. The lemma holds for $n=1$ bu Lemma \ref{le:onediskupper}. Assume the lemma holds for $n\geq 1$ obstacles and that we have $n+1$ obstacles and that we have a configuration with the maximal value of $|R(ST)|/d(S,T)$. As before we can argue that $S$ lies on an obstacle. Assume that $S$ lies on the unit disk centered at the origin. Let $P$ be the last point of $R(S,T)$ on this disk. Then by induction we have $|R(P,T)| \leq 1.666 d(P,T)$. From Lemma \ref{} we have that the length of  $arc(SP) < 1.666 (d(S,T) - d(P,T))$. So
 </p> 
 
-[[|HP(S,T)| = arc(SP) + |HP(P,T)| \leq 1.666 (d(S,T) - d(P,T)) + 1.666 d(P,T) =  1.666d(S,T),]]
+[[|R(S,T)| = arc(SP) + |R(P,T)| \leq 1.666 (d(S,T) - d(P,T)) + 1.666 d(P,T) =  1.666d(S,T),]]
 
 <p>which proves the lemma.</p>
 </div>
@@ -401,7 +401,7 @@ If there are an aribrary number of circular obstacles, then
 <div class="lemma:le:diskslower">
 There is a configuration for which
 
-[[\frac{|HP(ST)|}{|SP(S,T)|} > 1.086]]
+[[\frac{|R(ST)|}{|O(S,T)|} > 1.086]]
 
 </div>
 
