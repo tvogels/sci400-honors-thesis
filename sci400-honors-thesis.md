@@ -415,7 +415,7 @@ There is a configuration for which
 ## Similar Same-Orientation Sharp Triangles
 <div class="status first-draft"></div>
 
-Asume all obstacles in $S$ to be similar triangles of the same orientation. We use a coordinate system with $T$ in the origin. The sides of triangle $k$ are called $a_k, b_k, c_k$ such that all sides $a_i$ have the same direction $\rho$, all sides $b_i$ have direction $\beta$ and all sides $c_i$ have direction $\gamma$. For each side-direction $x\in \left\{\alpha,\beta,\gamma \right\}$, we define a half-plane $H_x$ that is delimited by a line in the direction $x$ through $T$. It indicates the region in which the robot could hit a triangle at a side in direction $x$. The half-planes are well defined because the robot always moves towards $T$.
+Assume all obstacles in $S$ to be similar triangles of the same orientation. We use a coordinate system with $T$ in the origin. The sides of triangle $k$ are called $a_k, b_k, c_k$ such that all sides $a_i$ have the same direction $\rho$, all sides $b_i$ have direction $\beta$ and all sides $c_i$ have direction $\gamma$. For each side-direction $x\in \left\{\alpha,\beta,\gamma \right\}$, we define a half-plane $H_x$ that is delimited by a line in the direction $x$ through $T$. It indicates the region in which the robot could hit a triangle at a side in direction $x$. The half-planes are well defined because the robot always moves towards $T$.
 
 Next, define ‘axes’. For a direction $x\in \left\{\alpha,\beta,\gamma \right\}$, define $A_x$ as a ray from the origin into $H_x$ that has a direction perpendicular to $x$. By definition, if a the robot hits an obstacle at the $x$-side, it will always be in $H_x$ and decide to move towards $A_x$.
 
@@ -433,52 +433,57 @@ Next, define ‘axes’. For a direction $x\in \left\{\alpha,\beta,\gamma \right
 We aim to prove that if the robot crosses an axis $A_x$ at a Eudlidian distance $\lambda$ from $T$, it will never cross the same axis at a distance $\geq \lambda$ later in time.
 In order to prove this, we start by introducing some concepts that play a role in the argument. 
 
-### Definition 1.1
+<div class="def" id="def:m-measure">
+    Define a custom measurement $M$ for a point's distance to $T$. Let $\Gamma_1$ be a triangle that is similar to the obstacles but rotated by $180^\circ$ compared to the obstacles. Let $\Gamma_1$ have its orthocenter in $T$ and a circumference of $1$. Note that the vertices of $\Gamma_1$ are by definition on the axes $A_\alpha,A_\beta$ and $A_\gamma$. The distance $M(p)$ of a point $p$ to $T$ is defined as the factor $f \geq 0$ with which $\Gamma_1$ should be scaled with respect to $T$ such that $p\in\Gamma_1$. 
+</div>
 
-Define a custom measurement $M$ for a point's distance to $T$. Let $\Gamma_1$ be a triangle that is similar to the obstacles but rotated by $180^\circ$ compared to the obstacles. Let $\Gamma_1$ have its orthocenter in $T$ and a circumference of $1$. Note that the vertices of $\Gamma_1$ are by definition on the axes $A_\alpha,A_\beta$ and $A_\gamma$. The distance $M(p)$ of a point $p$ to $T$ is defined as the factor $f \geq 0$ with which $\Gamma_1$ should be scaled with respect to $T$ such that $p\in\Gamma_1$. 
+<div class="def" id="def:crossings">
+    The heuristic path $R(S,T)$ crosses the three axes 0 or more times. Let $\textbf{c} = \{c_1,c_2,\ldots\}$ be a vector containing those crossing points and let $A(c_i)$ be the corresponding axes and $H(c_i)$ the corresponding half-plane.
+</div>
 
-### Definition 1.2
+<div class="def" id="def:dxp">
+    For a point $p \in H_x$, define $D_x(p)$ as the $M$-distance between $T$ and the orthogonal projection of $p$ on $A_x$. $D_x(p)$ is not defined for points $p$ that are not in $H_x$. In the course of the proof, we will speak loosely about ‘the $D_x$’ of the robot in time. 
+</div>
 
-The heuristic path $R(s,t)$ crosses the three axes 0 or more times. Let $\textbf{c} = \{c_1,c_2,\ldots\}$ be a vector containing those crossing points and let $A(c_i)$ be the corresponding axes and $H(c_i)$ the corresponding half-plane.
+<div class="lemma" id="lem:increase-follow-side">
+    For any direction $x\in\{\alpha,\beta,\gamma\}$, looking at the $D_x$ over time in the heuristic path of the robot, $D_x$ can only increase while the robot follows the side of an obstacle and it has started following that side at a point not in $H_x$.
+</div>
 
-### Definition 1.3
+<div class="proof">
+<p>
+    Suppose the robot starts following the side of a triangle. At the moment it first touches the triangle, it is in the half-plane $H_x$. Suppose that $D_x$ increases while following the side. If the side is in the $x$-direction, $D_x$ will stay constant. If the side is not, $D_x$ decreases, since the robot always aims towards $T$. This contradicts the assumptions and proves the lemma.
+</p>
+</div>
 
-For a point $p \in H_x$, define $D_x(p)$ as the $M$-distance between $T$ and the orthogonal projection of $p$ on $A_x$. $D_x(p)$ is not defined for points $p$ that are not in $H_x$. In the course of the proof, we will speak loosely about ‘the $D_x$’ of the robot in time. 
+<div class="lemma" id="lem:axis-in-own-half">
+    For any $x \not = y$, the intersection $A_x\cap H_y = \{T\}$.
+</div>
 
-### Definition 1.4
+<div class="proof">
+<p>
+    This follows directly from the fact that the obstacles are sharp triangles. For a direction $x\in\{\alpha,\beta,\gamma\}$, the axis $A_x$ is perpendicular to the direction $x$, whereas the angles between $x$ and the other two directions are smaller than $90^\circ$.
+</p>
+</div>
 
-### Lemma 1.1
+<div class="lemma" id="lem:two-planes-only">
+    An obstacle can only lie in 2 out of the 3 half-planes.
+</div>
 
-For any direction $x\in\{\alpha,\beta,\gamma\}$, looking at the $D_x$ over time in the heuristic path of the robot, $D_x$ can only increase while the robot follows the side of an obstacle and it has started following that side at a point not in $H_x$.
+<div class="proof">
+<p>
+    This follows from geometric observations. If the object would be in all three half-planes, it would enclose $T$, which is not allowed.
+</p>
+</div>
 
-#### Proof
+<div class="lemma" id="lem:same-m-distance">
+    Let $\Gamma$ be a triangle with sides $a,b,c$ that intersects with the two axes $A_a$ and $A_b$. The intersections of side $c$ with these axes have the same $M$-distance.
+</div>
 
-Suppose the robot starts following the side of a triangle. At the moment it first touches the triangle, it is in the half-plane $H_x$. Suppose that $D_x$ increases while following the side. If the side is in the $x$-direction, $D_x$ will stay constant. If the side is not, $D_x$ decreases, since the robot always aims towards $T$. This contradicts the assumptions and proves lemma 1.1.
-
-
-### Lemma 1.2
-
-For any $x \not = y$, the intersection $A_x\cap H_y = \{t\}$.
-
-#### Proof
-This follows directly from the fact that the obstacles are sharp triangles. For a direction $x\in\{\alpha,\beta,\gamma\}$, the axis $A_x$ is perpendicular to the direction $x$, whereas the angles between $x$ and the other two directions are smaller than $90^\circ$.
-
-### Lemma 1.3
-
-An obstacle can only lie in 2 out of the 3 half-planes.
-
-#### Proof
-
-This follows from geometric observations. If the object would be in all three half-planes, it would enclose $T$, which is not allowed.
-
-### Lemma 1.4
-
-Let $\Gamma$ be a triangle with sides $a,b,c$ that intersects with the two axes $A_a$ and $A_b$. The intersections of side $c$ with these axes have the same $M$-distance.
-
-#### Proof
-
-This follows from the observation that along the side with direction $c$, the $M$-measure is constant by definition.
-
+<div class="proof">
+<p>
+    This follows from the observation that along the side with direction $c$, the $M$-measure is constant by definition.
+</p>
+</div>
 
 ### Lemma 1.5
 
