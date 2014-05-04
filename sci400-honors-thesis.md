@@ -85,30 +85,27 @@ The two algorithms presented are guaranteed to converge for any scene and can be
 
 
 ## Notation and Conventions
-<div class="status work-in-progress"></div>
+<div class="status full-draft"></div>
 
-Outline for this section:
+The remainder of this paper is quite heavy on specific notation and naming. Most of the notation and writing conventions are enumerated in this section to aid the reader.
 
-* $S$ and $T$ as start and target
-* Half planes $\Pi_\alpha$.
-* Hit points $H_i$
-* Leave points $L_i$
-* Obstacle $\Omega_i$
-* Edge = whole edge
-* Side = side of a polygonal obstacle
-* Formal formulation of the algorithm here.
-* If in doubt, take a left.
-* $R(S,T)$ robot path: $R(A,B)$ path between $A$ and $B$.
-* $d(S,T)$ distance
-* $O(S,T)$ optimal path
-* Lengths go like $|R(S,T)|$.
-* $\rho = \max |R(S,T)|/|O(S,T)|$ over all possible pairs of $S$ and $T$ under all configurations under consideration
-* $\lambda = \max |R(S,T)|/d(S,T)$ over all possible pairs of $S$ and $T$ under all configurations under consideration
-* Note that always $\lambda >= \rho$.
-* local direction
-* $L_1$ metric: $|R(S,T)|_{L_1}$.
-* $x$ and $y$ coordinates: $A_x$, $A_y$
-* $AB$ is the line through $A$ and $B$
+When we refer to points in a scene, or more specifically points on the heuristic path taken by a robot, we use capital letters. The $x$ and $y$-coordinates of a point $A$ would be indicated by $A_x$ and $A_y$ respectively. The starting point and the target have the same symbols $S$ and $T$ in every scene.
+
+Along the robots path, it hits $n \geq 0$ obstacles. These obstacles are called $\Omega_i$, where $i$ enumerates the obstacles from the first to the last. In theory, an obstacle could have multiple indices if the obstacle is hit multiple times. For each of these obstacles, we define a hit point $H_i$ as the point at which the obstacle first touches $\Omega_i$. Similarly, $L_i$ is the point at which the robot gets loose from $\Omega_i$ again. When we talk about the edge of an obstacle, we mean the whole boundary, whereas single sides (of polygonal obstacles) will be consequently called 'side'.
+
+We refer to the full heuristic path taken by our *BasicAlg*-robot from start to finish by $R(S,T)$ and the path between two specific points $A$ and $B$ by $R(A,B)$. The heuristic paths must be distinguished from an optimal path with complete knowledge of the scene: $O(S,T)$. Path lengths are indicate by absolute value signs, as in $|R(S,T)|$ or $|O(A,B)|$. By default, distances are measured in the $L_2$-metric. If the $L_1$ distance is required, this is indicated by a subscript: $|R(S,T)|_{L_1}$.
+
+To assess the performance of the heuristic paths, we define two ratios. Firstly, define
+
+[[ \rho = \max \frac{|R(S,T)|}{|O(S,T)|} ]]
+
+over all possible pairs of $S$ and $T$ under all configurations that are under consideration in a specific section. Similarly, define
+
+[[ \lambda = \max \frac{|R(S,T)|}{d(S,T)} ]]
+
+over all possible pairs of $S$ and $T$ under all configurations that are under consideration in a specific section. Note that always $\lambda \geq \rho$.
+
+
 
 ## Equal Size Squares
 <div class="status full-draft"></div>
@@ -554,7 +551,7 @@ We conjecture that *BasicAlg* is guaranteed to converge for any scene with obsta
 Kareti <em>e.a.</em> have put the essence of this work nicely: "These formulations, although abstract and simplified compared to real-life scenarios, provide the basis for practical systems by highlighting the underlying critical issues." <a href="#kareti" class="ref"></a>
 
 
-## References
+<h2 class="no-number">References</h2>
 <div class="status work-in-progress"></div>
 
 <ul class="references">
