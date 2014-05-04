@@ -28,7 +28,7 @@ We study our own algorithm, *BasicAlg*, by which the robot will always try to mo
 
 The paper starts with a literature review of earlier work on this topic and two similar algorithms by Lumelsky and <span class="note">John []</span> in particular. In the following sections, we will evaluate the behavior of our algorithm for cases when the obstacles in the scene are all axis-aligned squares, circles, and similar same-orientation triangles respectively. For squares we provide a tight upper bound on the ratio $\rho = |R(S,T)|/|O(S,T)|$ over all possible scenes, where $|R(S,T)|$ is the length of the path taken by the robot and $|O(S,T)|$ the length of the optimal path from $S$ to $T$. We find numerical bounds for that ratio for a scene with circles, but these bounds are not tight. For triangles, the ratio is not bounded, but we prove that the robot will always reach the target if it follows our algorithm.
 
-As a student, my role in this project was to (1) conduct a literature survey into previous work on robotic path planning and (2) to extend on the earlier work of Prof. Dr. Henk Meijer and Marijke Hengel by looking into the algorithm for scenes with circles and triangles. I found the proof for guaranteed reachability of the target when the obstacles are similar same-orientation triangles under Henk Meijer's supervision.
+As a student, my role in this project was to ❶ conduct a literature survey into previous work on robotic path planning and ❷ to extend on the earlier work of Prof. Dr. Henk Meijer and Marijke Hengel by looking into the algorithm for scenes with circles and triangles. I found the proof for guaranteed reachability of the target when the obstacles are similar same-orientation triangles under Henk Meijer's supervision.
 
 
 
@@ -40,7 +40,7 @@ The first classification that can be applied to the broad field of motion planni
 
 A second subdivision that can be made is in the requirements for the robot's sensors. A substantial part of research is done into robots that have a vision sensor, and therefore have complete information on the part of the scene they look at. These algorithms tend to combine off-line methods for local optimality with a dynamic approach for the global algorithm <a href="#ando" class="ref"></a> <a href="#kareti" class="ref"></a>. Early work on navigation with visual information was carried out by Sutherland <a href="#sutherland" class="ref"></a> and Lumelsky & Skewis <a href="#lumelsky-skewis" class="ref"></a>, and research into navigation with visual information is still an active topic <span class="note">[]</span>. The alternative to the use of vision sensors are touch sensors. This type of robot only receives feedback the moment it touches an obstacles. Our algorithm falls in the second category, which is therefore more relevant to this paper.
 
-Thirdly, we apply a classification introduced by Kareti e.a. <a href="#kareti" class="ref"></a>. They divide robot navigation research into three classes:
+Thirdly, we apply a classification introduced by Kareti <em>e.a.</em> <a href="#kareti" class="ref"></a>. They divide robot navigation research into three classes:
 
 * The goal of research that is classified as *Class A* is to guarantee a certain navigation objective. This objective could be drawing a map of the surroundings, navigating to a goal (point or wall) or anything else that requires navigation. It is not important that parameters such as the distance traveled are minimized, as long as the goal is reached.
 * A *Class B* method needs to optimized some parameters. These could be for example the distance traveled, as in <a href="#baeza-yates" class="ref"></a>, or the ratio between the length of the path taken by the algorithm and the optimal path, like in <a href="#papadimitriou" class="ref"></a> or this paper.
@@ -68,7 +68,7 @@ Finally, there is a division between heuristic and non-heuristic algorithms. Heu
 
 This section introduces two algorithms that have been presented by Lumelsky and Stepanov <a href="#lumelsky" class="ref"></a> <a href="#lumelsky3" class="ref"></a> for robots with similar capabilities as our basic robot that can follow *BasicAlg*. The algorithms are dynamic and can be followed by a robot without knowledge of the environment that only receive sensory feedback when hitting an obstacle. In both cases, however, a few registers of memory are required. In that sense, the robots are less basic than the one we will study in this paper. For both of the algorithms, we will give information about the bounds that Lumelsky and Stepanov founds for their performance and in what cases they are non-heuristic. 
 
-The first algorithm is called *Bug1*. It uses three registers, say $R_1$, $R_2$ and $R_3$ to store intermediate information. When free, the robot moves towards $T$. If the target is reached, the procedure stops. When an obstacle is encountered, define a hit point $H_j$. Now move along the edge of the obstacle that was hit in a fixed local direction. Assume without loss of generality that this is always counter-clockwise. If the robot reaches the target, stop. Travel around the edge of the object until back at $H_j$. Along the way, keep track of three things: (1) store $L_j$, the point that is closest to the target, in register $R_1$, (2) store the distance traveled along the edge in $R_2$, and the distance traveled since $L_j$ in $R_3$. Using the information in the latter two registers, we can now navigate along the edge in the most efficient way to leave the obstacle at $L_j$ and move towards $T$ again. The algorithm is illustrated in <a href="#fig:bug1" class="figref"></a>.
+The first algorithm is called *Bug1*. It uses three registers, say $R_1$, $R_2$ and $R_3$ to store intermediate information. When free, the robot moves towards $T$. If the target is reached, the procedure stops. When an obstacle is encountered, define a hit point $H_j$. Now move along the edge of the obstacle that was hit in a fixed local direction. Assume without loss of generality that this is always counter-clockwise. If the robot reaches the target, stop. Travel around the edge of the object until back at $H_j$. Along the way, keep track of three things: ❶ store $L_j$, the point that is closest to the target, in register $R_1$, ❷ store the distance traveled along the edge in $R_2$, and the distance traveled since $L_j$ in $R_3$. Using the information in the latter two registers, we can now navigate along the edge in the most efficient way to leave the obstacle at $L_j$ and move towards $T$ again. The algorithm is illustrated in <a href="#fig:bug1" class="figref"></a>.
 
 Two theorems are used to access the performance of the *Bug1*-algorithm. Firstly, Lumelsky <a href="#lumelsky" class="ref"></a> finds that for any algorithm with the given information and robot capabilities and for any $\epsilon > 0$, there exists a scene for which the length $|R(S,T)|$ of the path generated by the algorithm will obey the relationship $|R(S,T)| \geq d(S,T) + \Sigma\,p_i-\epsilon$, where $d(S,T)$ is the distance between $S$ and $T$ and $\Sigma\, p_i$ is the sum of perimeters of the obstacles intersecting the line that connects $S$ and $T$. Secondly,  the length of a path generated by *Bug1* never exceeds the limit $|R(S,T)|=d(S,T)+1.5\cdot \Sigma\, p_i$. The algorithm is guaranteed to converge for scenes with arbitrary obstacles as long as the target and starting point are not enclosed in an obstacle.
 
@@ -175,12 +175,6 @@ The above lemma implies that if $S_x = T_x$ and $S_y < T_y$ there is no point $P
 <p>So the lemma holds.</p>
 </div>
 
-<figure id="fig:equalsquares" style="float:bottom">
-    <img src="drawings/ubsquares.svg" alt="">
-    <figcaption>Illustration of the constructive proof in this chapter. By placing unit squares in the way illustrated in this figure, a lower bound on the ratio $\rho$ can be set to $\sqrt{10}$.</figcaption>
-</figure>
-
-
 <div class="lemma" id="le:STalignedlower">
 If $S$ and $T$ lie on the same horizontal or vertical line, and the obstacles are equal size axis aligned squares, then there is a configuration for which 
 
@@ -205,6 +199,12 @@ and
 
 <p>so using <a href="#le:STalignedlower" class="lemref"></a> we know that $|R(S,T)|/|O(S,T)| < 3$. We conclude that the lemma holds.</p>
 </div>
+
+
+<figure id="fig:equalsquares">
+    <img src="drawings/ubsquares.svg" alt="">
+    <figcaption>Illustration of the constructive proof in this chapter. By placing unit squares in the way illustrated in this figure, a lower bound on the ratio $\rho$ can be set to $\sqrt{10}$.</figcaption>
+</figure>
 
 
 
@@ -420,7 +420,7 @@ An investigation of several other configurations with circles shows that mostly,
 <div class="note">If I have enough time, I'm gonna compare a little more here. Do you think the above paragraph would be too weak to put in if there is <b>not</b> enough time?</div>
 
 ## Similar Same-Orientation Sharp Triangles
-<div class="status first-draft"></div>
+<div class="status full-draft"></div>
 
 In the line of the previous sections, this section investigates scenes in which all obstacles are similar same-orientation sharp triangles. Although the ratio $\rho$ under *BasicAlg* is unbounded in this case, we prove that convergence of *BasicAlg* is guaranteed.
 
@@ -453,15 +453,7 @@ We aim to prove that if the robot crosses an axis $A_x$ at a Euclidean distance 
     Consider one of the three half-planes. Without loss of generality, assume this to be $\Pi_\alpha$. For a point $P \in \Pi_\alpha$, define $D_\alpha(P)$ as the $M$-distance between $T$ and the orthogonal projection of $P$ on $A_\alpha$. $D_\alpha(P)$ is not defined for points $P$ that are not in $\Pi_\alpha$. In the course of this proof, we will speak loosely about ‘the $D_\alpha$’ of the robot in time. Definitions for $D_\beta$ and $D_\gamma$ follow accordingly.
 </div>
 
-<div class="lemma" id="lem:increase-follow-side">
-    For any direction $x\in\{\alpha,\beta,\gamma\}$, looking at the $D_x$ over time in the heuristic path of the robot, $D_x$ can only increase while the robot follows the side of an obstacle $\Omega_i$ and it has started following that side at a hit-point $H_i$ that is not in $\Pi_x$.
-</div>
 
-<div class="proof">
-<p>
-    Suppose the robot starts following the side of a triangle. At the moment it first touches the triangle, it is in the half-plane $\Pi_x$. Suppose that $D_x$ increases while following the side. If the side is in the $x$-direction, $D_x$ will stay constant. If the side is not, $D_x$ decreases, since the robot always aims towards $T$. This contradicts the assumptions and proves the lemma.
-</p>
-</div>
 
 <div class="lemma" id="lem:axis-in-own-half">
     For any $x \not = y$, the intersection $A_x\cap H_y = \{T\}$.
@@ -473,56 +465,72 @@ We aim to prove that if the robot crosses an axis $A_x$ at a Euclidean distance 
 </p>
 </div>
 
-<div class="lemma" id="lem:two-planes-only">
-    An obstacle can only lie in 2 out of the 3 half-planes.
+
+<div class="lemma" id="lem:increase-follow-side">
+    For any direction $x\in\{\alpha,\beta,\gamma\}$, looking at the $D_x$ over time in the heuristic path of the robot, $D_x$ can only increase while the robot follows the side of an obstacle $\Omega_i$ and it has started following that side at the corresponding hit-point $H_i$ that is not in $\Pi_x$.
 </div>
 
 <div class="proof">
 <p>
-    This follows from geometric observations. If the object would be in all three half-planes, it would enclose $T$, which is not allowed.
+    Suppose the robot starts following the side of a triangle. At the moment it first hits the triangle at $H_i$, according to <a href="#lem:axis-in-own-half" class="lemref"></a>, it is in one half-plane. Assume this without loss of generality to be $\Pi_\alpha$. Suppose that $D_\alpha$ increases while following the side. If the side has the $\alpha$-direction, $D_\alpha$ will stay constant. If the side is not, $D_\alpha$ decreases, since the robot always aims towards $T$. This contradicts the assumptions and proves the lemma.
+</p>
+</div>
+
+
+<div class="lemma" id="lem:two-planes-only">
+    An obstacle $\Omega$ can have a non-empty intersection with at most 2 of the half-planes $\Pi_\alpha,\Pi_\beta,\Pi_\gamma$.
+</div>
+
+<div class="proof">
+<p>
+    This follows from geometric observations. If the object would have a non-empty intersection with all thee half-planes, it would enclose the target $T$, which is not allowed.
 </p>
 </div>
 
 <div class="lemma" id="lem:same-m-distance">
-    Let $\Gamma$ be a triangle with sides $a,b,c$ that intersects with the two axes $A_a$ and $A_b$. The intersections of side $c$ with these axes have the same $M$-distance.
+    Let $\Gamma$ be a triangle with sides $a,b,c$ that intersects with two axes. Without loss of generality, let the axes be $A_\alpha$ and $A_\beta$. The intersections of side $c$ (with direction $\gamma$) with te axes $A_\alpha,A_\beta$ have equal $M$-distance.
 </div>
 
 <div class="proof">
 <p>
-    This follows from the observation that along the side with direction $c$, the $M$-measure is constant by definition.
+    This follows from the observation that along a triangle's side in direction $\gamma$ that is not in $\Pi_\gamma$, the $M$-measure is constant by definition.
 </p>
 </div>
 
-<div class="lemma" id="lem:decrease">If $M(c_i)=\lambda$ for some $i$, then either $M(c_{i+1})<\lambda$ or $M(c_{i+2})<\lambda$.</div>
+<div class="lemma" id="lem:decrease">Consider a point $C_i$ in the robot path at which the robot crosses an axis. If $M(C_i)=d$ for some $i$ and some distance $d$, then either $M(C_{i+1}) < d$ (the next axis-crossing is closer by) or $M(C_{i+2}) < d$ (the crossing after that is).</div>
 
 <div class="proof">
 
-Consider the side of the obstacle $\Omega_i$ that followed after $c_i$. We distinguish two scenarios: (1) at the moment the robot stops following the side, the robot is only in one half-plane. Without loss of generality, let this be $\Pi_a=\Pi(c_i)$. In the second scenario (2) the robot is both in $\Pi_a$ and another half-plane when it stops following the side. Without loss of generality, let this second half-plane be $\Pi_b$. 
+Consider the side of the obstacle $\Omega_i$ that is followed immediately after the robot crosses an axis at $C_i$. We distinguish two scenarios: ❶ at the moment the robot stops following the side, the robot is only in one half-plane. Without loss of generality, let this be $\Pi_\alpha=\Pi(C_i)$. In the second scenario ❷ the robot is both in $\Pi_\alpha$ and another half-plane when it stops following the side. Without loss of generality, let this second half-plane be $\Pi_\beta$. 
 
-1. If the robot ends up only in the half-plane $\Pi_a$, it can only hit edges in the $a$-direction, and will move towards the axis $A_a$. Since, according to lemma 1.1, $D_a$ will decrease, the path will cross $A_a$ again, closer to $T$ than before. $M(c_{i+1})<\lambda$.
-2. If the robot ends up in two half-planes $\Pi_a$ and $\Pi_b$, it will folow the same obstacle's $b$-side before leaving the edge of the $\Omega_i$. After following this second side, it can either end up in (1) $\Pi_a \cap \Pi_b$ or (2) in $\Pi_b$ only:
-    1. If the robot is still in $\Pi_a \cap \Pi_b$, it did not cross $A_b$ (using lemma 1.2). Note that, if $D_b$ would be $\geq \lambda$, the obstacle $\Omega_i$, $\Omega_i$ would intersect with both $A_a$ and $A_b$. This is in contradiction with the observation that the robot did not cross $A_b$. We conclude that at this moment, $D_a < \lambda$ and $D_b < \lambda$. Since those measures monotomely decrease while the robot is in $\Pi_a$ and $\Pi_b$ and the robot now moves towards $A_a$ and $A_b$, it will intersect one of them at $M(c_{i+1})<\lambda$.
-    2. If the robot is now only in $\Pi_b$, it will inevitably move towards $A_b$. Following the same argument as directly above, if the robot did not cross the axis $A_b$, $D_b<\lambda$ and $M(c_{i+1})<\lambda$. Now we consider the case that the robot did cross $A_b$. Due to lemma 1.3, the robot is now only in half-plane $\Pi_b$ and will move towards $A_b$. Although its current $D_b$ could be $\geq \lambda$, it will strictly move towards $A_b$. Since by lemma 1.4, the part of the axis with $D_b \geq \lambda$ is covered by $\Omega_i$, the robot will now intersect the axis at a distance $M(c_{i+2})<\lambda$.
+1. If the robot ends up only in the half-plane $\Pi_\alpha$ after following the side, it is not free in $\Pi_\alpha$ and can only hit edges in the $\alpha$-direction. It will move towards the axis $A_\alpha$. Since, according to <a href="#lem:increase-follow-side" class="lemref"></a>, $D_\alpha$ will decrease, the path will cross $A_\alpha$ again, closer to $T$ than before. $M(C_{i+1}) < d$.
+2. If the robot ends up in two half-planes $\Pi_\alpha$ and $\Pi_\beta$ after following the side, it will follow the same obstacle's $b$-side before leaving the boundary of the obstacle $\Omega_i$. The moment after directly following this second side, it can either be in ❶ $\Pi_\alpha \cap \Pi_\beta$ or ❷ in $\Pi_\beta$ only:
+    1. If the robot is still in $\Pi_\alpha \cap \Pi_\beta$, it did not cross $A_\beta$ (using <a href="#lem:axis-in-own-half" class="lemref"></a>). Note that, if $D_\beta$ would be $\geq d$, the obstacle $\Omega_i$ would intersect with both $A_\alpha$ and $A_\beta$. This is in contradiction with the observation that the robot did not cross $A_\beta$. We conclude that at this moment, $D_\alpha < d$ and $D_\beta < d$. Since those measures decrease monotonely while the robot is in $\Pi_\alpha$ and $\Pi_\beta$ and the robot now moves towards on of the axes $A_\alpha$ and $A_\beta$, it will intersect one of them at $M(C_{i+1}) < d$.
+    2. If the robot is now only in $\Pi_\beta$, it will inevitably move towards $A_\beta$. Following the same argument as directly above, if the robot did not cross the axis $A_\beta$, $D_\beta < d$ and $M(C_{i+1}) < d$. Now we consider the case that the robot did cross $A_\beta$. Due to <a href="#lem:two-planes-only" class="lemref"></a>, the robot is now only in half-plane $\Pi_\beta$ and will move towards $A_\beta$. Although its current $D_\beta$ could be $\geq d$, it will strictly move towards $A_\beta$. Since by <a href="#lem:same-m-distance" class="lemref"></a>, the part of the axis with $D_b \geq d$ is covered by $\Omega_i$, the robot is forced to intersect the axis at a distance $M(C_{i+2}) < d$.
 
-This completes the proof.
+This completes the proof for <a href="#lem:decrease" class="lemref"></a>.
 
 </div>
 
 <div class="theorem" id="th:distance-decreases">
-    If the robot crosses an axis $A_x$ at a Euclidean distance $\lambda$ from $T$, it will never cross the same axis at a distance $\geq \lambda$ later in time.
+    If the robot crosses an axis $A_x$ at a Euclidean distance $d$ from $T$, it will never cross the same axis at a distance $\geq d$ later in time.
 </div>
 
 <div class="proof">
 
-If for some $i$, $A(c_i)=A(c_{i+1})=A_x$, then $M(c_i) > M(c_{i+1})$. This follows from the fact that $D_x$ decreases while the robot is in $\Pi_x$, and that the robot must cross another axis if it would leave $\Pi_x$.
+If for some $i$, $A(C_i)=A(C_{i+1})=A_x$, then $M(C_i) > M(C_{i+1})$. This follows from the fact that for any direction $x\in\{\alpha,\beta,\gamma\}$ $D_x$ decreases while the robot is in $\Pi_x$, and that the robot must cross another axis if it would leave $\Pi_x$.
 
-Furthermore, from lemma 1.5, we have that if the robot crosses two different axes after each other, it will eventually cross that axis at a smaller $M$-distance. Suppose the robot comes back to the axis $A_x$ at the $k$’th crossing $c_k$ after crossing a series of other axes. Let $\Omega_k$ be the object along which the robot crosses at $c_k$ and let $p$ be the point at which the robot starts following $\Omega_k$. Assume now that (contrary to the theorem) $M(c_k)\geq \lambda$. Repeatedly using lemma 1.4 we know that $M(p) < \lambda$, therefore, from lemma 1.4, the obstacle $\Omega_k$ will cover the axis $A_x$ all the way between $c_k$ and the point on $A_x$ at $M$-distance $\lambda$. This is not possible, since the object $\Omega_i$ crosses the axis in this region too and objects are not allowed to intersect. 
+Furthermore, from <a href="#lem:decrease" class="lemref"></a>, we have that if the robot crosses two different axes after each other, it will eventually cross that axis at a smaller $M$-distance. Suppose the robot comes back to the axis $A_x$ at the $k$’th crossing $C_k$ after having crossed a series of other axes. Let $\Omega_k$ be the object along which the robot crosses at $C_k$ and let $H_k$ be the point at which the robot starts following $\Omega_k$. Assume now that (contrary to the theorem) $M(C_k)\geq d$. Repeatedly using <a href="#lem:same-m-distance" class="lemref"></a> we know that $M(H_k) < d$, therefore, from <a href="#lem:same-m-distance" class="lemref"></a>, the obstacle $\Omega_k$ will cover the axis $A_x$ all the way between $C_k$ and the point on $A_x$ at $M$-distance $d$. This is not possible, since the object $\Omega_i$ crosses the axis in this region too and objects are not allowed to intersect. 
 
-We conclude that if the robot crosses an axis $A_x$ at a Euclidean distance $\lambda$ from $T$, it will never cross the same axis at a distance $\geq \lambda$ later in time.
+We conclude that if the robot crosses an axis $A_x$ for any $x\in\{\alpha,\beta,\gamma\}$ at some Euclidean distance $d$ from $T$, it will never cross the same axis at a distance $\geq d$ later in time.
 
 </div>
 
+### Comparing Performance
 
+In this section, we have proved that a robot following our algorithm *BasicAlg* will always get closer to its target. It is easy to see that, if the number of objects in the scene is finite and the objects have finite size, this implies guaranteed convergence of our algorithm.
+
+For triangles, there clearly is no bound on the ratios $\lambda$ or $\rho$. This is illustrated by the situation where $S$ and $T$ are very close together, with the corner of a huge triangle $\Gamma$ in between them. It is easy to place the triangle such that the robot is forced to walk along the obstacle. The same is true for *Bug1* and *Bug2*, though. Like *Bug1* and *Bug2*, our algorithm is bounded by the sum of perimeters of the obstacles and $d(S,T)$, since it will follow an obstacle's boundary at most once.
 
 
 
@@ -530,11 +538,15 @@ We conclude that if the robot crosses an axis $A_x$ at a Euclidean distance $\la
 
 
 ## Conclusion
-<div class="status to-be-done"></div>
+<div class="status first-draft"></div>
 
-Other shapes?
+In the light of the early research in robot motion planning, we have gone back to the essence motion planning. *BasicAlg*, the algorithm presented in this paper can be followed by a robot with absolute minimal requirements. It only needs to know its location, the location of the target and it should now when it touches an obstacle. 
 
-"These formulations, although abstract and simplified compared to real-life scenarios, provide the basis for practical systems by highlighting the underlying critical issues." <a href="#kareti" class="ref"></a>
+The performance of this algorithm has been evaluated for three types of scenes: with equal size squares, circles and with similar same-orientation triangles. For the first two categories, we have been able to find a bound on the ratio of the length of the robot path over the length of the optimal path. For each of the situations, we can guarantee convergence to the target. When comparing the performance of our algorithm to that of the *Bug1*- and *Bug2*-algorithms presented by Lumelsky and Stepanov <a href="#lumelsky" class="ref"></a>, we do not see clear differences. The main advantage of their method is that it can guarantees convergence even for concave obstacles, whereas our algorithm can be run on robots with less requirements.
+
+We conjecture that *BasicAlg* is guaranteed to converge for any scene with obstacles that are convex, similar and have the same orientation. A first step towards proving this, would be to extend the proof for sharp triangles into arbitrary triangles, after which it should be generalizable to convex $n$-gons. 
+
+Kareti <em>e.a.</em> have put the essence of this work nicely: "These formulations, although abstract and simplified compared to real-life scenarios, provide the basis for practical systems by highlighting the underlying critical issues." <a href="#kareti" class="ref"></a>
 
 
 ## References
