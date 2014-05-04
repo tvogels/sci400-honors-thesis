@@ -424,13 +424,13 @@ An investigation of several other configurations with circles shows that mostly,
 
 In the line of the previous sections, this section investigates scenes in which all obstacles are similar same-orientation sharp triangles. Although the ratio $\rho$ under *BasicAlg* is unbounded in this case, we prove that convergence of *BasicAlg* is guaranteed.
 
-Assume all obstacles in $S$ to be similar triangles of the same orientation. We use a coordinate system with $T$ in the origin. The sides of triangle number $k$ are called $a_k, b_k, c_k$ such that all sides $a_i$ have the same direction $\alpha$, all sides $b_i$ have direction $\beta$ and all sides $c_i$ have direction $\gamma$. Now consider the direction $\alpha$. We define a half-plane $H_\alpha$ that is delimited by a line in the direction $\alpha$ through $T$. It indicates the region in which the robot could hit a triangle at a side in direction $\alpha$. Define the half-planes $H_\beta$ and $H_\gamma$ accordingly. The half-planes are well defined because the robot always moves towards $T$.
+Assume all obstacles in $S$ to be similar triangles of the same orientation. We use a coordinate system with $T$ in the origin. The sides of triangle number $k$ are called $a_k, b_k, c_k$ such that all sides $a_i$ have the same direction $\alpha$, all sides $b_i$ have direction $\beta$ and all sides $c_i$ have direction $\gamma$. Now consider the direction $\alpha$. We define a half-plane $\Pi_\alpha$ that is delimited by a line in the direction $\alpha$ through $T$. It indicates the region in which the robot could hit a triangle at a side in direction $\alpha$. Define the half-planes $\Pi_\beta$ and $\Pi_\gamma$ accordingly. The half-planes are well defined because the robot always moves towards $T$.
 
-Next, define ‘axes’. For the direction $\alpha$, define $A_\alpha$ as a ray from the origin into $H_\alpha$ that is perpendicular to $\alpha$. By definition, if a the robot hits an obstacle at the $\alpha$-side, it will always be in $H_\alpha$ and decide to move towards $A_\alpha$. Define $A_\beta$ and $A_\gamma$ similarly. Those axes have the same properties.
+Next, define ‘axes’. For the direction $\alpha$, define $A_\alpha$ as a ray from the origin into $\Pi_\alpha$ that is perpendicular to $\alpha$. By definition, if a the robot hits an obstacle at the $\alpha$-side, it will always be in $\Pi_\alpha$ and decide to move towards $A_\alpha$. Define $A_\beta$ and $A_\gamma$ similarly. Those axes have the same properties.
 
 <figure id="fig:illustration">
     <img src="illustration.svg" alt="">
-    <figcaption>Illustration of defined concepts. The half-planes $H_\alpha,H_\beta,H_\gamma$ and axes $A_\alpha,A_\beta,A_\gamma$ are shown for a scene with triangles of orientations $a,b,c$.</figcaption>
+    <figcaption>Illustration of defined concepts. The half-planes $\Pi_\alpha,\Pi_\beta,\Pi_\gamma$ and axes $A_\alpha,A_\beta,A_\gamma$ are shown for a scene with triangles of orientations $a,b,c$.</figcaption>
 </figure>
 
 <figure id="fig:m-distance">
@@ -446,20 +446,20 @@ We aim to prove that if the robot crosses an axis $A_x$ at a Euclidean distance 
 </div>
 
 <div class="definition" id="def:crossings">
-    The heuristic path $R(S,T)$ crosses the three axes 0 or more times. Let $\textbf{C} = \{C_1,C_2,\ldots\}$ be a vector containing those crossing points and let $A(C_i)$ be the corresponding axes and $H(C_i)$ the corresponding half-plane.
+    The heuristic path $R(S,T)$ crosses the three axes 0 or more times. Let $\textbf{C} = \{C_1,C_2,\ldots\}$ be a vector containing those crossing points and let $A(C_i)$ be the corresponding axes and $\Pi(C_i)$ the corresponding half-plane.
 </div>
 
 <div class="definition" id="def:dxp">
-    Consider one of the three half-planes. Without loss of generality, assume this to be $H_\alpha$. For a point $P \in H_\alpha$, define $D_\alpha(P)$ as the $M$-distance between $T$ and the orthogonal projection of $P$ on $A_\alpha$. $D_\alpha(P)$ is not defined for points $P$ that are not in $H_\alpha$. In the course of this proof, we will speak loosely about ‘the $D_\alpha$’ of the robot in time. Definitions for $D_\beta$ and $D_\gamma$ follow accordingly.
+    Consider one of the three half-planes. Without loss of generality, assume this to be $\Pi_\alpha$. For a point $P \in \Pi_\alpha$, define $D_\alpha(P)$ as the $M$-distance between $T$ and the orthogonal projection of $P$ on $A_\alpha$. $D_\alpha(P)$ is not defined for points $P$ that are not in $\Pi_\alpha$. In the course of this proof, we will speak loosely about ‘the $D_\alpha$’ of the robot in time. Definitions for $D_\beta$ and $D_\gamma$ follow accordingly.
 </div>
 
 <div class="lemma" id="lem:increase-follow-side">
-    For any direction $x\in\{\alpha,\beta,\gamma\}$, looking at the $D_x$ over time in the heuristic path of the robot, $D_x$ can only increase while the robot follows the side of an obstacle $\Omega_i$ and it has started following that side at a hit-point $H_i$ that is not in $H_x$.
+    For any direction $x\in\{\alpha,\beta,\gamma\}$, looking at the $D_x$ over time in the heuristic path of the robot, $D_x$ can only increase while the robot follows the side of an obstacle $\Omega_i$ and it has started following that side at a hit-point $H_i$ that is not in $\Pi_x$.
 </div>
 
 <div class="proof">
 <p>
-    Suppose the robot starts following the side of a triangle. At the moment it first touches the triangle, it is in the half-plane $H_x$. Suppose that $D_x$ increases while following the side. If the side is in the $x$-direction, $D_x$ will stay constant. If the side is not, $D_x$ decreases, since the robot always aims towards $T$. This contradicts the assumptions and proves the lemma.
+    Suppose the robot starts following the side of a triangle. At the moment it first touches the triangle, it is in the half-plane $\Pi_x$. Suppose that $D_x$ increases while following the side. If the side is in the $x$-direction, $D_x$ will stay constant. If the side is not, $D_x$ decreases, since the robot always aims towards $T$. This contradicts the assumptions and proves the lemma.
 </p>
 </div>
 
@@ -497,12 +497,12 @@ We aim to prove that if the robot crosses an axis $A_x$ at a Euclidean distance 
 
 <div class="proof">
 
-Consider the side of the obstacle $\Omega_i$ that followed after $c_i$. We distinguish two scenarios: (1) at the moment the robot stops following the side, the robot is only in one half-plane. Without loss of generality, let this be $H_a=H(c_i)$. In the second scenario (2) the robot is both in $H_a$ and another half-plane when it stops following the side. Without loss of generality, let this second half-plane be $H_b$. 
+Consider the side of the obstacle $\Omega_i$ that followed after $c_i$. We distinguish two scenarios: (1) at the moment the robot stops following the side, the robot is only in one half-plane. Without loss of generality, let this be $\Pi_a=\Pi(c_i)$. In the second scenario (2) the robot is both in $\Pi_a$ and another half-plane when it stops following the side. Without loss of generality, let this second half-plane be $\Pi_b$. 
 
-1. If the robot ends up only in the half-plane $H_a$, it can only hit edges in the $a$-direction, and will move towards the axis $A_a$. Since, according to lemma 1.1, $D_a$ will decrease, the path will cross $A_a$ again, closer to $T$ than before. $M(c_{i+1})<\lambda$.
-2. If the robot ends up in two half-planes $H_a$ and $H_b$, it will folow the same obstacle's $b$-side before leaving the edge of the $\Omega_i$. After following this second side, it can either end up in (1) $H_a \cap H_b$ or (2) in $H_b$ only:
-    1. If the robot is still in $H_a \cap H_b$, it did not cross $A_b$ (using lemma 1.2). Note that, if $D_b$ would be $\geq \lambda$, the obstacle $\Omega_i$, $\Omega_i$ would intersect with both $A_a$ and $A_b$. This is in contradiction with the observation that the robot did not cross $A_b$. We conclude that at this moment, $D_a < \lambda$ and $D_b < \lambda$. Since those measures monotomely decrease while the robot is in $H_a$ and $H_b$ and the robot now moves towards $A_a$ and $A_b$, it will intersect one of them at $M(c_{i+1})<\lambda$.
-    2. If the robot is now only in $H_b$, it will inevitably move towards $A_b$. Following the same argument as directly above, if the robot did not cross the axis $A_b$, $D_b<\lambda$ and $M(c_{i+1})<\lambda$. Now we consider the case that the robot did cross $A_b$. Due to lemma 1.3, the robot is now only in half-plane $H_b$ and will move towards $A_b$. Although its current $D_b$ could be $\geq \lambda$, it will strictly move towards $A_b$. Since by lemma 1.4, the part of the axis with $D_b \geq \lambda$ is covered by $\Omega_i$, the robot will now intersect the axis at a distance $M(c_{i+2})<\lambda$.
+1. If the robot ends up only in the half-plane $\Pi_a$, it can only hit edges in the $a$-direction, and will move towards the axis $A_a$. Since, according to lemma 1.1, $D_a$ will decrease, the path will cross $A_a$ again, closer to $T$ than before. $M(c_{i+1})<\lambda$.
+2. If the robot ends up in two half-planes $\Pi_a$ and $\Pi_b$, it will folow the same obstacle's $b$-side before leaving the edge of the $\Omega_i$. After following this second side, it can either end up in (1) $\Pi_a \cap \Pi_b$ or (2) in $\Pi_b$ only:
+    1. If the robot is still in $\Pi_a \cap \Pi_b$, it did not cross $A_b$ (using lemma 1.2). Note that, if $D_b$ would be $\geq \lambda$, the obstacle $\Omega_i$, $\Omega_i$ would intersect with both $A_a$ and $A_b$. This is in contradiction with the observation that the robot did not cross $A_b$. We conclude that at this moment, $D_a < \lambda$ and $D_b < \lambda$. Since those measures monotomely decrease while the robot is in $\Pi_a$ and $\Pi_b$ and the robot now moves towards $A_a$ and $A_b$, it will intersect one of them at $M(c_{i+1})<\lambda$.
+    2. If the robot is now only in $\Pi_b$, it will inevitably move towards $A_b$. Following the same argument as directly above, if the robot did not cross the axis $A_b$, $D_b<\lambda$ and $M(c_{i+1})<\lambda$. Now we consider the case that the robot did cross $A_b$. Due to lemma 1.3, the robot is now only in half-plane $\Pi_b$ and will move towards $A_b$. Although its current $D_b$ could be $\geq \lambda$, it will strictly move towards $A_b$. Since by lemma 1.4, the part of the axis with $D_b \geq \lambda$ is covered by $\Omega_i$, the robot will now intersect the axis at a distance $M(c_{i+2})<\lambda$.
 
 This completes the proof.
 
@@ -514,7 +514,7 @@ This completes the proof.
 
 <div class="proof">
 
-If for some $i$, $A(c_i)=A(c_{i+1})=A_x$, then $M(c_i) > M(c_{i+1})$. This follows from the fact that $D_x$ decreases while the robot is in $H_x$, and that the robot must cross another axis if it would leave $H_x$.
+If for some $i$, $A(c_i)=A(c_{i+1})=A_x$, then $M(c_i) > M(c_{i+1})$. This follows from the fact that $D_x$ decreases while the robot is in $\Pi_x$, and that the robot must cross another axis if it would leave $\Pi_x$.
 
 Furthermore, from lemma 1.5, we have that if the robot crosses two different axes after each other, it will eventually cross that axis at a smaller $M$-distance. Suppose the robot comes back to the axis $A_x$ at the $k$’th crossing $c_k$ after crossing a series of other axes. Let $\Omega_k$ be the object along which the robot crosses at $c_k$ and let $p$ be the point at which the robot starts following $\Omega_k$. Assume now that (contrary to the theorem) $M(c_k)\geq \lambda$. Repeatedly using lemma 1.4 we know that $M(p) < \lambda$, therefore, from lemma 1.4, the obstacle $\Omega_k$ will cover the axis $A_x$ all the way between $c_k$ and the point on $A_x$ at $M$-distance $\lambda$. This is not possible, since the object $\Omega_i$ crosses the axis in this region too and objects are not allowed to intersect. 
 
