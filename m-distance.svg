@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg width="515px" height="359px" viewBox="0 0 515 359" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-    <!-- Generator: Sketch 3.0 (7573) - http://www.bohemiancoding.com/sketch -->
+    <!-- Generator: Sketch 3.0.1 (7597) - http://www.bohemiancoding.com/sketch -->
     <title>illustration</title>
     <description>Created with Sketch.</description>
     <defs></defs>
@@ -27,12 +27,12 @@
                 <tspan x="9.444" y="15">α</tspan>
             </text>
         </g>
-        <g id="A-+-Text" sketch:type="MSLayerGroup" transform="translate(422.000000, 9.000000)" font-weight="normal" font-family="Skolar PE" fill="#000000" sketch:alignment="middle">
-            <text id="H" sketch:type="MSTextLayer" font-size="14">
-                <tspan x="0.722" y="15">H</tspan>
+        <g id="A-+-Text" sketch:type="MSLayerGroup" transform="translate(423.000000, 9.000000)" font-weight="normal" font-family="Skolar PE" fill="#000000" sketch:alignment="middle">
+            <text id="Π" sketch:type="MSTextLayer" font-size="14">
+                <tspan x="-0.138" y="15">Π</tspan>
             </text>
             <text id="Text" sketch:type="MSTextLayer" font-size="9">
-                <tspan x="11.444" y="15">α</tspan>
+                <tspan x="10.444" y="15">α</tspan>
             </text>
         </g>
         <text id="a" sketch:type="MSTextLayer" font-family="Skolar PE" font-size="14" font-style="italic" font-weight="normal" sketch:alignment="middle" fill="#000000">
@@ -47,20 +47,20 @@
         <text id="c" sketch:type="MSTextLayer" font-family="Skolar PE" font-size="14" font-style="italic" font-weight="normal" sketch:alignment="middle" fill="#000000">
             <tspan x="430.742" y="108">c</tspan>
         </text>
-        <g id="A-+-Text" sketch:type="MSLayerGroup" transform="translate(391.000000, 322.000000)" font-weight="normal" font-family="Skolar PE" fill="#000000" sketch:alignment="middle">
-            <text id="H" sketch:type="MSTextLayer" font-size="14">
-                <tspan x="-0.278" y="15">H</tspan>
+        <g id="A-+-Text" sketch:type="MSLayerGroup" transform="translate(390.000000, 322.000000)" font-weight="normal" font-family="Skolar PE" fill="#000000" sketch:alignment="middle">
+            <text id="Π" sketch:type="MSTextLayer" font-size="14">
+                <tspan x="0.862" y="15">Π</tspan>
             </text>
             <text id="β" sketch:type="MSTextLayer" font-size="9">
-                <tspan x="10.489" y="15">β</tspan>
+                <tspan x="11.489" y="15">β</tspan>
             </text>
         </g>
-        <g id="A-+-Text" sketch:type="MSLayerGroup" transform="translate(11.000000, 171.000000)" font-weight="normal" font-family="Skolar PE" fill="#000000" sketch:alignment="middle">
-            <text id="H" sketch:type="MSTextLayer" font-size="14">
-                <tspan x="-0.278" y="15">H</tspan>
+        <g id="A-+-Text" sketch:type="MSLayerGroup" transform="translate(10.000000, 171.000000)" font-weight="normal" font-family="Skolar PE" fill="#000000" sketch:alignment="middle">
+            <text id="Π" sketch:type="MSTextLayer" font-size="14">
+                <tspan x="0.862" y="15">Π</tspan>
             </text>
             <text id="γ" sketch:type="MSTextLayer" font-size="9">
-                <tspan x="10.5835" y="15">γ</tspan>
+                <tspan x="11.5835" y="15">γ</tspan>
             </text>
         </g>
         <g id="A-+-Text-copy" sketch:type="MSLayerGroup" transform="translate(290.000000, 332.000000)" font-weight="normal" font-family="Skolar PE" fill="#000000" sketch:alignment="middle">

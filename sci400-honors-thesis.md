@@ -36,9 +36,9 @@ As a student, my role in this project was to (1) conduct a literature survey int
 ## Related Theoretical Work
 <div class="status full-draft"></div>
 
-The first classification that can be applied to the broad field of motion planning is that of *off-line* and *on-line* algorithms. *Off-line* algorithms are provided complete information about the scene. The challenge for an off-line algorithm is to find the optimal path for the robot through a scene with a number of known obstacles. These algorithms can be used for robots that are supplied with a map of their surroundings. The paths can be planned in advance, without the robot moving at all. The issues that are dealt with in this branch of motion planning are often related to computational complexity <div class="note">[]</div> and with approximations for the shape of the scene and the robot <div class="note">[]</div>. Because most of the algorithms make use of connectivity graphs, all shapes must be approximated by polygons in order for the planning algorithms to run in limited time and space. *On-line* algorithms on the other hand are implemented in behavior of a robot. The algorithms are therefore also termed 'dynamic'. The algorithms run continuously throughout the path of the robot and use the robot's current position and sensory information as input. Of course, off-line algorithms can give more guarantees than on-line algorithms, but most often, complete information is unavailable. In such situations, one must resort to a on-line algorithm. Another advantage of on-line algorithms is that they are mostly not computationally intensive: they often rely on simple choices that are to be made continuously. This paper's direction of choice is into dynamic (i.e. on-line) algorithms. The algorithm that is proposed in this paper is also classified as on-line.
+The first classification that can be applied to the broad field of motion planning is that of *off-line* and *on-line* algorithms. *Off-line* algorithms are provided complete information about the scene. The challenge for an off-line algorithm is to find the optimal path for the robot through a scene with a number of known obstacles. These algorithms can be used for robots that are supplied with a map of their surroundings. The paths can be planned in advance, without the robot moving at all. The issues that are dealt with in this branch of motion planning are often related to computational complexity <span class="note">[]</span> and with approximations for the shape of the scene and the robot <span class="note">[]</span>. Because most of the algorithms make use of connectivity graphs, all shapes must be approximated by polygons in order for the planning algorithms to run in limited time and space. *On-line* algorithms on the other hand are implemented in behavior of a robot. The algorithms are therefore also termed 'dynamic'. The algorithms run continuously throughout the path of the robot and use the robot's current position and sensory information as input. Of course, off-line algorithms can give more guarantees than on-line algorithms, but most often, complete information is unavailable. In such situations, one must resort to a on-line algorithm. Another advantage of on-line algorithms is that they are mostly not computationally intensive: they often rely on simple choices that are to be made continuously. This paper's direction of choice is into dynamic (i.e. on-line) algorithms. The algorithm that is proposed in this paper is also classified as on-line.
 
-A second subdivision that can be made is in the requirements for the robot's sensors. A substantial part of research is done into robots that have a vision sensor, and therefore have complete information on the part of the scene they look at. These algorithms tend to combine off-line methods for local optimality with a dynamic approach for the global algorithm <a href="#ando" class="ref"></a> <a href="#kareti" class="ref"></a>. Early work on navigation with visual information was carried out by Sutherland <a href="#sutherland" class="ref"></a> and Lumelsky & Skewis <a href="#lumelsky-skewis" class="ref"></a>, and research into navigation with visual information is still an active topic <div class="note">[]</div>. The alternative to the use of vision sensors are touch sensors. This type of robot only receives feedback the moment it touches an obstacles. Our algorithm falls in the second category, which is therefore more relevant to this paper.
+A second subdivision that can be made is in the requirements for the robot's sensors. A substantial part of research is done into robots that have a vision sensor, and therefore have complete information on the part of the scene they look at. These algorithms tend to combine off-line methods for local optimality with a dynamic approach for the global algorithm <a href="#ando" class="ref"></a> <a href="#kareti" class="ref"></a>. Early work on navigation with visual information was carried out by Sutherland <a href="#sutherland" class="ref"></a> and Lumelsky & Skewis <a href="#lumelsky-skewis" class="ref"></a>, and research into navigation with visual information is still an active topic <span class="note">[]</span>. The alternative to the use of vision sensors are touch sensors. This type of robot only receives feedback the moment it touches an obstacles. Our algorithm falls in the second category, which is therefore more relevant to this paper.
 
 Thirdly, we apply a classification introduced by Kareti e.a. <a href="#kareti" class="ref"></a>. They divide robot navigation research into three classes:
 
@@ -85,9 +85,10 @@ The two algorithms presented are guaranteed to converge for any scene and can be
 Outline for this section:
 
 * $S$ and $T$ as start and target
+* Half planes $\Pi_\alpha$.
 * Hit points $H_i$
 * Leave points $L_i$
-* Obstacle $O_i$
+* Obstacle $\Omega_i$
 * Edge = whole edge
 * Side = side of a polygonal obstacle
 * Formal formulation of the algorithm here.
@@ -174,6 +175,12 @@ The above lemma implies that if $S_x = T_x$ and $S_y < T_y$ there is no point $P
 <p>So the lemma holds.</p>
 </div>
 
+<figure id="fig:equalsquares" style="float:bottom">
+    <img src="drawings/ubsquares.svg" alt="">
+    <figcaption>Illustration of the constructive proof in this chapter. By placing unit squares in the way illustrated in this figure, a lower bound on the ratio $\rho$ can be set to $\sqrt{10}$.</figcaption>
+</figure>
+
+
 <div class="lemma" id="le:STalignedlower">
 If $S$ and $T$ lie on the same horizontal or vertical line, and the obstacles are equal size axis aligned squares, then there is a configuration for which 
 
@@ -181,11 +188,6 @@ If $S$ and $T$ lie on the same horizontal or vertical line, and the obstacles ar
 
 for any, however small $\epsilon > 0$.
 </div>
-
-<figure id="fig:equalsquares">
-    <img src="drawings/ubsquares.svg" alt="">
-    <figcaption>Illustration of the constructive proof in this chapter. By placing unit squares in the way illustrated in this figure, a lower bound on the ratio $\rho$ can be set to $\sqrt{10}$.</figcaption>
-</figure>
 
 <div class="proof">
 <p>This is a proof by construction. Let the number of obstacles $n$ be odd and define some constant $\delta$ with $0 < \delta < 1$. Let $S = (0,0)$ and $T = ((n+1)/2+(n-3)\delta,0)$. Place obstacle 1 with its left-bottom corner at $(0,-\delta)$. Place square $2$ to the right of square $1$, and shift it up by $2\delta$. Place square $3$ below square $2$, and shift it right by $\delta$. Place square $4$ to the right of square $3$, and shift it down by $2\delta$. Place square $5$ above square $4$, and shift it right by $\delta$. We keep adding squares in groups of two, by repeating the last 4 placements. Notice that the heuristic path zigzags through the odd numbered squares. The placement of the obstacles is illustrated in <a href="#fig:equalsquares" class="figref"></a>, looking at the squares numbered 4 or higher. We have</p>
@@ -308,9 +310,9 @@ I forgot that we have these results as well. I have to add this section and fix 
 
 
 ## Circles
-<div class="status work-in-progress"></div>
+<div class="status first-draft"></div>
 
-This section investigates scenes in which all obstacles are circles. Although we could not find exact bounds on the performance of *BasicAlg* in this situation, we have numerical upper- and lower bounds on $\rho$ that were derived by Dr. Meijer earlier. These bounds are not yet tight. Again, we prove the bounds in the structure of a series of lemmas. The first lemma will show that if there is only one obstacle, then $1.06 < \rho < \pi/2$. We also show that is there are an arbitrary number of obstacles then $1.33 < \rho < 2$. Lastly we show how with the help of *Mathematica* we can tighten the above bounds. 
+This section investigates scenes in which all obstacles are circles. Although we could not find exact bounds on the performance of *BasicAlg* in this situation, we have numerical upper- and lower bounds on $\rho$ that were derived by Dr. Meijer earlier. These bounds are not yet tight. Again, we prove the bounds in the structure of a series of lemmas. The structure will be similar to that of the previous section. The first lemma will show that if there is only one obstacle, then $1.086 < \rho < \pi/2$. We also show that is there are an arbitrary number of obstacles then $1.086 < \rho < 1.666$ <span class="note">there is something better right, and in your manuscript, it says 2 instead of 1.6666?</span>. Lastly we show how with the help of *Mathematica* we can tighten the above bounds. 
 
 
 <div class="lemma" id="le:onediskupper">
@@ -330,15 +332,15 @@ If the scene contains one circular obstacle, then
 </div>
 
 <div class="lemma" id="le:onedisklower">
-If there is one circular obstacle, there is a configuration for which  
+If there is one circular obstacle 
 
-[[\frac{|R(ST)|}{|O(S,T)|} > 1.086]]
+[[\rho = \max \frac{|R(ST)|}{|O(S,T)|} > 1.086]]
     
 </div>
 
 <div class="proof">
 <p>
-    Let $S = (2.562,0)$ with $x > 1$,  $T = (-1,0)$ and let the obstacle be a unit disk centered at the origin. We have $|R(S,T)| = 1.562+\pi$. Moreover,
+    Let $S = (2.562,0)$ with $x > 1$, $T = (-1,0)$ and let the obstacle be a unit disk centered at the origin. We have $|R(S,T)| = 1.562+\pi$. Moreover,
 </p>
 
 [[|O(S,T)| = \sqrt{2.562^2 - 1} + \pi - \arccos (1/2.562).]]
@@ -352,11 +354,9 @@ If there is one circular obstacle, there is a configuration for which
 <p>which proves the lemma.</p>
 </div>
 
-
-
-In a configuration with one circular obstacle and a maximal value of $|R(S,T)|/|O(S,T)|$  it is not hard to see that $T$ lies on the obstacle. We used both Mathematica as well as program written in Java to solve this problem, and both implementations computed that in the optimal configuration, we have $x \approx 2.562$, $y = 0$ and $|R(S,T)|/|O(S,T)| \approx 1.08614$, so this confirms that the bound in the previous lemma is almost tight.
+In a configuration with one circular obstacle and a maximal value of $|R(S,T)|/|O(S,T)|$  it is not hard to see that $T$ lies on the obstacle. We used both Mathematica as well as program written in Java to solve this problem, and both implementations computed that in the optimal configuration, we have $x \approx 2.562$, $y = 0$ and $\rho = |R(S,T)|/|O(S,T)| \approx 1.08614$, so this confirms that the bound in the previous lemma is almost tight.
  
-We first prove a lemma we need when computing an upperbound on $\alpha$. If $A$ and $B$ lie on a disk then we use the notation $arc(A,B)$ to denote the length of the shortest arc on the disk from $A$ to $B$.  
+We first prove a lemma we need when computing an upper bound on $\rho$. If $A$ and $B$ lie on a disk then we use the notation $arc(A,B)$ to denote the length of the shortest arc on the disk from $A$ to $B$. <span class="note">Henk, should this stay here or go to the notations section?</span>
 
 
 <div class="lemma" id="le:diskupper">
@@ -381,44 +381,52 @@ of $R(S,T)$ on the disk, then
 
 
 <div class="lemma" id="le:diskupper">
-If there are an aribrary number of circular obstacles, then 
+If there are an arbitrary number of circular obstacles, then 
 
-[[\frac{|R(ST)|}{d(S,T)} \leq 1.666]]
+[[ \lambda = \frac{|R(ST)|}{d(S,T)} \leq 1.666.]]
 
 </div>
 
 <div class="proof">
 <p>
-    We prove this lemaa by induction on $n$, the number of obstacles. The lemma holds for $n=1$ bu Lemma \ref{le:onediskupper}. Assume the lemma holds for $n\geq 1$ obstacles and that we have $n+1$ obstacles and that we have a configuration with the maximal value of $|R(ST)|/d(S,T)$. As before we can argue that $S$ lies on an obstacle. Assume that $S$ lies on the unit disk centered at the origin. Let $P$ be the last point of $R(S,T)$ on this disk. Then by induction we have $|R(P,T)| \leq 1.666 d(P,T)$. From Lemma \ref{} we have that the length of  $arc(SP) < 1.666 (d(S,T) - d(P,T))$. So
+    We prove this lemma by induction on $n$, the number of obstacles. The lemma holds for $n=1$ by <a href="#le:onediskupper" class="lemref"></a>. Assume the lemma holds for $n\geq 1$ obstacles. We now assume to have $n+1$ obstacles and we have a configuration with the maximal value of $|R(ST)|/d(S,T)$. As before we can argue that $S$ lies on an obstacle. Assume that $S$ lies on the unit disk centered at the origin. Let $P$ be the last point of $R(S,T)$ on this disk. Then by induction we have $|R(P,T)| \leq 1.666 d(P,T)$. From <a href="#le:diskupper" class="lemref"></a> we have that the length of  $arc(SP) < 1.666 (d(S,T) - d(P,T))$. So
 </p> 
 
-[[|R(S,T)| = arc(SP) + |R(P,T)| \leq 1.666 (d(S,T) - d(P,T)) + 1.666 d(P,T) =  1.666d(S,T),]]
+[[|R(S,T)| &= arc(SP) + |R(P,T)| \\ &\leq 1.666 (d(S,T) - d(P,T)) + 1.666 d(P,T) =  1.666d(S,T),]]
 
 <p>which proves the lemma.</p>
 </div>
 
 
-<div class="lemma:le:diskslower">
-There is a configuration for which
+<div class="lemma" id="le:diskslower">
+There is a configuration for a scene with a number of disks as obstacles for which
 
 [[\frac{|R(ST)|}{|O(S,T)|} > 1.086]]
 
 </div>
 
 <div class="proof">
-<p>Based on computer placements. <span class="note">picture</span></p>
+<p>This is a proof by construction. The construction was carried out in a Java program. <span class="note">Figure #</span> illustrates the construction and the code is available in the <span class="note">Appendix</span>. <span class="note">Henk, how is this configuration? This is the spiral-thing, I assume. Do you have a definition of it?</span></p>
 </div>
 
+We conclude that $1.085 < \rho < 1.6666$. This bound is not tight. We expect that there should be configurations possible that show a higher ratio than $1.085$, but also $1.6666$ seems a very generous upper bound.
 
-<div class="note">Concluding words and comparison with other stuff.</div>
+### Comparing Performance
 
+For configurations with circles, our *BasicAlg* again generates a significantly lower upper bound on $\rho$ than *Bug1*. This is illustrated by the scene in which $S$ and $T$ lie on opposite sides a disk, at an infinitesimal distance $\delta>0$ from its boundary such that $ST$ goes through the middle of the disk. The ratio $|R(S,T)|/O(S,T)$ for this situation gets as high as 3. For this particular configuration, *Bug2* performs the same as our algorithm.
+
+An investigation of several other configurations with circles shows that mostly, the performance of *Bug1* relatively weak, while *Bug2* performs very well and the performance of *BasicAlg* performs well in most situations.
+
+<div class="note">If I have enough time, I'm gonna compare a little more here. Do you think the above paragraph would be too weak to put in if there is <b>not</b> enough time?</div>
 
 ## Similar Same-Orientation Sharp Triangles
 <div class="status first-draft"></div>
 
-Assume all obstacles in $S$ to be similar triangles of the same orientation. We use a coordinate system with $T$ in the origin. The sides of triangle $k$ are called $a_k, b_k, c_k$ such that all sides $a_i$ have the same direction $\rho$, all sides $b_i$ have direction $\beta$ and all sides $c_i$ have direction $\gamma$. For each side-direction $x\in \left\{\alpha,\beta,\gamma \right\}$, we define a half-plane $H_x$ that is delimited by a line in the direction $x$ through $T$. It indicates the region in which the robot could hit a triangle at a side in direction $x$. The half-planes are well defined because the robot always moves towards $T$.
+In the line of the previous sections, this section investigates scenes in which all obstacles are similar same-orientation sharp triangles. Although the ratio $\rho$ under *BasicAlg* is unbounded in this case, we prove that convergence of *BasicAlg* is guaranteed.
 
-Next, define ‘axes’. For a direction $x\in \left\{\alpha,\beta,\gamma \right\}$, define $A_x$ as a ray from the origin into $H_x$ that has a direction perpendicular to $x$. By definition, if a the robot hits an obstacle at the $x$-side, it will always be in $H_x$ and decide to move towards $A_x$.
+Assume all obstacles in $S$ to be similar triangles of the same orientation. We use a coordinate system with $T$ in the origin. The sides of triangle number $k$ are called $a_k, b_k, c_k$ such that all sides $a_i$ have the same direction $\alpha$, all sides $b_i$ have direction $\beta$ and all sides $c_i$ have direction $\gamma$. Now consider the direction $\alpha$. We define a half-plane $H_\alpha$ that is delimited by a line in the direction $\alpha$ through $T$. It indicates the region in which the robot could hit a triangle at a side in direction $\alpha$. Define the half-planes $H_\beta$ and $H_\gamma$ accordingly. The half-planes are well defined because the robot always moves towards $T$.
+
+Next, define ‘axes’. For the direction $\alpha$, define $A_\alpha$ as a ray from the origin into $H_\alpha$ that is perpendicular to $\alpha$. By definition, if a the robot hits an obstacle at the $\alpha$-side, it will always be in $H_\alpha$ and decide to move towards $A_\alpha$. Define $A_\beta$ and $A_\gamma$ similarly. Those axes have the same properties.
 
 <figure id="fig:illustration">
     <img src="illustration.svg" alt="">
@@ -431,23 +439,22 @@ Next, define ‘axes’. For a direction $x\in \left\{\alpha,\beta,\gamma \right
 </figure>
 
 
-We aim to prove that if the robot crosses an axis $A_x$ at a Eudlidian distance $\lambda$ from $T$, it will never cross the same axis at a distance $\geq \lambda$ later in time.
-In order to prove this, we start by introducing some concepts that play a role in the argument. 
+We aim to prove that if the robot crosses an axis $A_x$ at a Euclidean distance $d$ from $T$, it will never cross the same axis at a distance $\geq d$ later in time. In order to prove this, we start by introducing some concepts that play a role in the argument. 
 
 <div class="definition" id="def:m-measure">
-    Define a custom measurement $M$ for a point's distance to $T$. Let $\Gamma_1$ be a triangle that is similar to the obstacles but rotated by $180^\circ$ compared to the obstacles. Let $\Gamma_1$ have its orthocenter in $T$ and a circumference of $1$. Note that the vertices of $\Gamma_1$ are by definition on the axes $A_\alpha,A_\beta$ and $A_\gamma$. The distance $M(p)$ of a point $p$ to $T$ is defined as the factor $f \geq 0$ with which $\Gamma_1$ should be scaled with respect to $T$ such that $p\in\Gamma_1$. 
+    Define a custom measurement $M$ for a point's distance to $T$. Let $\Gamma_1$ be a triangle that is similar to the obstacles but rotated by $180^\circ$ compared to the obstacles. Let $\Gamma_1$ have its orthocenter in $T$ and a circumference of $1$. Note that the vertices of $\Gamma_1$ are by the definition of the orthocenter on the axes $A_\alpha,A_\beta$ and $A_\gamma$. The distance $M(P)$ of a point $P$ to $T$ is defined as the factor $f \geq 0$ with which $\Gamma_1$ should be scaled with respect to $T$ such that $p\in\Gamma_1$. 
 </div>
 
 <div class="definition" id="def:crossings">
-    The heuristic path $R(S,T)$ crosses the three axes 0 or more times. Let $\textbf{c} = \{c_1,c_2,\ldots\}$ be a vector containing those crossing points and let $A(c_i)$ be the corresponding axes and $H(c_i)$ the corresponding half-plane.
+    The heuristic path $R(S,T)$ crosses the three axes 0 or more times. Let $\textbf{C} = \{C_1,C_2,\ldots\}$ be a vector containing those crossing points and let $A(C_i)$ be the corresponding axes and $H(C_i)$ the corresponding half-plane.
 </div>
 
 <div class="definition" id="def:dxp">
-    For a point $p \in H_x$, define $D_x(p)$ as the $M$-distance between $T$ and the orthogonal projection of $p$ on $A_x$. $D_x(p)$ is not defined for points $p$ that are not in $H_x$. In the course of the proof, we will speak loosely about ‘the $D_x$’ of the robot in time. 
+    Consider one of the three half-planes. Without loss of generality, assume this to be $H_\alpha$. For a point $P \in H_\alpha$, define $D_\alpha(P)$ as the $M$-distance between $T$ and the orthogonal projection of $P$ on $A_\alpha$. $D_\alpha(P)$ is not defined for points $P$ that are not in $H_\alpha$. In the course of this proof, we will speak loosely about ‘the $D_\alpha$’ of the robot in time. Definitions for $D_\beta$ and $D_\gamma$ follow accordingly.
 </div>
 
 <div class="lemma" id="lem:increase-follow-side">
-    For any direction $x\in\{\alpha,\beta,\gamma\}$, looking at the $D_x$ over time in the heuristic path of the robot, $D_x$ can only increase while the robot follows the side of an obstacle and it has started following that side at a point not in $H_x$.
+    For any direction $x\in\{\alpha,\beta,\gamma\}$, looking at the $D_x$ over time in the heuristic path of the robot, $D_x$ can only increase while the robot follows the side of an obstacle $\Omega_i$ and it has started following that side at a hit-point $H_i$ that is not in $H_x$.
 </div>
 
 <div class="proof">
@@ -490,12 +497,12 @@ In order to prove this, we start by introducing some concepts that play a role i
 
 <div class="proof">
 
-Consider the side of the obstacle $O_i$ that followed after $c_i$. We distinguish two scenarios: (1) at the moment the robot stops following the side, the robot is only in one half-plane. Without loss of generality, let this be $H_a=H(c_i)$. In the second scenario (2) the robot is both in $H_a$ and another half-plane when it stops following the side. Without loss of generality, let this second half-plane be $H_b$. 
+Consider the side of the obstacle $\Omega_i$ that followed after $c_i$. We distinguish two scenarios: (1) at the moment the robot stops following the side, the robot is only in one half-plane. Without loss of generality, let this be $H_a=H(c_i)$. In the second scenario (2) the robot is both in $H_a$ and another half-plane when it stops following the side. Without loss of generality, let this second half-plane be $H_b$. 
 
 1. If the robot ends up only in the half-plane $H_a$, it can only hit edges in the $a$-direction, and will move towards the axis $A_a$. Since, according to lemma 1.1, $D_a$ will decrease, the path will cross $A_a$ again, closer to $T$ than before. $M(c_{i+1})<\lambda$.
-2. If the robot ends up in two half-planes $H_a$ and $H_b$, it will folow the same obstacle's $b$-side before leaving the edge of the $O_i$. After following this second side, it can either end up in (1) $H_a \cap H_b$ or (2) in $H_b$ only:
-    1. If the robot is still in $H_a \cap H_b$, it did not cross $A_b$ (using lemma 1.2). Note that, if $D_b$ would be $\geq \lambda$, the obstacle $O_i$, $O_i$ would intersect with both $A_a$ and $A_b$. This is in contradiction with the observation that the robot did not cross $A_b$. We conclude that at this moment, $D_a < \lambda$ and $D_b < \lambda$. Since those measures monotomely decrease while the robot is in $H_a$ and $H_b$ and the robot now moves towards $A_a$ and $A_b$, it will intersect one of them at $M(c_{i+1})<\lambda$.
-    2. If the robot is now only in $H_b$, it will inevitably move towards $A_b$. Following the same argument as directly above, if the robot did not cross the axis $A_b$, $D_b<\lambda$ and $M(c_{i+1})<\lambda$. Now we consider the case that the robot did cross $A_b$. Due to lemma 1.3, the robot is now only in half-plane $H_b$ and will move towards $A_b$. Although its current $D_b$ could be $\geq \lambda$, it will strictly move towards $A_b$. Since by lemma 1.4, the part of the axis with $D_b \geq \lambda$ is covered by $O_i$, the robot will now intersect the axis at a distance $M(c_{i+2})<\lambda$.
+2. If the robot ends up in two half-planes $H_a$ and $H_b$, it will folow the same obstacle's $b$-side before leaving the edge of the $\Omega_i$. After following this second side, it can either end up in (1) $H_a \cap H_b$ or (2) in $H_b$ only:
+    1. If the robot is still in $H_a \cap H_b$, it did not cross $A_b$ (using lemma 1.2). Note that, if $D_b$ would be $\geq \lambda$, the obstacle $\Omega_i$, $\Omega_i$ would intersect with both $A_a$ and $A_b$. This is in contradiction with the observation that the robot did not cross $A_b$. We conclude that at this moment, $D_a < \lambda$ and $D_b < \lambda$. Since those measures monotomely decrease while the robot is in $H_a$ and $H_b$ and the robot now moves towards $A_a$ and $A_b$, it will intersect one of them at $M(c_{i+1})<\lambda$.
+    2. If the robot is now only in $H_b$, it will inevitably move towards $A_b$. Following the same argument as directly above, if the robot did not cross the axis $A_b$, $D_b<\lambda$ and $M(c_{i+1})<\lambda$. Now we consider the case that the robot did cross $A_b$. Due to lemma 1.3, the robot is now only in half-plane $H_b$ and will move towards $A_b$. Although its current $D_b$ could be $\geq \lambda$, it will strictly move towards $A_b$. Since by lemma 1.4, the part of the axis with $D_b \geq \lambda$ is covered by $\Omega_i$, the robot will now intersect the axis at a distance $M(c_{i+2})<\lambda$.
 
 This completes the proof.
 
@@ -509,9 +516,9 @@ This completes the proof.
 
 If for some $i$, $A(c_i)=A(c_{i+1})=A_x$, then $M(c_i) > M(c_{i+1})$. This follows from the fact that $D_x$ decreases while the robot is in $H_x$, and that the robot must cross another axis if it would leave $H_x$.
 
-Furthermore, from lemma 1.5, we have that if the robot crosses two different axes after each other, it will eventually cross that axis at a smaller $M$-distance. Suppose the robot comes back to the axis $A_x$ at the $k$’th crossing $c_k$ after crossing a series of other axes. Let $O_k$ be the object along which the robot crosses at $c_k$ and let $p$ be the point at which the robot starts following $O_k$. Assume now that (contrary to the theorem) $M(c_k)\geq \lambda$. Repeatedly using lemma 1.4 we know that $M(p) < \lambda$, therefore, from lemma 1.4, the obstacle $O_k$ will cover the axis $A_x$ all the way between $c_k$ and the point on $A_x$ at $M$-distance $\lambda$. This is not possibe, since the object $O_i$ crosses the axis in this region too and objects are not allowed to intersect. 
+Furthermore, from lemma 1.5, we have that if the robot crosses two different axes after each other, it will eventually cross that axis at a smaller $M$-distance. Suppose the robot comes back to the axis $A_x$ at the $k$’th crossing $c_k$ after crossing a series of other axes. Let $\Omega_k$ be the object along which the robot crosses at $c_k$ and let $p$ be the point at which the robot starts following $\Omega_k$. Assume now that (contrary to the theorem) $M(c_k)\geq \lambda$. Repeatedly using lemma 1.4 we know that $M(p) < \lambda$, therefore, from lemma 1.4, the obstacle $\Omega_k$ will cover the axis $A_x$ all the way between $c_k$ and the point on $A_x$ at $M$-distance $\lambda$. This is not possible, since the object $\Omega_i$ crosses the axis in this region too and objects are not allowed to intersect. 
 
-We conclude that if the robot crosses an axis $A_x$ at a Eudlidian distance $\lambda$ from $T$, it will never cross the same axis at a distance $\geq \lambda$ later in time.
+We conclude that if the robot crosses an axis $A_x$ at a Euclidean distance $\lambda$ from $T$, it will never cross the same axis at a distance $\geq \lambda$ later in time.
 
 </div>
 
