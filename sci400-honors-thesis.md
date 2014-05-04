@@ -6,9 +6,13 @@ Keywords: computer science, proof, computational geometry
 Language: en
 
 <div class="title-page">
-    <h1>Dynamic Path Planning for a Memoryless Robot without Sight</h1>
-    <div class="author">Thijs Vogels<br>Prof. Dr. Henk Meijer</div>
-    <div class="date">May 2014</div>
+    <div class="author">Thijs Vogels</div>
+    <h1>Dynamic Path Planning for a Basic Robot</h1>
+    <div class="info">
+        <span>Honors Thesis</span> by Thijs Vogels<br>
+        supervised by Prof. Dr. Henk Meijer<br>
+        in Spring 2014 at University College Roosevelt
+    </div>
 </div>
 
 <h2 class="first-section">Introduction</h2> 
