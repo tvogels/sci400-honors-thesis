@@ -29,7 +29,7 @@ This paper can be seen as a continuation of early research in robot motion plann
 The robot only receives sensory feedback when it hits an obstacle. 
 It can then follow the boundary of the obstacle without knowing about the obstacle's shape.
 
-We study our own algorithm, *BasicAlg*, by which the robot will always try to move in a straight line to $T$. When the robot hits an obstacle, it will follow the outline of the obstacle in the direction that initially minimizes the distance to the target until the path to $T$ is clear again. It then leaves the outline of the obstacle and repeats its behavior. We assume without loss of generality that if the robot hits an obstacle perpendicularly, the robot moves counterclockwise along the obstacle's boundary. This robotic behavior can be categorized as memoryless and dynamic, since it does not plan its path in advance, but decides on its direction every time it touches an obstacle, solely based on its current position, the position of the target and the gradient of the obstacle it hits.
+We study our own algorithm, *BasicAlg*, by which the robot will always try to move in a straight line to $T$. When the robot hits an obstacle, it will follow the outline of the obstacle in the direction that initially minimizes the distance to the target until a straight path to $T$ is clear again. It then leaves the outline of the obstacle and repeats its behavior. We assume without loss of generality that if the robot hits an obstacle perpendicularly, the robot moves counterclockwise along the obstacle's boundary. This robotic behavior can be categorized as memoryless and dynamic, since it does not plan its path in advance, but decides on its direction every time it touches an obstacle, solely based on its current position, the position of the target and the gradient of the obstacle it hits.
 
 The paper starts with a literature review of earlier work on this topic and two similar algorithms by Lumelsky and Stepanov <a href="#lumelsky2" class="ref"></a> in particular. In the following sections, we will evaluate the behavior of our algorithm for cases when the obstacles in the scene are all axis-aligned squares, circles, and similar same-orientation triangles respectively. For squares we provide a tight upper bound on the ratio $\rho = |R(S,T)|/|O(S,T)|$ over all possible scenes, where $|R(S,T)|$ is the length of the path taken by the robot and $|O(S,T)|$ the length of the optimal path from $S$ to $T$. We find numerical bounds for that ratio for a scene with circles, but these bounds are not tight. For triangles, the ratio is not bounded, but we prove that the robot will always reach the target if it follows our algorithm.
 
@@ -50,7 +50,7 @@ Thirdly, we apply a classification introduced by Kareti <em>e.a.</em> <a href="#
 * A *Class B* method needs to optimize some parameters. These could be for example the distance traveled, as in <a href="#baeza-yates" class="ref"></a>, or the ratio between the length of the path taken by the algorithm and the optimal path, like in <a href="#papadimitriou" class="ref"></a> or this paper.
 * *Class C* is concerned with computational issues. A *Class C*-paper could for example look into which problems can be solved by a robot with the computational power of a finite state machine. In a way, our work relates to this category in the sense that we study a memoryless robot. We explore the boundaries of what scenes can be successfully navigated through by these robots.
 
-Finally, there is a division between heuristic and non-heuristic algorithms. Non-heuristic robot navigation algorithms can guarantee reaching a target in certain situations, possibly even within a certain bound whereas heuristic algorithms may fail to converge in some cases. Although guaranteed convergence is of course often desirable, it turns out that heuristic algorithms for motion planning often perform better than non-heuristic algorithms <a href="#blum" class="ref"></a>. Although they may perform badly or fail in some situations, they can still perform significantly better on average than heuristic variants.
+Finally, there is a division between heuristic and non-heuristic algorithms. Non-heuristic robot navigation algorithms can guarantee reaching a target in certain situations, possibly even within a certain bound whereas heuristic algorithms may fail to converge in some cases. Although guaranteed convergence is of course often desirable, it turns out that heuristic algorithms for motion planning often perform better than non-heuristic algorithms <a href="#blum" class="ref"></a>. Although heuristic algorithms may perform badly or fail in some situations, they can still perform significantly better <em>on average</em> than their non-heuristic variants.
 
 
 ### Two Algorithms
@@ -420,7 +420,7 @@ Next, define ‘axes’. For the direction $\alpha$, define $A_\alpha$ as a ray 
 </figure>
 
 <figure id="fig:m-distance">
-    <img src="m-distance.svg" alt="">
+    <img src="drawings/m-distance.svg" alt="">
     <figcaption>$M$-distance. The gray triangle indicates a set of points of equal $M$-distance.</figcaption>
 </figure>
 
@@ -592,7 +592,7 @@ showCircle[circ[x_, r_]] := Disk[{x, r}, r]
 (*  This rotates a point P clockwise around a point O
     with an angle theta. *)
 rotate[P : {_, _}, O : {_, _}, theta_] :=
-    {{Cos[theta], Sin[theta]},{-Sin[theta], Cos[theta]}}.(P - O) + O
+  {{Cos[theta], Sin[theta]},{-Sin[theta], Cos[theta]}}.(P - O) + O
 
 (*  Find the point where the robot starts to follow a circle:
     If O is the origin of a circle Gamma with Ox < Tx, this finds 
@@ -601,36 +601,36 @@ rotate[P : {_, _}, O : {_, _}, theta_] :=
     touches Gamma. We can then rotate clockwise by 90deg + angle OTQ 
     to get the point we are looking for *)
 sp[Gamma_, Tx_] := Module[{T, x, y, r, angle, Q},
-    T = {Tx, 0};
-    {x, y} = List @@ Gamma; r = y;
-    angle = ArcTan[Tx - x, y];
-    Q = {x, 0};
-    rotate[Q, List @@ Gamma, 90 Degree + angle]
+  T = {Tx, 0};
+  {x, y} = List @@ Gamma; r = y;
+  angle = ArcTan[Tx - x, y];
+  Q = {x, 0};
+  rotate[Q, List @@ Gamma, 90 Degree + angle]
 ];
 
 (*  Similarly, from symmetry considerations, we can find the 
     point where the robot leave the circle again *)
 lp[Gamma_, Tx_] := Module[{T, x, y, r, angle, Q},
-    T = {Tx, 0};
-    {x, y} = List @@ Gamma; r = y;
-    angle = ArcTan[Tx - x, y];
-    Q = {x, 0};
-    rotate[Q, List @@ Gamma, 180 Degree + 2 angle]
+  T = {Tx, 0};
+  {x, y} = List @@ Gamma; r = y;
+  angle = ArcTan[Tx - x, y];
+  Q = {x, 0};
+  rotate[Q, List @@ Gamma, 180 Degree + 2 angle]
 ];
 
 (*  Similarly again, this returns the circle arc that was 
     followed on a circle (we have to define it counter-
     clockwise, now) *)
 arc[Gamma_, Tx_] := Module[{T, x, y, r, angle},
-    T = {Tx, 0};
-    {x, y} = List @@ Gamma; r = y;
-    angle = ArcTan[Tx - x, y];
-    Circle[{x, y}, r, {180 \[Degree] - angle, 90 \[Degree] - 2 angle}]
+  T = {Tx, 0};
+  {x, y} = List @@ Gamma; r = y;
+  angle = ArcTan[Tx - x, y];
+  Circle[{x, y}, r, {180 Degree - angle, 90 Degree - 2 angle}]
 ];
 
 (*  The length of the arc is *)
 arclength[Circle[O : {_, _}, r_, {alpha0_, alpha1_}]] :=
-    r Abs[alpha0 - alpha1]
+  r Abs[alpha0 - alpha1]
 
 (*  And the length of a line *)
 linelength[Line[{a : {_, _}, b : {_, _}}]] := Norm[a - b]
@@ -638,21 +638,21 @@ linelength[Line[{a : {_, _}, b : {_, _}}]] := Norm[a - b]
 (*  This finds the next circle based on the previous *)
 nc[Null, Tx_] := Null;
 nc[prev_, Tx_] := Module[{Px, Py, Lx, Ly, Ox, Oy, OxA, OyA, discr},
-    {Px, Py} = List @@ prev;
-    {Lx, Ly} = lp[prev, Tx];
-    discr = Ly^3 Py (Lx Px + Ly Py - Lx Tx - Px Tx + Tx^2);
-    If[discr >= 0,
-        Ox = (Lx Ly Px + 2 Ly^2 Py - Ly Px Tx - 2 Sqrt[discr])/
-        (Lx Ly - Ly Tx); 
-        OxA = (Lx Ly Px + 2 Ly^2 Py - Ly Px Tx + 2 Sqrt[discr])/
-        (Lx Ly - Ly Tx);
-        Oy = (Ly (Ox - Tx))/(Lx - Tx); OyA = (Ly (OxA - Tx))/(Lx - Tx);
-        If[Oy > 0 && Abs[Tx - Ox] <= Abs[Tx - Px],
-            circ[Ox, Oy], 
-            Null  ],
-        (* else *)
-        Null
-    ]
+  {Px, Py} = List @@ prev;
+  {Lx, Ly} = lp[prev, Tx];
+  discr = Ly^3 Py (Lx Px + Ly Py - Lx Tx - Px Tx + Tx^2);
+  If[discr >= 0,
+    Ox = (Lx Ly Px + 2 Ly^2 Py - Ly Px Tx - 2 Sqrt[discr])/
+    (Lx Ly - Ly Tx); 
+    OxA = (Lx Ly Px + 2 Ly^2 Py - Ly Px Tx + 2 Sqrt[discr])/
+    (Lx Ly - Ly Tx);
+    Oy = (Ly (Ox - Tx))/(Lx - Tx); OyA = (Ly (OxA - Tx))/(Lx - Tx);
+    If[Oy > 0 && Abs[Tx - Ox] <= Abs[Tx - Px],
+        circ[Ox, Oy], 
+        Null  ],
+    (* else *)
+    Null
+  ]
 ];
 
 (* Do the actual calculations *)
@@ -662,8 +662,8 @@ startings = sp[#, t] & /@ circles;
 leavings = lp[#, t] & /@ circles;
 arcs = arc[#, t] & /@ circles;
 pieces = Table[
-    Line[{leavings[[ii]], startings[[ii + 1]]}], 
-    {ii, 1, Length[startings] - 1}
+  Line[{leavings[[ii]], startings[[ii + 1]]}], 
+  {ii, 1, Length[startings] - 1}
 ];
 Opt = N[t + \[Pi]/2];
 R = Total[arclength /@ arcs] + Total[linelength /@ pieces];
